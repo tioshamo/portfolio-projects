@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENITH COFFEE LAB | ゼニス・コーヒー・ラボ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'zenith-black': '#1a1a1a',
+                        'zenith-gray': '#f4f4f4',
+                        'zenith-concrete': '#cfcfcf',
+                        'zenith-accent': '#c2a47e',
+                        'zenith-dark-gray': '#333333',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        oswald: ['"Oswald"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-zoom { animation: zoomEffect 20s infinite alternate; }
+        @keyframes zoomEffect {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="bg-zenith-gray text-zenith-black font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-gray-200 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="font-oswald text-3xl font-bold tracking-widest text-zenith-black">
+                        ZENITH<span class="text-zenith-accent">.</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="../about/index.html" class="text-sm font-medium hover:text-zenith-accent tracking-widest transition-colors uppercase">About</a>
+                    <a href="../menu/index.html" class="text-sm font-medium hover:text-zenith-accent tracking-widest transition-colors uppercase">Menu</a>
+                    <a href="#locations-section" class="text-sm font-medium hover:text-zenith-accent tracking-widest transition-colors uppercase">Locations</a>
+                    <a href="#" class="px-5 py-2 bg-zenith-black text-white text-xs tracking-widest hover:bg-zenith-accent transition-colors duration-300">ORDER ONLINE</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-zenith-black hover:text-zenith-accent focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-1 text-center">
+                <a href="../about/index.html" class="block w-full px-3 py-3 text-base font-medium text-gray-900 hover:text-zenith-accent">ABOUT</a>
+                <a href="../menu/index.html" class="block w-full px-3 py-3 text-base font-medium text-gray-900 hover:text-zenith-accent">MENU</a>
+                <a href="#locations-section" class="block w-full px-3 py-3 text-base font-medium text-gray-900 hover:text-zenith-accent">LOCATIONS</a>
+                <a href="#" class="block mt-4 px-5 py-3 bg-zenith-black text-white text-sm font-bold tracking-widest">ORDER ONLINE</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative h-screen overflow-hidden">
+        <div class="absolute inset-0 bg-black/30 z-10"></div>
+        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80" alt="Coffee Bar Interior" class="absolute inset-0 w-full h-full object-cover hero-zoom z-0">
+
+        <div class="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
+            <h1 class="font-oswald text-5xl md:text-7xl lg:text-8xl text-white font-bold tracking-widest mb-4 fade-in-up" style="animation-delay: 0.2s;">
+                CRAFTED<br><span class="text-zenith-accent">PRECISION</span>
+            </h1>
+            <p class="text-white text-sm md:text-lg tracking-widest max-w-xl mx-auto mb-8 fade-in-up" style="animation-delay: 0.4s;">
+                伝統的な技法と現代の美学が交差する場所。<br>至高の一杯を、あなたに。
+            </p>
+            <a href="../menu/index.html" class="inline-block px-8 py-3 border-2 border-white text-white text-sm tracking-widest hover:bg-white hover:text-zenith-black transition-all duration-300 fade-in-up" style="animation-delay: 0.6s;">
+                EXPLORE MENU
+            </a>
+        </div>
+    </div>
+
+    <!-- About Section (Summary) -->
+    <section id="about-summary" class="py-20 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-zenith-accent hidden md:block"></div>
+                    <img src="../picture/barista.png" alt="Barista Pouring" class="w-full h-auto shadow-xl z-10 relative">
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-zenith-black hidden md:block"></div>
+                </div>
+                <div class="space-y-6">
+                    <h2 class="font-oswald text-4xl font-bold tracking-wider mb-2">OUR PHILOSOPHY</h2>
+                    <div class="h-1 w-20 bg-zenith-accent mb-6"></div>
+                    <p class="text-gray-600 leading-relaxed text-justify">
+                        ZENITH COFFEE LABは、単なるカフェではありません。それはコーヒーという媒体を通じた、感覚の実験室です。私たちは世界中から厳選した豆を使用し、それぞれの豆が持つ独自の物語を最大限に引き出す抽出方法を探求し続けています。
+                    </p>
+                    <p class="text-gray-600 leading-relaxed text-justify">
+                        無機質なコンクリートと温かみのある木材が調和する空間で、静寂と共に味わう一杯のコーヒー。そして、パティシエが毎日焼き上げる繊細なスイーツとのペアリングをお楽しみください。
+                    </p>
+                    <a href="../about/index.html" class="inline-block mt-4 text-zenith-black border-b border-zenith-black pb-1 hover:text-zenith-accent hover:border-zenith-accent transition-colors tracking-widest text-sm">
+                        READ MORE ABOUT US
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Highlights -->
+    <section id="menu-section" class="py-20 bg-zenith-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold tracking-wider">SIGNATURE MENU</h2>
+                <p class="mt-4 text-gray-500 tracking-widest text-sm">JAPANESE INSPIRED PASTRIES & COFFEE</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <div class="overflow-hidden h-64 relative">
+                        <img src="../picture/matcha.png" alt="Matcha Roll Cake" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-zenith-black text-white text-xs px-2 py-1 tracking-widest">BEST SELLER</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-oswald text-xl font-medium mb-2">MATCHA ROLL CAKE</h3>
+                        <p class="text-gray-500 text-sm mb-4">京都産宇治抹茶を贅沢に使用した生地と、軽やかな生クリームのハーモニー。</p>
+                        <span class="text-zenith-accent font-bold">¥650</span>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <div class="overflow-hidden h-64 relative">
+                        <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Latte Art" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-oswald text-xl font-medium mb-2">ZENITH LATTE</h3>
+                        <p class="text-gray-500 text-sm mb-4">濃厚なエスプレッソとシルキーなスチームミルク。シグネチャーブレンド使用。</p>
+                        <span class="text-zenith-accent font-bold">¥550</span>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="bg-white group cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <div class="overflow-hidden h-64 relative">
+                        <img src="../picture/kurogoma.png" alt="Black Sesame Cookie" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-oswald text-xl font-medium mb-2">KUROGOMA CHIFFON</h3>
+                        <p class="text-gray-500 text-sm mb-4">黒ごまの香ばしい風味としっとりとした食感が特徴のシフォンケーキ。</p>
+                        <span class="text-zenith-accent font-bold">¥600</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="../menu/index.html" class="inline-block px-10 py-3 border border-zenith-black text-zenith-black text-sm tracking-widest hover:bg-zenith-black hover:text-white transition-all duration-300">
+                    VIEW FULL MENU
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Break -->
+    <section class="py-32 bg-fixed bg-center bg-cover relative" style="background-image: url('https://images.unsplash.com/photo-1442975631115-c4f7b05b8a2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="relative z-10 max-w-4xl mx-auto text-center px-4">
+            <h2 class="font-oswald text-3xl md:text-5xl text-white font-bold tracking-widest mb-6">
+                "COFFEE IS A LANGUAGE ITSELF"
+            </h2>
+            <p class="text-gray-200 tracking-wider text-sm md:text-base">
+                言葉を超えて、心をつなぐ一杯を。
+            </p>
+        </div>
+    </section>
+
+    <!-- Locations -->
+    <section id="locations-section" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-oswald text-4xl font-bold tracking-wider">LOCATIONS</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Location 1 -->
+                <div class="bg-zenith-gray p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
+                    <div class="flex-1">
+                        <h3 class="font-oswald text-2xl font-bold mb-4">AOYAMA FLAGSHIP</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+                            東京都港区南青山 5-XX-XX<br>
+                            Zenith Building 1F
+                        </p>
+                        <p class="text-gray-600 mb-6 text-sm">
+                            Mon - Fri: 8am - 8pm<br>
+                            Sat - Sun: 9am - 9pm
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-xs font-bold tracking-widest border-b border-black pb-1 hover:text-zenith-accent hover:border-zenith-accent transition-colors">MAP</a>
+                            <a href="tel:0312345678" class="text-xs font-bold tracking-widest border-b border-black pb-1 hover:text-zenith-accent hover:border-zenith-accent transition-colors">CALL</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-48 h-48 bg-gray-300 overflow-hidden">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.688846599042!2d139.7126!3d35.6625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b61e29307c1%3A0x629562772099309!2sMinamiaoyama%2C%20Minato%20City%2C%20Tokyo!5e0!3m2!1sen!2sjp!4v1625555555555!5m2!1sen!2sjp" width="100%" height="100%" style="border:0; filter: grayscale(100%);" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- Location 2 -->
+                <div class="bg-zenith-gray p-8 md:p-12 flex flex-col md:flex-row gap-8 items-start">
+                    <div class="flex-1">
+                        <h3 class="font-oswald text-2xl font-bold mb-4">DAIKANYAMA LAB</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+                            東京都渋谷区代官山町 10-XX<br>
+                            Forest Gate 2F
+                        </p>
+                        <p class="text-gray-600 mb-6 text-sm">
+                            Daily: 10am - 7pm
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-xs font-bold tracking-widest border-b border-black pb-1 hover:text-zenith-accent hover:border-zenith-accent transition-colors">MAP</a>
+                            <a href="tel:0387654321" class="text-xs font-bold tracking-widest border-b border-black pb-1 hover:text-zenith-accent hover:border-zenith-accent transition-colors">CALL</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-48 h-48 bg-gray-300 overflow-hidden">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.987654321!2d139.703!3d35.649!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b48f654321%3A0x9876543210!2sDaikanyamacho%2C%20Shibuya%20City%2C%20Tokyo!5e0!3m2!1sen!2sjp!4v1625555555555!5m2!1sen!2sjp" width="100%" height="100%" style="border:0; filter: grayscale(100%);" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-zenith-black text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="col-span-1 md:col-span-1">
+                    <h4 class="font-oswald text-2xl font-bold tracking-widest mb-6">ZENITH.</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        Redefining the coffee experience through modern design and traditional craftsmanship.
+                    </p>
+                </div>
+
+                <div>
+                    <h5 class="font-oswald text-sm font-bold tracking-widest mb-6 text-gray-400">EXPLORE</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#menu-section" class="text-gray-300 hover:text-white transition-colors">Our Menu</a></li>
+                        <li><a href="#locations-section" class="text-gray-300 hover:text-white transition-colors">Locations</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-oswald text-sm font-bold tracking-widest mb-6 text-gray-400">CONNECT</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Instagram</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Facebook</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Twitter</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-oswald text-sm font-bold tracking-widest mb-6 text-gray-400">NEWSLETTER</h5>
+                    <div class="flex flex-col gap-4">
+                        <input type="email" placeholder="Enter your email" class="bg-gray-800 border-none text-white px-4 py-2 text-sm focus:ring-1 focus:ring-zenith-accent outline-none">
+                        <button class="bg-white text-zenith-black px-4 py-2 text-xs font-bold tracking-widest hover:bg-zenith-accent hover:text-white transition-colors">SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-xs">© 2024 ZENITH COFFEE LAB. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-500 text-xs hover:text-white">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 text-xs hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Sticky Navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.replace('h-20', 'h-16');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.replace('h-16', 'h-20');
+            }
+        });
+
+        // Fade Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section h2, section p, .grid > div').forEach((el) => {
+            el.classList.add('opacity-0');
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // Simple listener for direct view if JS loads after scroll
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.opacity-0').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 50) {
+                    el.classList.remove('opacity-0');
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
