@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>英単語学習アプリ</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header / Tab Navigation -->
+    <header>
+      <h1>英単語学習</h1>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="chat">💬 AIチャット</button>
+        <button class="tab-btn" data-tab="vocab">📖 単語帳</button>
+        <button class="tab-btn" data-tab="test">✏️ 単語テスト</button>
+        <button class="tab-btn" data-tab="settings">⚙️ 設定</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ═══════════════════════════════ AI CHAT ═══════════════════════════════ -->
+      <section id="tab-chat" class="tab-content active">
+        <div id="chat-messages"></div>
+        <div class="chat-input-area">
+          <textarea id="chat-input" placeholder="英単語・フレーズ・英文・日本語文を入力してください…" rows="2"></textarea>
+          <button id="chat-send" class="btn-primary">送信</button>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════ VOCABULARY ════════════════════════════ -->
+      <section id="tab-vocab" class="tab-content">
+        <div class="vocab-toolbar">
+          <label class="toggle-label">
+            <input type="checkbox" id="show-meanings" />
+            意味を表示する
+          </label>
+          <div class="sort-controls">
+            <span class="sort-label">並び順:</span>
+            <label class="toggle-label">
+              <input type="radio" name="vocab-sort" value="date" checked />
+              登録日順
+            </label>
+            <label class="toggle-label">
+              <input type="radio" name="vocab-sort" value="difficulty" />
+              苦手順
+            </label>
+          </div>
+          <button class="btn-secondary" id="btn-show-hidden">非表示単語を管理</button>
+        </div>
+
+        <div id="vocab-list"></div>
+
+        <!-- Word detail modal -->
+        <div id="vocab-modal" class="modal hidden">
+          <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-body"></div>
+          </div>
+        </div>
+
+        <!-- Hidden words modal -->
+        <div id="hidden-modal" class="modal hidden">
+          <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>非表示単語一覧</h2>
+            <div id="hidden-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════ TESTS ════════════════════════════════ -->
+      <section id="tab-test" class="tab-content">
+        <!-- Test list view -->
+        <div id="test-list-view">
+          <div class="test-toolbar">
+            <button class="btn-primary" id="btn-gen-test">テストを手動生成</button>
+          </div>
+          <div id="tests-list"></div>
+        </div>
+
+        <!-- Take test view -->
+        <div id="test-take-view" class="hidden">
+          <div class="test-header">
+            <button class="btn-secondary" id="btn-back-tests">← 一覧へ戻る</button>
+            <span id="test-progress"></span>
+          </div>
+          <div id="test-question-area"></div>
+        </div>
+
+        <!-- Test result view -->
+        <div id="test-result-view" class="hidden">
+          <h2>テスト結果</h2>
+          <div id="test-result-body"></div>
+          <button class="btn-primary" id="btn-result-back">一覧へ戻る</button>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════ SETTINGS ══════════════════════════════ -->
+      <section id="tab-settings" class="tab-content">
+        <div class="settings-form">
+          <h2>テスト設定</h2>
+
+          <!-- 通常表示 -->
+          <div id="settings-display">
+            <div class="settings-display-row">
+              <span class="settings-label">1回の出題数</span>
+              <span id="disp-questions" class="settings-value"></span>
+            </div>
+            <div class="settings-display-row">
+              <span class="settings-label">1日の生成回数</span>
+              <span id="disp-daily" class="settings-value"></span>
+            </div>
+            <div class="settings-display-row">
+              <span class="settings-label">生成時刻</span>
+              <span id="disp-times" class="settings-value"></span>
+            </div>
+          </div>
+
+          <!-- 編集フォーム（非表示） -->
+          <div id="settings-edit" class="hidden">
+            <div class="form-row">
+              <label>1回の出題数</label>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="s-questions" value="5" /> 5問</label>
+                <label class="radio-label"><input type="radio" name="s-questions" value="10" /> 10問</label>
+              </div>
+            </div>
+            <div class="form-row">
+              <label>1日の生成回数</label>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="s-daily" value="1" /> 1回</label>
+                <label class="radio-label"><input type="radio" name="s-daily" value="2" /> 2回</label>
+              </div>
+            </div>
+            <div class="form-row">
+              <label>生成時刻</label>
+              <div id="time-selects"></div>
+            </div>
+          </div>
+
+          <div class="settings-actions">
+            <button class="btn-secondary" id="btn-edit-settings">変更</button>
+            <button class="btn-primary hidden" id="btn-save-settings">保存</button>
+          </div>
+          <p id="settings-msg" class="msg"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
