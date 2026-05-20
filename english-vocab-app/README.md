@@ -1,6 +1,6 @@
 # 英単語学習アプリ
 
-日本語話者向けの AI 英単語学習アプリです。わからない英単語や英文を AI で解析し、そのまま単語帳に保存し、反復テストで定着を確認できます。
+ 自分専用に作成したAI 英単語学習アプリです。わからない英単語や英文を AI で解析し、そのまま単語帳に保存し、反復テストで定着を確認できます。
 
 ## ポートフォリオ要約
 
@@ -61,7 +61,13 @@
 3. テストを生成して回答
 4. 結果画面で定着度を確認
 
-スクリーンショット構成案と掲載文の下書きは [docs/portfolio-kit.md](docs/portfolio-kit.md) にまとめています。
+<img width="1512" height="827" alt="スクリーンショット 2026-05-20 14 41 24" src="https://github.com/user-attachments/assets/ed5b34ec-6230-4798-8888-3fb7a57e8438" />
+<img width="1512" height="827" alt="スクリーンショット 2026-05-20 14 41 42" src="https://github.com/user-attachments/assets/ec66f06c-ef6e-4106-bd15-2a1c7aa6b94c" />
+<img width="1512" height="827" alt="スクリーンショット 2026-05-20 14 42 09" src="https://github.com/user-attachments/assets/3c4c51f4-b32f-494f-aa88-45b431d5887a" />
+<img width="1512" height="827" alt="スクリーンショット 2026-05-20 14 42 32" src="https://github.com/user-attachments/assets/53ca3901-532c-4a78-84ee-8cca6c470486" />
+
+
+
 
 ## セットアップ
 
@@ -126,9 +132,4 @@ FLASK_DEBUG=1
 `-- 起動.bat
 ```
 
-## 今後の改善案
 
-- ログイン機能を付けてユーザーごとに単語帳を分離
-- テストの正答率推移をグラフ表示
-- 発音音声の再生機能を追加
-- 単語帳のタグ分類や検索機能を追加
