@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation | L'AUBE</title>
+    <meta name="description" content="L'AUBEのオンライン予約。特別な日のためのテーブルリザーブ。">
+
+    <!-- 外部CSSファイルの読み込み -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&family=Zen+Mincho:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                        jp: ['"Zen Mincho"', 'serif'],
+                    },
+                    colors: {
+                        'brand-black': '#1a1a1a',
+                        'brand-gold': '#a39073',
+                        'brand-gray': '#f4f4f4',
+                    },
+                    letterSpacing: {
+                        'widest-xl': '0.25em',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased selection:bg-brand-gold selection:text-white">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="menu-hidden fixed inset-0 z-[60] bg-brand-black/95 backdrop-blur-sm flex flex-col justify-center items-center text-white">
+        <button id="close-menu-btn" class="absolute top-6 right-8 p-2 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white font-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <nav class="flex flex-col space-y-8 text-center items-center">
+            <a href="../home/index.html" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Home</a>
+            <a href="../menu/index.html#lunch" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Lunch</a>
+            <a href="../menu/index.html#dinner" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Dinner</a>
+            <a href="../menu/index.html#wine" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Wine</a>
+        </nav>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 px-6 md:px-8 flex justify-between items-center text-brand-black bg-white/90 backdrop-blur-md shadow-sm">
+        <a href="" class="logo font-serif text-xl md:text-2xl tracking-widest z-50 cursor-pointer hover:opacity-70 transition-opacity">L'AUBE</a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-12 text-xs tracking-widest uppercase font-light z-50">
+            <a href="../home/index.html" class="hover:text-brand-gold transition-colors duration-300">Home</a>
+            <a href="../menu/index.html#lunch" class="hover:text-brand-gold transition-colors duration-300">Lunch</a>
+            <a href="../menu/index.html#dinner" class="hover:text-brand-gold transition-colors duration-300">Dinner</a>
+            <a href="../menu/index.html#wine" class="hover:text-brand-gold transition-colors duration-300">Wine</a>
+        </div>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="open-menu-btn" class="md:hidden space-y-2 cursor-pointer group p-2 focus:outline-none z-50">
+            <span class="block w-6 h-px bg-brand-black group-hover:w-4 transition-all duration-300"></span>
+            <span class="block w-6 h-px bg-brand-black transition-all duration-300"></span>
+        </button>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="relative pt-48 pb-20 px-6 md:px-12 bg-[#f9f9f7]">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-xs tracking-widest-xl uppercase mb-6 text-gray-500 fade-up">Book a Table</p>
+            <h1 class="font-serif text-5xl md:text-7xl text-brand-black mb-8 fade-up delay-100">Reservation</h1>
+            <p class="font-jp text-sm text-gray-600 max-w-2xl mx-auto leading-loose fade-up delay-200">
+                大切なひとときを、L'AUBEでお過ごしいただくために。<br>
+                ご希望の日時と詳細をお知らせください。
+            </p>
+        </div>
+    </header>
+
+    <!-- Reservation Form Section -->
+    <section class="py-12 pb-32 px-6">
+        <div class="max-w-3xl mx-auto bg-white p-8 md:p-16 shadow-sm border border-gray-100 fade-up delay-300">
+
+            <form action="#" method="POST" class="space-y-4">
+
+                <!-- Date & Time -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                    <div class="form-group">
+                        <input type="date" id="date" name="date" class="form-input" required placeholder=" ">
+                        <label for="date" class="form-label">Date</label>
+                    </div>
+                    <div class="form-group select-wrapper">
+                        <select id="time" name="time" class="form-select" required>
+                            <option value="" disabled selected></option>
+                            <option value="12:00">12:00 (Lunch)</option>
+                            <option value="12:30">12:30 (Lunch)</option>
+                            <option value="13:00">13:00 (Lunch)</option>
+                            <option value="18:00">18:00 (Dinner)</option>
+                            <option value="18:30">18:30 (Dinner)</option>
+                            <option value="19:00">19:00 (Dinner)</option>
+                            <option value="19:30">19:30 (Dinner)</option>
+                            <option value="20:00">20:00 (Dinner)</option>
+                        </select>
+                        <label for="time" class="form-label">Time</label>
+                    </div>
+                </div>
+
+                <!-- Guests & Course -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                    <div class="form-group select-wrapper">
+                        <select id="guests" name="guests" class="form-select" required>
+                            <option value="" disabled selected></option>
+                            <option value="1">1 Person</option>
+                            <option value="2">2 People</option>
+                            <option value="3">3 People</option>
+                            <option value="4">4 People</option>
+                            <option value="5">5 People</option>
+                            <option value="6">6 People</option>
+                        </select>
+                        <label for="guests" class="form-label">Guests</label>
+                    </div>
+                    <div class="form-group select-wrapper">
+                        <select id="course" name="course" class="form-select">
+                            <option value="" disabled selected></option>
+                            <option value="seat_only">席のみ予約 (Seat only)</option>
+                            <option value="lunch_dejeuner">Lunch: Menu Déjeuner</option>
+                            <option value="lunch_special">Lunch: Menu Spécial</option>
+                            <option value="dinner_saison">Dinner: Menu Saison</option>
+                            <option value="dinner_degustation">Dinner: Menu Dégustation</option>
+                        </select>
+                        <label for="course" class="form-label">Course (Optional)</label>
+                    </div>
+                </div>
+
+                <!-- Personal Info -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-8">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" class="form-input" required placeholder=" ">
+                        <label for="name" class="form-label">Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" class="form-input" required placeholder=" ">
+                        <label for="phone" class="form-label">Phone Number</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="email" name="email" class="form-input" required placeholder=" ">
+                    <label for="email" class="form-label">Email Address</label>
+                </div>
+
+                <!-- Requests -->
+                <div class="form-group">
+                    <textarea id="requests" name="requests" rows="3" class="form-textarea" placeholder=" "></textarea>
+                    <label for="requests" class="form-label">Allergies / Special Requests</label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-8 text-center">
+                    <button type="submit" class="bg-brand-black text-white px-16 py-4 text-xs tracking-widest uppercase hover:bg-brand-gold transition-colors duration-300 shadow-lg w-full md:w-auto">
+                        Confirm Reservation
+                    </button>
+                    <p class="mt-6 text-[10px] text-gray-400 font-jp">
+                        ※ キャンセルポリシー：当日のキャンセルは100%の料金を頂戴いたします。<br>
+                        ※ お席のご指定につきましては、ご要望に添えない場合もございます。
+                    </p>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Phone Reservation Info -->
+        <div class="text-center mt-20 fade-up">
+            <p class="font-serif text-xl italic text-brand-black mb-4">Reservation by Phone</p>
+            <p class="font-sans text-2xl tracking-widest mb-4">03-1234-5678</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">12:00 - 22:00 (Closed on Wednesday)</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#f9f9f7] pt-12 pb-12 px-6 border-t border-gray-200">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="text-center">
+                <p class="font-serif text-2xl tracking-widest-xl text-brand-black mb-4">L'AUBE</p>
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest">&copy; 2024 L'AUBE Restaurant. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Logic
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const openMenuBtn = document.getElementById('open-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenuOverlay.classList.remove('menu-hidden');
+            mobileMenuOverlay.classList.add('menu-visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            mobileMenuOverlay.classList.remove('menu-visible');
+            mobileMenuOverlay.classList.add('menu-hidden');
+            document.body.style.overflow = '';
+        }
+
+        openMenuBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        // Intersection Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-up');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

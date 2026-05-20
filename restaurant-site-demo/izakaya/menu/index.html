@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENU | NEO SAKABA - SUICO</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           CORE STYLES (INHERITED)
+           ========================================= */
+        :root {
+            --c-bg: #0a0a0a;
+            --c-text: #f0f0f0;
+            --c-accent-1: #ccff00; /* Acid Green */
+            --c-accent-2: #ff00ff; /* Hot Pink */
+            --c-accent-3: #00ffff; /* Cyber Blue */
+            --border-w: 3px;
+            --font-main: 'Syne', sans-serif;
+            --font-jp: 'Noto Sans JP', sans-serif;
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-family: var(--font-jp);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: none; }
+        ul { list-style: none; }
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            background: var(--c-accent-3); /* Blue for Menu */
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        .cursor.hovered { width: 80px; height: 80px; background: var(--c-text); }
+
+        /* Typography */
+        .kinetic-text {
+            font-family: var(--font-main);
+            text-transform: uppercase;
+            font-weight: 800;
+            line-height: 0.9;
+        }
+
+        /* Brutal Components */
+        .brutal-btn {
+            display: inline-block;
+            font-family: var(--font-main);
+            font-weight: 800;
+            padding: 0.8rem 2rem;
+            background: var(--c-accent-1);
+            color: #000;
+            border: var(--border-w) solid #000;
+            transition: 0.3s;
+        }
+        .brutal-btn:hover { transform: translate(-4px, -4px); box-shadow: 6px 6px 0 var(--c-accent-2); }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            mix-blend-mode: difference;
+            pointer-events: none; /* 追加: ヘッダー全体のクリック判定を無効化（透過） */
+        }
+        .logo {
+            font-family: var(--font-main);
+            font-size: 2rem;
+            font-weight: 800;
+            pointer-events: auto; /* 追加: ロゴ部分のみクリック有効化 */
+        }
+        .back-link {
+            font-weight: 700;
+            border-bottom: 2px solid #fff;
+            pointer-events: auto; /* 追加: 戻るボタンのみクリック有効化 */
+        }
+
+        /* =========================================
+           PAGE SPECIFIC STYLES
+           ========================================= */
+
+        /* Menu Hero */
+        .menu-hero {
+            padding-top: 150px;
+            padding-bottom: 50px;
+            padding-left: 4vw;
+            border-bottom: 2px solid #333;
+        }
+        .menu-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            color: transparent;
+            -webkit-text-stroke: 2px var(--c-text);
+        }
+        .menu-title span { display: block; color: var(--c-accent-1); -webkit-text-stroke: 0; }
+
+        /* Menu Categories Tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center; /* Center alignment */
+            overflow-x: auto;
+            padding: 1rem 4vw;
+            gap: 1rem;
+            background: #0a0a0a; /* Solid background to hide content behind */
+            position: sticky;
+            top: 0; /* Stick to the very top */
+            z-index: 90; /* Modified: Lower than header (100) */
+            border-bottom: 1px solid #333;
+            border-top: 1px solid #333;
+            /* Hide Scrollbar */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .category-tabs::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--c-text);
+            color: var(--c-text);
+            font-family: var(--font-main);
+            font-weight: 700;
+            cursor: none;
+            white-space: nowrap;
+            transition: 0.3s;
+            background: transparent;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--c-accent-2);
+            border-color: var(--c-accent-2);
+            color: #000;
+        }
+
+        /* Menu Grid */
+        .menu-container {
+            padding: 4vw;
+        }
+
+        .category-section {
+            margin-bottom: 8rem;
+            padding-top: 100px; /* Add padding for scroll offset */
+            margin-top: -100px; /* Negative margin to maintain spacing */
+        }
+        .category-header {
+            font-family: var(--font-main);
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .category-header::after {
+            content: ''; flex: 1; height: 3px; background: var(--c-text);
+        }
+
+        /* Grid Layout */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Menu Item Card */
+        .menu-item {
+            border: 2px solid #333;
+            background: #111;
+            padding: 1.5rem;
+            position: relative;
+            transition: 0.3s;
+        }
+        .menu-item:hover {
+            border-color: var(--c-accent-3);
+            transform: translateY(-5px);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+        .item-price {
+            font-family: var(--font-main);
+            font-size: 1.5rem;
+            color: var(--c-accent-1);
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 1rem;
+        }
+
+        /* Signature Item (Image Card) */
+        .menu-item.signature {
+            grid-column: span 2;
+            padding: 0;
+            border: 3px solid var(--c-accent-1);
+            height: 400px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .signature-img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            transition: 0.5s;
+        }
+        .menu-item.signature:hover .signature-img {
+            transform: scale(1.1);
+        }
+        .signature-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(0,0,0,0.8);
+            padding: 1.5rem;
+            border-top: 3px solid var(--c-accent-1);
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border: 1px solid #fff;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .tag.hot { background: var(--c-accent-2); color: #000; border-color: var(--c-accent-2); }
+        .tag.rec { background: var(--c-accent-3); color: #000; border-color: var(--c-accent-3); }
+
+        /* Footer */
+        footer {
+            border-top: 2px solid #fff;
+            padding: 3rem;
+            text-align: center;
+            background: #111;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .menu-item.signature { grid-column: span 1; height: 300px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .menu-hero { padding-top: 120px; }
+
+            /* Enhanced Category Tabs for Mobile */
+            .category-tabs {
+                padding: 0.5rem 1rem;
+                justify-content: flex-start; /* Left align for horizontal scroll */
+                top: 70px; /* Lower position to avoid overlap with header elements */
+                gap: 0.5rem;
+            }
+            .tab-btn {
+                font-size: 0.85rem;
+                padding: 0.5rem 1rem;
+                flex-shrink: 0; /* Prevent buttons from shrinking */
+                border-width: 1px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+
+    <header>
+        <div class="logo">SUICO</div>
+        <a href="../home/index.html" class="back-link">BACK TO TOP</a>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="menu-hero">
+            <h1 class="menu-title kinetic-text">
+                EAT<br>
+                <span>DRINK</span>
+                & CHAOS
+            </h1>
+        </section>
+
+        <!-- Category Tabs -->
+        <nav class="category-tabs">
+            <button class="tab-btn active" onclick="scrollToCategory('sour')" data-target="sour">SOUR & HIGHBALL</button>
+            <button class="tab-btn" onclick="scrollToCategory('beer')" data-target="beer">BEER & SAKE</button>
+            <button class="tab-btn" onclick="scrollToCategory('food')" data-target="food">NEO FOOD</button>
+            <button class="tab-btn" onclick="scrollToCategory('sweets')" data-target="sweets">SWEETS</button>
+        </nav>
+
+        <div class="menu-container">
+
+            <!-- CATEGORY: SOUR & HIGHBALL -->
+            <section id="sour" class="category-section">
+                <h2 class="category-header">SOUR & HIGHBALL</h2>
+                <div class="menu-grid">
+
+                    <!-- Signature Item -->
+                    <div class="menu-item signature">
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop" class="signature-img" alt="Neon Sour">
+                        <div class="signature-content">
+                            <div class="item-header">
+                                <h3 class="item-name">NEO BLUE HAWAII SOUR<br><span style="font-size:0.8em; font-weight:400;">ネオ・ブルーハワイサワー</span></h3>
+                                <span class="item-price">¥750</span>
+                            </div>
+                            <p class="item-desc">電脳世界をイメージした鮮やかなブルー。パイナップルとラムの刺激的融合。</p>
+                            <span class="tag rec">RECOMMEND</span> <span class="tag">SNS映え</span>
+                        </div>
+                    </div>
+
+                    <!-- Standard Item -->
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">FROZEN LEMON TOWER<br><span style="font-size:0.8em; font-weight:400;">凍結レモンタワー</span></h3>
+                            <span class="item-price">¥680</span>
+                        </div>
+                        <p class="item-desc">レモン丸ごと1個分を凍らせてタワー状に。追いチューハイ必須。</p>
+                        <span class="tag hot">POPULAR</span>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">CRAFT COLA HIGHBALL<br><span style="font-size:0.8em; font-weight:400;">自家製クラフトコーラハイ</span></h3>
+                            <span class="item-price">¥650</span>
+                        </div>
+                        <p class="item-desc">10種類のスパイスを調合。ピリッと辛口な大人のハイボール。</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">GARI-GARI SOUR<br><span style="font-size:0.8em; font-weight:400;">ガリガリ君サワー</span></h3>
+                            <span class="item-price">¥550</span>
+                        </div>
+                        <p class="item-desc">あの国民的アイスを丸ごと投入。当たりが出たらもう一杯！</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- CATEGORY: BEER & SAKE (NEW) -->
+            <section id="beer" class="category-section">
+                <h2 class="category-header">BEER & SAKE</h2>
+                <div class="menu-grid">
+
+                    <!-- Signature Item -->
+                    <div class="menu-item signature" style="border-color: var(--c-accent-3);">
+                        <img src="https://images.unsplash.com/photo-1571762125028-574f9d45e523?q=80&w=800&auto=format&fit=crop" class="signature-img" alt="Craft Beer">
+                        <div class="signature-content" style="border-top-color: var(--c-accent-3);">
+                            <div class="item-header">
+                                <h3 class="item-name">NEO CRAFT FLIGHT<br><span style="font-size:0.8em; font-weight:400;">日替わりクラフトビール4種飲み比べ</span></h3>
+                                <span class="item-price">¥1,200</span>
+                            </div>
+                            <p class="item-desc">IPAからフルーツエールまで。今日の気分に合わせて。</p>
+                            <span class="tag rec">LIMITED</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">SUPER DRY EXTRA COLD<br><span style="font-size:0.8em; font-weight:400;">エクストラコールド</span></h3>
+                            <span class="item-price">¥600</span>
+                        </div>
+                        <p class="item-desc">氷点下の衝撃。キンキンに冷えた喉越し。</p>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">SPARKLING SAKE "MIO"<br><span style="font-size:0.8em; font-weight:400;">スパークリング清酒 澪</span></h3>
+                            <span class="item-price">¥780</span>
+                        </div>
+                        <p class="item-desc">甘酸っぱくて飲みやすい。日本酒デビューに最適。</p>
+                        <span class="tag">LADIES</span>
+                    </div>
+
+                     <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">MATCHA BEER<br><span style="font-size:0.8em; font-weight:400;">京都産 抹茶ビール</span></h3>
+                            <span class="item-price">¥700</span>
+                        </div>
+                        <p class="item-desc">ビールの苦味と抹茶の香りが意外なマッチング。</p>
+                        <span class="tag">UNIQUE</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CATEGORY: FOOD -->
+            <section id="food" class="category-section">
+                <h2 class="category-header">NEO FOOD</h2>
+                <div class="menu-grid">
+
+                    <!-- Signature Item -->
+                    <div class="menu-item signature" style="border-color: var(--c-accent-2);">
+                        <img src="https://images.unsplash.com/photo-1625938146369-adc83368bda7?q=80&w=800&auto=format&fit=crop" class="signature-img" alt="Gyoza">
+                        <div class="signature-content" style="border-top-color: var(--c-accent-2);">
+                            <div class="item-header">
+                                <h3 class="item-name">TRUFFLE CHEESE GYOZA<br><span style="font-size:0.8em; font-weight:400;">トリュフチーズ餃子</span></h3>
+                                <span class="item-price">¥880</span>
+                            </div>
+                            <p class="item-desc">肉汁あふれる餃子に濃厚チーズとトリュフオイル。反則級の旨さ。</p>
+                            <span class="tag rec">MUST EAT</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">SMOKED EGG POTATO SALAD<br><span style="font-size:0.8em; font-weight:400;">燻製煮卵のポテサラ</span></h3>
+                            <span class="item-price">¥580</span>
+                        </div>
+                        <p class="item-desc">いぶりがっこの食感がアクセント。半熟卵を崩して召し上がれ。</p>
+                        <span class="tag">SPEED</span>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">SPICY ZANGI CHICKEN<br><span style="font-size:0.8em; font-weight:400;">激辛ザンギ</span></h3>
+                            <span class="item-price">¥720</span>
+                        </div>
+                        <p class="item-desc">北海道風唐揚げに特製シビ辛スパイス。ビールが止まらない。</p>
+                        <span class="tag hot">SPICY</span>
+                    </div>
+                     <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">UNI & BEEF SUSHI<br><span style="font-size:0.8em; font-weight:400;">雲丹にく軍艦 (2貫)</span></h3>
+                            <span class="item-price">¥1,200</span>
+                        </div>
+                        <p class="item-desc">和牛とウニの贅沢な一口。口の中でとろけます。</p>
+                        <span class="tag">LUXURY</span>
+                    </div>
+
+                </div>
+            </section>
+
+             <!-- CATEGORY: SWEETS -->
+             <section id="sweets" class="category-section">
+                <h2 class="category-header">SWEETS</h2>
+                <div class="menu-grid">
+                     <div class="menu-item">
+                        <div class="item-header">
+                            <h3 class="item-name">NEON PARFAIT<br><span style="font-size:0.8em; font-weight:400;">電脳パフェ</span></h3>
+                            <span class="item-price">¥900</span>
+                        </div>
+                        <p class="item-desc">光るキューブ入り？！（※食べられません）撮影必須の〆パフェ。</p>
+                        <span class="tag rec">SNS</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <p class="kinetic-text" style="font-size: 2rem; margin-bottom: 1rem;">RESERVE NOW</p>
+        <p style="font-size: 0.8rem; color: #aaa;">※ 価格は全て税込みです。<br>All prices include tax.</p>
+        <br>
+        <a href="#" class="brutal-btn">MAKE A RESERVE</a>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const hoverElements = document.querySelectorAll('a, button, .menu-item');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // Scroll Spy Logic (New)
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.category-section');
+            const navBtns = document.querySelectorAll('.tab-btn');
+
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Offset calculation: Header/Tabs height + buffer
+                // 200px is roughly the height of the fixed header area plus some "read ahead" space
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-target') === current) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+
+        // Tab Scroll Logic
+        function scrollToCategory(id) {
+            const el = document.getElementById(id);
+            // Calculate offset based on tab height (~80px)
+            const offset = 90;
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = el.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Note: The scroll event listener above will handle the 'active' class update automatically
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOMOREBI COFFEE | Menu</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', '"Zen Kaku Gothic New"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        'cafe-dark': '#2C2520',
+                        'cafe-brown': '#5D4037',
+                        'cafe-cream': '#F5F0EB',
+                        'cafe-accent': '#D4A373',
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-slide-up': 'fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeSlideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles */
+        body { -webkit-tap-highlight-color: transparent; }
+
+        /* Grainy Noise */
+        .bg-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; opacity: 0.06;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .glass-panel-dark {
+            background: rgba(44, 37, 32, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Layout Utilities */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .img-zoom-container { overflow: hidden; }
+        .img-zoom { transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .group:hover .img-zoom { transform: scale(1.08); }
+
+        /* Animation Classes */
+        .view-section { display: none; opacity: 0; transition: opacity 0.4s ease; }
+        .view-section.active { display: block; opacity: 1; }
+
+        /* Option Button Active State */
+        .option-btn.active {
+            background-color: #2C2520;
+            color: white;
+            border-color: #2C2520;
+        }
+
+        /* Date Card Active State */
+        .date-card.active {
+            background-color: #2C2520;
+            color: white;
+            border-color: #2C2520;
+        }
+    </style>
+</head>
+<body class="bg-[#F2EFE9] text-cafe-dark antialiased min-h-screen relative overflow-x-hidden selection:bg-cafe-accent selection:text-white pb-20 md:pb-0">
+
+    <!-- Background Orbs -->
+    <div class="orb w-96 h-96 bg-[#D4A373] fixed top-[-100px] left-[-100px] rounded-full blur-[100px] animate-blob z-0 opacity-60"></div>
+    <div class="orb w-96 h-96 bg-[#A8B5A3] fixed bottom-[-50px] right-[-50px] rounded-full blur-[100px] animate-blob animation-delay-2000 z-0 opacity-60"></div>
+    <div class="bg-noise"></div>
+
+    <!-- Container -->
+    <div class="relative z-10 max-w-7xl mx-auto p-4 md:p-8 lg:p-12">
+
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8 glass-panel px-6 py-4 rounded-full sticky top-4 z-40 transition-all duration-300" id="main-header">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="switchView('home')">
+                <i class="ph-fill ph-coffee text-2xl text-cafe-brown"></i>
+                <span class="font-serif font-bold text-xl tracking-tight">KOMOREBI</span>
+            </div>
+
+            <nav class="hidden md:flex gap-8 font-medium text-sm tracking-wide text-cafe-dark/80">
+                <a href="#" onclick="switchView('home')" class="hover:text-cafe-brown transition-colors">Home</a>
+                <a href="#" onclick="switchView('menu')" class="hover:text-cafe-brown transition-colors">Menu</a>
+                <a href="#" onclick="switchView('locations')" class="hover:text-cafe-brown transition-colors">Locations</a>
+                <a href="#" onclick="switchView('about')" class="hover:text-cafe-brown transition-colors">About</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <!-- User Profile (Click to Sign In or View Profile) -->
+                <button id="profile-btn" onclick="handleProfileClick()" class="w-10 h-10 rounded-full hover:bg-white/50 flex items-center justify-center transition-colors relative group overflow-hidden">
+                    <i id="profile-icon" class="ph ph-user text-xl"></i>
+                    <!-- Logged in indicator (Initials or Dot) -->
+                    <span id="user-status-dot" class="absolute top-1 right-1 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white hidden"></span>
+                </button>
+
+                <!-- Cart -->
+                <button onclick="openCartModal()" class="relative w-10 h-10 rounded-full hover:bg-white/50 flex items-center justify-center transition-colors group">
+                    <i class="ph ph-shopping-cart text-xl"></i>
+                    <span id="cart-badge" class="absolute top-2 right-2 w-2.5 h-2.5 bg-cafe-brown rounded-full scale-0 transition-transform duration-300"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- VIEW: HOME (Full Bento Grid) -->
+        <div id="view-home" class="view-section active">
+            <main class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
+
+                <!-- 1. Hero Card (Large) -->
+                <div onclick="switchView('menu')" class="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 glass-panel rounded-[2rem] p-8 flex flex-col justify-between group cursor-pointer overflow-hidden relative">
+                    <div class="absolute inset-0 z-0">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover img-zoom opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                    <div class="relative z-10 text-white mt-auto">
+                        <span class="inline-block px-3 py-1 mb-3 text-xs font-bold tracking-wider uppercase bg-white/20 backdrop-blur-md rounded-full border border-white/20">Daily Ritual</span>
+                        <h1 class="font-serif text-4xl md:text-5xl leading-tight mb-2">いつもの場所で、<br>特別な一杯を。</h1>
+                        <p class="text-white/80 text-sm md:text-base mb-6 max-w-md">厳選された豆と、バリスタの技術が織りなす極上の時間。</p>
+                        <div class="flex items-center gap-4">
+                            <button class="w-12 h-12 rounded-full bg-white text-cafe-dark flex items-center justify-center hover:scale-110 transition-transform">
+                                <i class="ph-fill ph-caret-right text-xl"></i>
+                            </button>
+                            <span class="font-medium text-sm">View Menu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Today's Special (Tall) -->
+                <div onclick="openProductById(3)" class="col-span-1 row-span-2 glass-panel rounded-[2rem] p-2 flex flex-col group relative overflow-hidden cursor-pointer">
+                    <div class="bg-white/50 rounded-[1.5rem] h-2/3 w-full overflow-hidden img-zoom-container relative">
+                        <!-- ここも Unsplash のままにしていますが、必要なら変更してください -->
+                        <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover img-zoom">
+                        <div class="absolute top-3 right-3 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold shadow-sm">Today's Pick</div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-xl font-semibold">Honey Oat Latte</h3>
+                            <span class="font-mono text-cafe-brown font-bold">¥650</span>
+                        </div>
+                        <p class="text-xs text-cafe-dark/60 line-clamp-2">自家製ハニーシロップとオーツミルクの優しい甘さ。</p>
+                        <button class="mt-4 w-full py-2 rounded-xl border border-cafe-dark/10 hover:bg-cafe-dark hover:text-white transition-all text-xs font-bold uppercase tracking-wide">Order Now</button>
+                    </div>
+                </div>
+
+                <!-- 3. Store Status (Small) -->
+                <div class="col-span-1 glass-panel rounded-[2rem] p-6 flex flex-col justify-between hover:bg-white/40 transition-colors cursor-default min-h-[220px]">
+                    <!-- Top: Status & Icon -->
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-2">
+                            <span class="relative flex h-3 w-3">
+                              <span id="status-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                              <span id="status-dot" class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                            </span>
+                            <span id="status-text" class="text-xs font-bold uppercase tracking-wider text-cafe-dark/70">Open Now</span>
+                        </div>
+                        <i class="ph ph-clock text-2xl text-cafe-dark/40"></i>
+                    </div>
+
+                    <!-- Center: Clock -->
+                    <div class="flex-1 flex items-center justify-center">
+                        <h2 id="clock-display" class="text-5xl font-serif font-medium tracking-widest text-cafe-dark">--:--</h2>
+                    </div>
+
+                    <!-- Bottom Left: Hours -->
+                    <div class="text-left space-y-1 mt-auto">
+                        <p class="text-xs text-cafe-dark/60 font-medium">Open at 08:00</p>
+                        <p class="text-xs text-cafe-dark/60 font-medium">Close at 20:00</p>
+                    </div>
+                </div>
+
+                <!-- 4. Location / Map (Small) -->
+                <div onclick="switchView('locations')" class="col-span-1 glass-panel-dark rounded-[2rem] p-6 flex flex-col justify-between group cursor-pointer text-white relative overflow-hidden bg-cafe-dark">
+                    <div class="absolute inset-0 opacity-40 group-hover:opacity-50 transition-opacity">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale">
+                    </div>
+                    <div class="relative z-10">
+                        <i class="ph-fill ph-map-pin text-2xl mb-2 text-cafe-accent"></i>
+                        <p class="text-sm font-light leading-relaxed">1-23-4 Shibuya,<br>Tokyo, Japan</p>
+                    </div>
+                    <div class="relative z-10 flex items-center justify-between mt-4">
+                        <span class="text-xs font-bold border-b border-cafe-accent/50 pb-0.5">Google Maps</span>
+                        <i class="ph-bold ph-arrow-up-right"></i>
+                    </div>
+                </div>
+
+                <!-- 5. Story Section (Wide) -->
+                <div onclick="switchView('about')" class="col-span-1 md:col-span-2 glass-panel rounded-[2rem] p-8 flex flex-col md:flex-row gap-6 items-center cursor-pointer group hover:bg-white/50 transition-colors">
+                    <div class="w-full md:w-1/2">
+                        <h2 class="font-serif text-2xl mb-3">Our Roasting Philosophy</h2>
+                        <p class="text-sm text-cafe-dark/70 leading-relaxed mb-4">
+                            私たちは、コーヒー豆本来の果実味を大切にしています。
+                            毎朝、その日の気温や湿度に合わせて微調整を行い、
+                            「毎日飲んでも飽きない味」を追求し続けています。
+                        </p>
+                        <a href="#" class="inline-flex items-center gap-2 text-sm font-bold border-b border-cafe-dark pb-1 hover:text-cafe-brown hover:border-cafe-brown transition-colors">
+                            Read Our Story
+                        </a>
+                    </div>
+                    <div class="w-full md:w-1/2 h-40 md:h-full rounded-2xl overflow-hidden img-zoom-container">
+                        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&q=80&w=800" alt="Coffee Beans" class="w-full h-full object-cover img-zoom">
+                    </div>
+                </div>
+
+                <!-- 6. Social / Community (Square) -->
+                <div class="col-span-1 glass-panel rounded-[2rem] p-0 overflow-hidden relative group">
+                    <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <i class="ph-fill ph-instagram-logo text-4xl text-white"></i>
+                    </div>
+                    <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur rounded-lg px-3 py-2 text-xs font-bold">
+                        @komorebi_coffee
+                    </div>
+                </div>
+
+                <!-- 7. Features / Services (Vertical List) -->
+                <div class="col-span-1 md:col-span-1 row-span-2 glass-panel rounded-[2rem] p-6">
+                    <h3 class="font-serif text-lg mb-4 flex items-center gap-2">
+                        <i class="ph-fill ph-star text-cafe-accent"></i> Popular
+                    </h3>
+                    <ul class="space-y-3">
+                        <li onclick="openProductById(12)" class="flex items-center gap-3 p-2 hover:bg-white/40 rounded-xl transition-colors cursor-pointer group">
+                             <!-- 修正: 画像パス変更とエラーハンドリング追加 -->
+                            <img src="../image/dripcoffee.png" onerror="this.onerror=null; this.src='https://placehold.co/200x200?text=No+Image';" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <p class="font-bold text-sm group-hover:text-cafe-brown">Drip Coffee</p>
+                                <p class="text-xs text-cafe-dark/50">Blend No.1</p>
+                            </div>
+                        </li>
+                        <li onclick="openProductById(25)" class="flex items-center gap-3 p-2 hover:bg-white/40 rounded-xl transition-colors cursor-pointer group">
+                            <!-- 修正: 画像パス変更とエラーハンドリング追加 -->
+                            <img src="../image/canele.png" onerror="this.onerror=null; this.src='https://placehold.co/200x200?text=No+Image';" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <p class="font-bold text-sm group-hover:text-cafe-brown">Canelé</p>
+                                <p class="text-xs text-cafe-dark/50">Baked Fresh</p>
+                            </div>
+                        </li>
+                        <li onclick="openProductById(11)" class="flex items-center gap-3 p-2 hover:bg-white/40 rounded-xl transition-colors cursor-pointer group">
+                            <!-- 修正: 画像パス変更とエラーハンドリング追加 -->
+                            <img src="../image/coldbrew.png" onerror="this.onerror=null; this.src='https://placehold.co/200x200?text=No+Image';" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <p class="font-bold text-sm group-hover:text-cafe-brown">Cold Brew</p>
+                                <p class="text-xs text-cafe-dark/50">24h Steeping</p>
+                            </div>
+                        </li>
+                         <li onclick="openProductById(8)" class="flex items-center gap-3 p-2 hover:bg-white/40 rounded-xl transition-colors cursor-pointer group">
+                            <!-- 修正: 画像パス変更とエラーハンドリング追加 -->
+                            <img src="../image/espressotonic.png" onerror="this.onerror=null; this.src='https://placehold.co/200x200?text=No+Image';" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <p class="font-bold text-sm group-hover:text-cafe-brown">Espresso Tonic</p>
+                                <p class="text-xs text-cafe-dark/50">Summer only</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 8. Sign Up Call-to-Action -->
+                <div class="col-span-1 md:col-span-2 lg:col-span-2 glass-panel rounded-[2rem] p-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#D4A373]/10">
+                    <div class="text-center md:text-left">
+                        <h3 class="font-serif text-xl mb-1">Become a Member</h3>
+                        <p class="text-xs text-cafe-dark/60">会員登録（無料）で、次回からの注文がよりスムーズに。</p>
+                    </div>
+                    <button onclick="openSignUpModal()" class="bg-cafe-dark text-white rounded-full px-8 py-3 text-sm font-bold hover:bg-cafe-brown transition-colors shadow-lg shadow-cafe-dark/20 flex items-center gap-2 group">
+                        <span>Sign Up Free</span>
+                        <i class="ph-bold ph-user-plus group-hover:scale-110 transition-transform"></i>
+                    </button>
+                </div>
+
+            </main>
+
+            <footer class="mt-12 text-center pb-8 relative z-10">
+                <div class="flex justify-center gap-6 mb-4 text-cafe-dark/60">
+                    <i class="ph-fill ph-facebook-logo text-xl hover:text-cafe-brown cursor-pointer transition-colors"></i>
+                    <i class="ph-fill ph-instagram-logo text-xl hover:text-cafe-brown cursor-pointer transition-colors"></i>
+                    <i class="ph-fill ph-twitter-logo text-xl hover:text-cafe-brown cursor-pointer transition-colors"></i>
+                </div>
+                <p class="text-xs text-cafe-dark/40 font-medium">© 2024 KOMOREBI COFFEE STAND. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <!-- VIEW: MENU -->
+        <div id="view-menu" class="view-section">
+            <div class="text-center mb-10 animate-slide-up">
+                <span class="text-xs font-bold tracking-widest uppercase text-cafe-accent mb-2 block">Our Collections</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-cafe-dark">Menu</h2>
+            </div>
+
+            <!-- Categories -->
+            <div class="flex justify-center gap-4 mb-10 overflow-x-auto pb-4 no-scrollbar px-4" id="menu-categories">
+                <!-- Categories injected by JS -->
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" id="menu-grid">
+                <!-- Items injected by JS -->
+            </div>
+
+            <footer class="mt-12 text-center pb-8 relative z-10">
+                <p class="text-xs text-cafe-dark/40 font-medium">© 2024 KOMOREBI COFFEE STAND. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <!-- VIEW: LOCATIONS -->
+        <div id="view-locations" class="view-section">
+            <div class="text-center mb-10 animate-slide-up">
+                <span class="text-xs font-bold tracking-widest uppercase text-cafe-accent mb-2 block">Visit Us</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-cafe-dark">Locations</h2>
+            </div>
+
+            <div class="space-y-8 max-w-4xl mx-auto">
+                <!-- 1. Shibuya -->
+                <div class="glass-panel rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row group animate-slide-up">
+                    <div class="w-full md:w-1/2 h-64 md:h-auto overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-cafe-dark text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Flagship</div>
+                    </div>
+                    <div class="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
+                        <h3 class="font-serif text-3xl mb-2 text-cafe-dark">Shibuya Flagship</h3>
+                        <p class="text-sm text-cafe-dark/60 mb-6 leading-relaxed">
+                            賑やかな渋谷の中心にありながら、一歩足を踏み入れればそこは静寂の森。
+                            KOMOREBIの原点となるフラッグシップストアです。
+                        </p>
+
+                        <div class="space-y-4 text-sm mb-8">
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-map-pin text-xl text-cafe-accent mt-0.5"></i>
+                                <div>
+                                    <p class="font-bold text-cafe-dark">1-23-4 Shibuya</p>
+                                    <p class="text-cafe-dark/60">Shibuya-ku, Tokyo, Japan</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-clock text-xl text-cafe-accent"></i>
+                                <p class="text-cafe-dark/80">08:00 - 20:00 (Daily)</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-phone text-xl text-cafe-accent"></i>
+                                <p class="text-cafe-dark/80">03-1234-5678</p>
+                            </div>
+                        </div>
+
+                        <button class="w-full py-3 border border-cafe-dark text-cafe-dark rounded-xl font-bold hover:bg-cafe-dark hover:text-white transition-colors flex items-center justify-center gap-2">
+                            <span>Google Maps</span>
+                            <i class="ph-bold ph-arrow-up-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Omotesando -->
+                <div class="glass-panel rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row-reverse group animate-slide-up" style="animation-delay: 100ms;">
+                    <div class="w-full md:w-1/2 h-64 md:h-auto overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white/80 backdrop-blur text-cafe-dark text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Stand</div>
+                    </div>
+                    <div class="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
+                        <h3 class="font-serif text-3xl mb-2 text-cafe-dark">Omotesando Stand</h3>
+                        <p class="text-sm text-cafe-dark/60 mb-6 leading-relaxed">
+                            ショッピングの合間に、最高の一杯を。
+                            テイクアウトメインのスタイリッシュなコーヒースタンドです。
+                        </p>
+
+                        <div class="space-y-4 text-sm mb-8">
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-map-pin text-xl text-cafe-accent mt-0.5"></i>
+                                <div>
+                                    <p class="font-bold text-cafe-dark">4-12-10 Jingumae</p>
+                                    <p class="text-cafe-dark/60">Shibuya-ku, Tokyo, Japan</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-clock text-xl text-cafe-accent"></i>
+                                <p class="text-cafe-dark/80">09:00 - 19:00 (Daily)</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-phone text-xl text-cafe-accent"></i>
+                                <p class="text-cafe-dark/80">03-8765-4321</p>
+                            </div>
+                        </div>
+
+                        <button class="w-full py-3 border border-cafe-dark text-cafe-dark rounded-xl font-bold hover:bg-cafe-dark hover:text-white transition-colors flex items-center justify-center gap-2">
+                            <span>Google Maps</span>
+                            <i class="ph-bold ph-arrow-up-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Daikanyama -->
+                <div class="glass-panel rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row group animate-slide-up" style="animation-delay: 200ms;">
+                    <div class="w-full md:w-1/2 h-64 md:h-auto overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-cafe-accent text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Roastery</div>
+                    </div>
+                    <div class="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
+                        <h3 class="font-serif text-3xl mb-2 text-cafe-dark">Daikanyama Roastery</h3>
+                        <p class="text-sm text-cafe-dark/60 mb-6 leading-relaxed">
+                            焙煎機を備えた、コーヒーの香りに包まれる空間。
+                            バリスタとの会話を楽しみながら、豆を選べる店舗です。
+                        </p>
+
+                        <div class="space-y-4 text-sm mb-8">
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-map-pin text-xl text-cafe-accent mt-0.5"></i>
+                                <div>
+                                    <p class="font-bold text-cafe-dark">15-7 Sarugakucho</p>
+                                    <p class="text-cafe-dark/60">Shibuya-ku, Tokyo, Japan</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-clock text-xl text-cafe-accent"></i>
+                                <p class="text-cafe-dark/80">10:00 - 18:00 (Closed on Tue)</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-phone text-xl text-cafe-accent"></i>
+                                <p class="text-cafe-dark/80">03-2468-1357</p>
+                            </div>
+                        </div>
+
+                        <button class="w-full py-3 border border-cafe-dark text-cafe-dark rounded-xl font-bold hover:bg-cafe-dark hover:text-white transition-colors flex items-center justify-center gap-2">
+                            <span>Google Maps</span>
+                            <i class="ph-bold ph-arrow-up-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-12 text-center pb-8 relative z-10">
+                <p class="text-xs text-cafe-dark/40 font-medium">© 2024 KOMOREBI COFFEE STAND. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <!-- VIEW: ABOUT (NEW) -->
+        <div id="view-about" class="view-section">
+            <!-- Hero -->
+            <div class="relative h-[40vh] md:h-[50vh] rounded-[2.5rem] overflow-hidden mb-12 animate-slide-up">
+                <img src="https://images.unsplash.com/photo-1442512595367-4273253ae50b?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-center p-6">
+                    <div class="text-white">
+                        <span class="block text-sm font-bold tracking-[0.2em] uppercase mb-4 opacity-80">Our Philosophy</span>
+                        <h2 class="font-serif text-4xl md:text-6xl mb-6">木漏れ日のような、<br>温かい一杯を。</h2>
+                        <p class="max-w-lg mx-auto text-sm md:text-base opacity-90 leading-relaxed">
+                            忙しい日常の中で、ふと見上げると木々の間から差し込む光。
+                            そんな心安らぐ瞬間を、コーヒーとともにお届けしたい。
+                            それが、KOMOREBI COFFEEの願いです。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto px-4">
+                <!-- Process -->
+                <div class="mb-20">
+                    <div class="text-center mb-12">
+                        <span class="text-xs font-bold tracking-widest uppercase text-cafe-accent mb-2 block">The Process</span>
+                        <h3 class="font-serif text-3xl text-cafe-dark">こだわりの一杯ができるまで</h3>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="glass-panel p-8 rounded-[2rem] text-center group hover:-translate-y-2 transition-transform duration-300">
+                            <div class="w-16 h-16 bg-cafe-cream rounded-full flex items-center justify-center mx-auto mb-6 text-3xl text-cafe-brown">
+                                <i class="ph-fill ph-plant"></i>
+                            </div>
+                            <h4 class="font-serif text-xl mb-3">Strict Selection</h4>
+                            <p class="text-sm text-cafe-dark/60 leading-relaxed">世界中の農園から、その年一番の豆を厳選。生産者との直接対話を通じて、サステナブルな調達を行っています。</p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-[2rem] text-center group hover:-translate-y-2 transition-transform duration-300 delay-100">
+                            <div class="w-16 h-16 bg-cafe-cream rounded-full flex items-center justify-center mx-auto mb-6 text-3xl text-cafe-brown">
+                                <i class="ph-fill ph-fire"></i>
+                            </div>
+                            <h4 class="font-serif text-xl mb-3">Daily Roasting</h4>
+                            <p class="text-sm text-cafe-dark/60 leading-relaxed">気温や湿度に合わせて、毎朝微調整を行う自家焙煎。豆が持つ本来の果実味と香りを最大限に引き出します。</p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-[2rem] text-center group hover:-translate-y-2 transition-transform duration-300 delay-200">
+                            <div class="w-16 h-16 bg-cafe-cream rounded-full flex items-center justify-center mx-auto mb-6 text-3xl text-cafe-brown">
+                                <i class="ph-fill ph-drop"></i>
+                            </div>
+                            <h4 class="font-serif text-xl mb-3">Careful Brew</h4>
+                            <p class="text-sm text-cafe-dark/60 leading-relaxed">バリスタの確かな技術で、一杯ずつ丁寧に抽出。エスプレッソもハンドドリップも、最高の一瞬を逃しません。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team / Recruitment -->
+                <div class="glass-panel rounded-[2.5rem] p-10 md:p-14 text-center bg-cafe-dark text-white relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-20">
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover grayscale">
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="font-serif text-3xl mb-4">Join Our Team</h3>
+                        <p class="text-white/70 mb-8 max-w-xl mx-auto">
+                            KOMOREBI COFFEEでは、コーヒーへの情熱を持ち、
+                            お客様に温かい時間を届けたいと願う仲間を募集しています。
+                        </p>
+                        <button class="bg-white text-cafe-dark px-8 py-3 rounded-full font-bold text-sm hover:bg-cafe-accent hover:text-white transition-colors">
+                            採用情報を見る
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-12 text-center pb-8 relative z-10">
+                <p class="text-xs text-cafe-dark/40 font-medium">© 2024 KOMOREBI COFFEE STAND. All rights reserved.</p>
+            </footer>
+        </div>
+
+    </div>
+
+    <!-- MOBILE NAV (Bottom Fixed) -->
+    <nav class="md:hidden fixed bottom-4 left-4 right-4 glass-panel rounded-full p-2 flex justify-around items-center z-50">
+        <button onclick="switchView('home')" class="p-3 text-cafe-dark hover:bg-white/50 rounded-full transition-colors"><i class="ph-fill ph-house text-xl"></i></button>
+        <button onclick="switchView('menu')" class="p-3 text-cafe-dark hover:bg-white/50 rounded-full transition-colors"><i class="ph-fill ph-coffee text-xl"></i></button>
+        <!-- Updated Mobile Nav Icon to Map Pin for Locations -->
+        <button onclick="switchView('locations')" class="p-3 text-cafe-dark hover:bg-white/50 rounded-full transition-colors"><i class="ph-fill ph-map-pin text-xl"></i></button>
+        <!-- Add User Icon for About/Profile in Mobile could go here, but kept simple for now -->
+    </nav>
+
+    <!-- MODAL: Product Details -->
+    <div id="product-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity" onclick="closeModal('product-modal')"></div>
+        <div class="relative w-[90%] max-w-md max-h-[90vh] glass-modal rounded-[2rem] overflow-hidden shadow-2xl animate-slide-up flex flex-col">
+            <button onclick="closeModal('product-modal')" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/50 flex items-center justify-center hover:bg-white transition-colors">
+                <i class="ph-bold ph-x"></i>
+            </button>
+
+            <!-- Scrollable Content -->
+            <div class="overflow-y-auto overflow-x-hidden no-scrollbar flex-1">
+                <div class="h-64 w-full relative shrink-0">
+                    <!-- 修正: 画像エラー時にプレースホルダーを表示 -->
+                    <img id="modal-img"  class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=No+Image';">
+                </div>
+
+                <div class="p-6 md:p-8">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 id="modal-title" class="font-serif text-2xl text-cafe-dark"></h3>
+                        <span id="modal-price" class="font-mono text-lg font-bold text-cafe-brown"></span>
+                    </div>
+                    <p id="modal-desc" class="text-sm text-cafe-dark/60 leading-relaxed mb-6"></p>
+
+                    <!-- Options Container -->
+                    <div class="space-y-6 mb-8">
+
+                        <!-- 1. Temperature -->
+                        <div>
+                            <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Temperature</label>
+                            <div class="flex gap-2">
+                                <button onclick="selectOption(this, 'temp')" class="option-btn temp-btn flex-1 py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium active">Hot</button>
+                                <button onclick="selectOption(this, 'temp')" class="option-btn temp-btn flex-1 py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium">Ice</button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Size -->
+                        <div>
+                            <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Size</label>
+                            <div class="flex gap-2">
+                                <button onclick="selectOption(this, 'size')" class="option-btn size-btn flex-1 py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium active">
+                                    Regular
+                                </button>
+                                <button onclick="selectOption(this, 'size')" class="option-btn size-btn flex-1 py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium">
+                                    Large <span class="text-xs opacity-60 ml-1">+¥100</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 3. Milk (Dynamic) -->
+                        <div id="modal-milk-section" class="hidden">
+                            <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Milk Type</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="selectOption(this, 'milk')" class="option-btn milk-btn py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium active">Regular</button>
+                                <button onclick="selectOption(this, 'milk')" class="option-btn milk-btn py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium">Soy <span class="text-xs opacity-60">+¥50</span></button>
+                                <button onclick="selectOption(this, 'milk')" class="option-btn milk-btn py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium">Almond <span class="text-xs opacity-60">+¥50</span></button>
+                                <button onclick="selectOption(this, 'milk')" class="option-btn milk-btn py-2 rounded-lg border border-cafe-dark/10 hover:bg-cafe-dark/5 transition-colors text-sm font-medium">Oats <span class="text-xs opacity-60">+¥50</span></button>
+                            </div>
+                        </div>
+
+                        <!-- 4. Quantity -->
+                        <div>
+                             <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Quantity</label>
+                             <div class="flex items-center gap-4 bg-white/50 rounded-lg p-1 w-max">
+                                 <button class="w-8 h-8 rounded-md hover:bg-white flex items-center justify-center" onclick="updateQty(-1)"><i class="ph-bold ph-minus"></i></button>
+                                 <span id="modal-qty" class="font-mono font-bold w-4 text-center">1</span>
+                                 <button class="w-8 h-8 rounded-md hover:bg-white flex items-center justify-center" onclick="updateQty(1)"><i class="ph-bold ph-plus"></i></button>
+                             </div>
+                        </div>
+                    </div>
+
+                    <button onclick="addToCart()" class="w-full py-3 bg-cafe-dark text-white rounded-xl font-bold hover:bg-cafe-brown transition-transform active:scale-95 shadow-lg shadow-cafe-dark/20 flex items-center justify-center gap-2">
+                        <span>Add to Cart</span>
+                        <i class="ph-bold ph-shopping-bag"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Cart -->
+    <div id="cart-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity" onclick="closeModal('cart-modal')"></div>
+        <div class="relative w-[90%] max-w-md max-h-[85vh] glass-modal rounded-[2rem] shadow-2xl animate-slide-up flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div class="p-6 border-b border-cafe-dark/5 flex justify-between items-center bg-white/40 backdrop-blur-md z-10">
+                <h3 class="font-serif text-2xl text-cafe-dark">Your Order</h3>
+                <button onclick="closeModal('cart-modal')" class="w-8 h-8 rounded-full hover:bg-black/5 flex items-center justify-center transition-colors">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Footer -->
+            <div class="p-6 bg-white/60 border-t border-cafe-dark/5 backdrop-blur-md z-10">
+                <div class="flex justify-between items-end mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50">Total</span>
+                    <span id="cart-total" class="font-mono text-2xl font-bold text-cafe-brown">¥0</span>
+                </div>
+                <!-- Changed onclick to checkAuthAndProceed -->
+                <button onclick="checkAuthAndProceed()" class="w-full py-3 bg-cafe-dark text-white rounded-xl font-bold hover:bg-cafe-brown transition-transform active:scale-95 shadow-lg shadow-cafe-dark/20 flex items-center justify-center gap-2">
+                    <span>Checkout</span>
+                    <i class="ph-bold ph-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Checkout Details -->
+    <div id="checkout-modal" class="fixed inset-0 z-[65] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity" onclick="closeModal('checkout-modal')"></div>
+        <div class="relative w-[90%] max-w-sm glass-modal rounded-[2rem] p-8 shadow-2xl animate-slide-up max-h-[85vh] overflow-y-auto no-scrollbar">
+            <button onclick="closeModal('checkout-modal')" class="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-black/5 flex items-center justify-center">
+                <i class="ph-bold ph-x"></i>
+            </button>
+
+            <h3 class="font-serif text-2xl mb-6 text-center">Checkout</h3>
+
+            <div class="space-y-6">
+                <!-- Location Selection -->
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Pickup Store</label>
+                    <div class="space-y-2">
+                        <!-- Shibuya -->
+                        <label class="group flex items-center gap-3 p-3 rounded-xl border border-cafe-dark/10 bg-white/40 cursor-pointer hover:bg-white/60 transition-colors has-[:checked]:border-cafe-dark has-[:checked]:bg-white/80">
+                            <input type="radio" name="store" value="Shibuya" class="peer hidden" checked>
+                            <div class="w-5 h-5 rounded-full border-2 border-cafe-dark/30 flex items-center justify-center peer-checked:border-cafe-dark peer-checked:[&>div]:scale-100">
+                                <div class="w-3 h-3 rounded-full bg-cafe-dark scale-0 transition-transform duration-200"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-cafe-dark">Shibuya Flagship</p>
+                                <p class="text-xs text-cafe-dark/50">1-23-4 Shibuya, Tokyo</p>
+                            </div>
+                        </label>
+                        <!-- Omotesando -->
+                        <label class="group flex items-center gap-3 p-3 rounded-xl border border-cafe-dark/10 bg-white/40 cursor-pointer hover:bg-white/60 transition-colors has-[:checked]:border-cafe-dark has-[:checked]:bg-white/80">
+                            <input type="radio" name="store" value="Omotesando" class="peer hidden">
+                            <div class="w-5 h-5 rounded-full border-2 border-cafe-dark/30 flex items-center justify-center peer-checked:border-cafe-dark peer-checked:[&>div]:scale-100">
+                                <div class="w-3 h-3 rounded-full bg-cafe-dark scale-0 transition-transform duration-200"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-cafe-dark">Omotesando Stand</p>
+                                <p class="text-xs text-cafe-dark/50">4-12-10 Jingumae, Tokyo</p>
+                            </div>
+                        </label>
+                        <!-- Daikanyama -->
+                        <label class="group flex items-center gap-3 p-3 rounded-xl border border-cafe-dark/10 bg-white/40 cursor-pointer hover:bg-white/60 transition-colors has-[:checked]:border-cafe-dark has-[:checked]:bg-white/80">
+                            <input type="radio" name="store" value="Daikanyama" class="peer hidden">
+                            <div class="w-5 h-5 rounded-full border-2 border-cafe-dark/30 flex items-center justify-center peer-checked:border-cafe-dark peer-checked:[&>div]:scale-100">
+                                <div class="w-3 h-3 rounded-full bg-cafe-dark scale-0 transition-transform duration-200"></div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-cafe-dark">Daikanyama Roastery</p>
+                                <p class="text-xs text-cafe-dark/50">15-7 Sarugakucho, Tokyo</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Date Selection (Scrollable) -->
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Pickup Date</label>
+                    <div id="date-scroll-container" class="flex gap-2 overflow-x-auto no-scrollbar pb-2 snap-x">
+                        <!-- Date Cards Injected via JS -->
+                    </div>
+                    <!-- Hidden input to store selected date -->
+                    <input type="hidden" id="selected-date-value">
+                </div>
+
+                <!-- Pickup Time -->
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Pickup Time</label>
+                    <div class="relative">
+                        <select id="pickup-time-select" class="w-full px-4 py-3 rounded-xl bg-white/50 border border-cafe-dark/10 focus:outline-none focus:ring-2 focus:ring-cafe-accent/50 text-sm text-cafe-dark appearance-none cursor-pointer">
+                            <option value="" disabled selected>Select Time</option>
+                            <!-- Options injected via JS -->
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-cafe-dark/50">
+                            <i class="ph-bold ph-caret-down"></i>
+                        </div>
+                    </div>
+                    <div class="text-xs text-cafe-dark/40 mt-2 text-center">Open 08:00 - 20:00 (L.O. 19:45)</div>
+                </div>
+
+                <!-- Payment Method (Credit Only) -->
+                <div>
+                    <label class="text-xs font-bold uppercase tracking-wider text-cafe-dark/50 mb-2 block">Payment</label>
+                    <div class="p-4 rounded-xl bg-white/60 border border-cafe-dark/10">
+                        <div class="flex items-center gap-3 mb-4 border-b border-cafe-dark/5 pb-3">
+                            <div class="w-5 h-5 rounded-full border-2 border-cafe-dark bg-cafe-dark flex items-center justify-center">
+                                <div class="w-2 h-2 rounded-full bg-white"></div>
+                            </div>
+                            <span class="font-bold text-sm text-cafe-dark">Credit Card</span>
+                            <div class="ml-auto flex gap-2 text-cafe-dark/50">
+                                <i class="ph-fill ph-credit-card text-xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Dummy Card Inputs -->
+                        <div class="space-y-3">
+                            <input type="text" placeholder="0000 0000 0000 0000" class="w-full px-3 py-2 rounded-lg bg-white border border-cafe-dark/10 text-sm focus:outline-none focus:border-cafe-accent tracking-widest font-mono placeholder:text-gray-300">
+                            <div class="flex gap-3">
+                                <input type="text" placeholder="MM/YY" class="w-1/2 px-3 py-2 rounded-lg bg-white border border-cafe-dark/10 text-sm focus:outline-none focus:border-cafe-accent font-mono placeholder:text-gray-300">
+                                <input type="text" placeholder="CVC" class="w-1/2 px-3 py-2 rounded-lg bg-white border border-cafe-dark/10 text-sm focus:outline-none focus:border-cafe-accent font-mono placeholder:text-gray-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Receipt Option -->
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <div class="relative flex items-center">
+                        <input type="checkbox" checked class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-cafe-dark/20 bg-white checked:bg-cafe-dark checked:border-cafe-dark transition-all">
+                        <i class="ph-bold ph-check absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-xs opacity-0 peer-checked:opacity-100 pointer-events-none"></i>
+                    </div>
+                    <span class="text-xs text-cafe-dark/70 font-medium group-hover:text-cafe-dark transition-colors">Send receipt email</span>
+                </label>
+
+            </div>
+
+            <button onclick="confirmOrder()" class="w-full mt-8 py-3 bg-cafe-dark text-white rounded-xl font-bold hover:bg-cafe-brown transition-transform active:scale-95 shadow-lg shadow-cafe-dark/20 flex items-center justify-center gap-2">
+                <span>Place Order</span>
+                <i class="ph-bold ph-check"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: Sign In / Sign Up -->
+    <div id="signin-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" onclick="closeModal('signin-modal')"></div>
+        <div class="relative w-[90%] max-w-sm glass-modal rounded-[2rem] p-8 shadow-2xl animate-slide-up text-center overflow-y-auto max-h-[90vh] no-scrollbar">
+             <button onclick="closeModal('signin-modal')" class="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-black/5 flex items-center justify-center">
+                <i class="ph-bold ph-x"></i>
+            </button>
+
+            <div id="auth-header-icon" class="w-16 h-16 bg-cafe-cream rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="ph-fill ph-user text-3xl text-cafe-brown"></i>
+            </div>
+
+            <!-- Dynamic Title & Subtitle -->
+            <h3 id="auth-title" class="font-serif text-2xl mb-2">Welcome Back</h3>
+            <p id="auth-subtitle" class="text-xs text-cafe-dark/50 mb-6">Sign in to access your rewards.</p>
+
+            <!-- Auth Form -->
+            <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-3">
+                <div id="name-field" class="hidden">
+                    <input type="text" id="auth-name" placeholder="Name" class="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/50 focus:outline-none focus:ring-2 focus:ring-cafe-accent/50 placeholder:text-cafe-dark/30 text-sm">
+                </div>
+                <input type="email" id="auth-email" placeholder="Email" required class="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/50 focus:outline-none focus:ring-2 focus:ring-cafe-accent/50 placeholder:text-cafe-dark/30 text-sm">
+                <input type="password" id="auth-pass" placeholder="Password" required class="w-full px-4 py-3 rounded-xl bg-white/50 border border-white/50 focus:outline-none focus:ring-2 focus:ring-cafe-accent/50 placeholder:text-cafe-dark/30 text-sm">
+                <p id="auth-error" class="text-red-500 text-xs hidden"></p>
+                <button id="auth-btn" class="w-full py-3 bg-cafe-dark text-white rounded-xl font-bold text-sm hover:bg-cafe-brown transition-colors mt-2 flex items-center justify-center">
+                    <span id="auth-btn-text">Sign In</span>
+                    <i id="auth-spinner" class="ph ph-spinner animate-spin ml-2 hidden"></i>
+                </button>
+            </form>
+
+            <!-- User Info (Hidden until logged in) -->
+            <div id="user-info-display" class="hidden text-center w-full">
+                 <h2 id="display-name" class="text-xl font-bold mb-1">User Name</h2>
+                 <p id="display-email" class="text-xs text-cafe-dark/50 mb-6">user@example.com</p>
+
+                 <!-- Order History -->
+                 <div class="text-left mb-6 w-full">
+                     <h4 class="font-bold text-cafe-dark mb-3 text-sm flex items-center gap-2">
+                         <i class="ph-bold ph-clock-counter-clockwise"></i> Recent Orders
+                     </h4>
+                     <div id="order-history-list" class="space-y-3 max-h-48 overflow-y-auto no-scrollbar w-full">
+                         <!-- Injected via JS -->
+                          <div class="flex flex-col items-center justify-center py-6 text-cafe-dark/40 border border-cafe-dark/5 rounded-xl bg-white/30">
+                              <i class="ph ph-receipt text-2xl mb-1"></i>
+                              <span class="text-xs">No orders yet</span>
+                          </div>
+                     </div>
+                 </div>
+
+                 <button onclick="handleSignOut()" class="w-full py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-xl font-bold text-sm transition-colors">
+                    Sign Out
+                 </button>
+            </div>
+
+            <!-- Toggle Mode -->
+            <p id="auth-toggle-area" class="mt-4 text-xs text-cafe-dark/40">
+                <span id="auth-switch-text">Don't have an account?</span>
+                <button onclick="toggleAuthMode()" id="auth-switch-btn" class="text-cafe-brown font-bold hover:underline">Join now</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- TOAST Notification -->
+    <div id="toast" class="fixed top-24 right-4 md:right-8 z-[70] translate-x-[120%] transition-transform duration-300">
+        <div class="glass-modal px-6 py-3 rounded-full flex items-center gap-3 shadow-xl">
+            <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">
+                <i class="ph-bold ph-check"></i>
+            </div>
+            <span id="toast-msg" class="text-sm font-medium">Added to cart</span>
+        </div>
+    </div>
+
+    <!-- FIREBASE & APP LOGIC -->
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, updateDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
+
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDVkaEX6EMM9U-vuZInheRuLjzMFRxdIuw",
+            authDomain: "komorebi-coffee-web.firebaseapp.com",
+            projectId: "komorebi-coffee-web",
+            storageBucket: "komorebi-coffee-web.firebasestorage.app",
+            messagingSenderId: "585898054116",
+            appId: "1:585898054116:web:0932d20abd41f9b31f37f1",
+            measurementId: "G-5RMJ893BGB"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const analytics = getAnalytics(app);
+
+        // ==========================================
+        // IMAGE PATH UPDATE HERE
+        // ==========================================
+        // ※ 画像のパスを 'image/ファイル名' に変更し、スペルミスを修正しました。
+        const menuItems = [
+            { id: 1, category: 'espresso', name: 'Espresso', price: 400, img: '../image/espresso.png', desc: '濃厚なコクと香りのエスプレッソダブルショット。', hasMilk: false },
+            { id: 2, category: 'espresso', name: 'Americano', price: 450, img: '../image/americano.png', desc: 'エスプレッソをお湯で割った、すっきりとした味わい。', hasMilk: false },
+            { id: 3, category: 'espresso', name: 'Cafe Latte', price: 550, img: '../image/cafelatte.png', desc: 'エスプレッソとスチームミルクの絶妙なバランス。', hasMilk: true },
+            { id: 4, category: 'espresso', name: 'Cappuccino', price: 550, img: '../image/cappuccino.png', desc: 'ふわふわのフォームミルクを楽しめる一杯。', hasMilk: true },
+            { id: 5, category: 'espresso', name: 'Flat White', price: 580, img: '../image/flatwhite.png', desc: 'きめ細かなミルクと濃厚なエスプレッソ。', hasMilk: true },
+            { id: 6, category: 'espresso', name: 'Cafe Mocha', price: 600, img: '../image/cafemocha.png', desc: 'チョコレートシロップの甘さとエスプレッソの苦味。', hasMilk: true },
+            // 修正: 'caramelmacchiato.png' -> 'caramelmacchialo.png' (アップロードされたファイル名に合わせました)
+            { id: 7, category: 'espresso', name: 'Caramel Macchiato', price: 620, img: '../image/caramelmacchialo.png', desc: 'バニラシロップとキャラメルソースの贅沢なハーモニー。', hasMilk: true },
+            { id: 8, category: 'espresso', name: 'Espresso Tonic', price: 650, img: '../image/espressotonic.png', desc: 'エスプレッソ×トニックウォーター。爽快な喉越し。', hasMilk: false },
+            { id: 9, category: 'espresso', name: 'Affogato', price: 550, img: '../image/affogato.png', desc: '冷たいバニラアイスに熱々のエスプレッソをかけて。', hasMilk: false },
+            { id: 10, category: 'espresso', name: 'Cortado', price: 500, img: '../image/cortado.png', desc: 'エスプレッソと少量の温かいミルク。スペイン発祥。', hasMilk: true },
+            { id: 11, category: 'drip', name: 'Cold Brew', price: 500, img: '../image/coldbrew.png', desc: '24時間かけてゆっくり抽出した水出しコーヒー。', hasMilk: false },
+            { id: 12, category: 'drip', name: 'Drip Coffee', price: 450, img: '../image/dripcoffee.png', desc: 'バリスタが丁寧にハンドドリップで淹れる本日のコーヒー。', hasMilk: false },
+            { id: 13, category: 'tea', name: 'Matcha Latte', price: 600, img: '../image/matchalatte.png', desc: '京都産宇治抹茶を贅沢に使用した和のラテ。', hasMilk: true },
+            { id: 14, category: 'tea', name: 'Hojicha Latte', price: 580, img: '../image/hojichalatte.png', desc: '香ばしいほうじ茶の香りに癒される一杯。', hasMilk: true },
+            { id: 15, category: 'tea', name: 'Chai Tea Latte', price: 580, img: '../image/chaitealatte.png', desc: 'スパイス香る自家製チャイシロップを使用。', hasMilk: true },
+            { id: 16, category: 'tea', name: 'Earl Grey', price: 450, img: '../image/earlgrey.png', desc: 'ベルガモット香るクラシックな紅茶。', hasMilk: false },
+            { id: 17, category: 'tea', name: 'Lemonade', price: 550, img: '../image/lemonade.png', desc: '国産レモンを漬け込んだ自家製レモネード。', hasMilk: false },
+            { id: 18, category: 'tea', name: 'Hot Chocolate', price: 600, img: '../image/hotchocolate.png', desc: 'カカオ70%のチョコレートを溶かした濃厚な味わい。', hasMilk: true },
+            { id: 19, category: 'tea', name: 'Orange Juice', price: 400, img: '../image/orangejuice.png', desc: '搾りたてのフレッシュオレンジジュース。', hasMilk: false },
+            { id: 20, category: 'tea', name: 'Darjeeling', price: 450, img: '../image/darjeeling.png', desc: '「紅茶のシャンパン」と呼ばれる香り高い一杯。', hasMilk: false },
+            { id: 21, category: 'food', name: 'Croissant', price: 380, img: '../image/croissant.png', desc: '発酵バターをたっぷり使用したサクサクのクロワッサン。', hasMilk: false },
+            { id: 22, category: 'food', name: 'Pain au Chocolat', price: 420, img: '../image/painauchocolat.png', desc: 'ビターチョコレートを包み込んだデニッシュ。', hasMilk: false },
+            { id: 23, category: 'food', name: 'Cinnamon Roll', price: 400, img: '../image/cinnamonroll.png', desc: 'シナモンの香りとアイシングの甘さが絶妙。', hasMilk: false },
+            { id: 24, category: 'food', name: 'Avocado Toast', price: 750, img: '../image/avocadotoast.png', desc: 'サワードウに新鮮なアボカドとポーチドエッグをオン。', hasMilk: false },
+            { id: 25, category: 'food', name: 'Canelé', price: 350, img: '../image/canele.png', desc: '外はカリッ、中はモチッとしたフランスの伝統菓子。', hasMilk: false },
+        ];
+        const categories = [
+            { id: 'all', label: 'All' },
+            { id: 'espresso', label: 'Espresso' },
+            { id: 'drip', label: 'Drip & Brew' },
+            { id: 'tea', label: 'Tea & Others' },
+            { id: 'food', label: 'Bakery' },
+        ];
+
+        // --- EXPOSE HELPERS ---
+        window.switchView = (viewId) => {
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+                setTimeout(() => {
+                    if(!el.classList.contains('active')) el.style.display = 'none';
+                }, 400);
+            });
+            const target = document.getElementById(`view-${viewId}`);
+            target.style.display = 'block';
+            void target.offsetWidth;
+            target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.renderMenu = (filter = 'all') => {
+            const grid = document.getElementById('menu-grid');
+            grid.innerHTML = '';
+            const filteredItems = filter === 'all' ? menuItems : menuItems.filter(item => item.category === filter);
+            filteredItems.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = `glass-panel rounded-2xl overflow-hidden cursor-pointer group hover:bg-white/50 transition-colors animate-slide-up`;
+                card.style.animationDelay = `${index * 50}ms`;
+                card.onclick = () => window.openProductModal(item);
+
+                // 修正箇所: onerror を追加して、画像がない場合にNo Imageを表示
+                card.innerHTML = `
+                    <div class="h-40 overflow-hidden img-zoom-container relative">
+                        <img src="${item.img}"
+                             class="w-full h-full object-cover img-zoom"
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=No+Image';">
+                        <div class="absolute bottom-2 right-2 bg-white/80 backdrop-blur px-2 py-1 rounded-lg text-xs font-bold font-mono">¥${item.price}</div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-serif font-bold text-lg mb-1 leading-tight">${item.name}</h4>
+                        <p class="text-xs text-cafe-dark/60 line-clamp-2">${item.desc}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        window.openProductById = (id) => {
+            const item = menuItems.find(i => i.id === id);
+            if(item) window.openProductModal(item);
+        }
+
+        let currentQty = 1;
+        window.openProductModal = (item) => {
+            currentQty = 1;
+            const imgEl = document.getElementById('modal-img');
+            imgEl.src = item.img;
+            // 修正箇所: モーダル画像の onerror もリセットして再設定
+            imgEl.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://placehold.co/600x400?text=No+Image';
+            };
+
+            document.getElementById('modal-title').innerText = item.name;
+            document.getElementById('modal-price').innerText = `¥${item.price}`;
+            document.getElementById('modal-desc').innerText = item.desc;
+            document.getElementById('modal-qty').innerText = 1;
+            document.querySelectorAll('.temp-btn, .size-btn, .milk-btn').forEach((btn, idx) => {
+                const group = btn.parentElement.children;
+                if(btn === group[0]) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            const milkSection = document.getElementById('modal-milk-section');
+            if (item.hasMilk) milkSection.classList.remove('hidden');
+            else milkSection.classList.add('hidden');
+            window.openModal('product-modal');
+        }
+
+        window.openModal = (id) => document.getElementById(id).classList.remove('hidden');
+        window.closeModal = (id) => document.getElementById(id).classList.add('hidden');
+
+        window.selectOption = (btn, type) => {
+            const parent = btn.parentElement;
+            if(type === 'milk') parent.querySelectorAll('.milk-btn').forEach(b => b.classList.remove('active'));
+            else parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        window.updateQty = (change) => {
+            currentQty += change;
+            if(currentQty < 1) currentQty = 1;
+            document.getElementById('modal-qty').innerText = currentQty;
+        }
+
+        // --- CART LOGIC ---
+        let cart = [];
+
+        window.addToCart = () => {
+            const title = document.getElementById('modal-title').innerText;
+            const basePrice = parseInt(document.getElementById('modal-price').innerText.replace('¥', ''));
+            const tempBtn = document.querySelector('.temp-btn.active');
+            const temp = tempBtn ? tempBtn.innerText : '';
+            const sizeBtn = document.querySelector('.size-btn.active');
+            const sizeRaw = sizeBtn ? sizeBtn.innerText : 'Regular';
+            const size = sizeRaw.split(' ')[0];
+            const milkBtn = document.querySelector('.milk-btn.active');
+            const milkSection = document.getElementById('modal-milk-section');
+            const milkRaw = (!milkSection.classList.contains('hidden') && milkBtn) ? milkBtn.innerText : null;
+            const milk = milkRaw ? milkRaw.split(' ')[0] : null;
+
+            let price = basePrice;
+            if (size === 'Large') price += 100;
+            if (milk && milk !== 'Regular') price += 50;
+
+            const qty = currentQty;
+            const subtotal = price * qty;
+
+            const item = {
+                name: title,
+                basePrice: basePrice,
+                price: price,
+                qty: qty,
+                subtotal: subtotal,
+                options: { temp, size, milk }
+            };
+
+            cart.push(item);
+            window.updateCartUI();
+            window.closeModal('product-modal');
+            window.showToast('Added to Cart');
+        }
+
+        window.updateCartUI = () => {
+            const badge = document.getElementById('cart-badge');
+            if (cart.length > 0) {
+                badge.classList.remove('scale-0');
+                badge.classList.add('scale-100', 'animate-bounce');
+            } else {
+                badge.classList.add('scale-0');
+                badge.classList.remove('scale-100', 'animate-bounce');
+            }
+        }
+
+        window.openCartModal = () => {
+            window.renderCartItems();
+            window.openModal('cart-modal');
+        }
+
+        window.renderCartItems = () => {
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-12 text-cafe-dark/40">
+                        <i class="ph ph-shopping-cart text-4xl mb-2"></i>
+                        <p class="text-sm">Your cart is empty.</p>
+                        <button onclick="closeModal('cart-modal')" class="mt-4 text-cafe-brown font-bold text-xs hover:underline">Continue Shopping</button>
+                    </div>
+                `;
+                totalEl.innerText = '¥0';
+                return;
+            }
+
+            let grandTotal = 0;
+            cart.forEach((item, index) => {
+                grandTotal += item.subtotal;
+                let optionsParts = [];
+                if (item.options.size) optionsParts.push(item.options.size);
+                if (item.options.temp) optionsParts.push(item.options.temp);
+                if (item.options.milk) optionsParts.push(item.options.milk);
+                const optionsText = optionsParts.join(' / ');
+
+                const div = document.createElement('div');
+                div.className = "flex justify-between items-start bg-white/40 p-4 rounded-xl border border-white/50";
+                div.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-bold text-cafe-dark text-sm">${item.name}</h4>
+                        <p class="text-xs text-cafe-dark/50 mt-1">${optionsText}</p>
+                        <div class="mt-2 text-xs font-mono text-cafe-dark/70">
+                            ¥${item.price} x ${item.qty}
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end gap-2">
+                        <span class="font-mono font-bold text-cafe-brown">¥${item.subtotal}</span>
+                        <button onclick="removeFromCart(${index})" class="text-cafe-dark/30 hover:text-red-500 transition-colors p-1">
+                            <i class="ph-bold ph-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            totalEl.innerText = `¥${grandTotal.toLocaleString()}`;
+        }
+
+        window.removeFromCart = (index) => {
+            cart.splice(index, 1);
+            window.renderCartItems();
+            window.updateCartUI();
+        }
+
+        window.showToast = (msg) => {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-x-[120%]');
+            setTimeout(() => toast.classList.add('translate-x-[120%]'), 3000);
+        }
+
+        // --- AUTH & CHECKOUT FLOW ---
+        let isLoginMode = true;
+        let currentUser = null;
+        let isCheckoutPending = false;
+
+        // NEW: Centralized function to start checkout
+        window.startCheckoutProcess = () => {
+            // Generate Dates
+            window.generateDateCards();
+
+            // Generate Time Options
+            window.generateTimeOptions();
+
+            window.closeModal('cart-modal');
+            window.openModal('checkout-modal');
+        }
+
+        window.checkAuthAndProceed = () => {
+            if (cart.length === 0) return;
+
+            if (currentUser) {
+                // Logged in: Proceed
+                window.startCheckoutProcess();
+            } else {
+                // Not logged in: Show Sign In
+                isCheckoutPending = true;
+                window.closeModal('cart-modal');
+                window.handleProfileClick(); // reuse this to show sign in
+                window.showToast("Please sign in to continue");
+            }
+        }
+
+        // NEW: Generate Scrollable Date Cards
+        window.generateDateCards = () => {
+             const container = document.getElementById('date-scroll-container');
+             const selectedDateInput = document.getElementById('selected-date-value');
+             container.innerHTML = '';
+
+             const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+             const today = new Date();
+
+             // Initial Set (Fix: Use local time string construction)
+             const y = today.getFullYear();
+             const m = String(today.getMonth() + 1).padStart(2, '0');
+             const d = String(today.getDate()).padStart(2, '0');
+             const formattedToday = `${y}-${m}-${d}`;
+
+             selectedDateInput.value = formattedToday;
+
+             for (let i = 0; i < 14; i++) {
+                 const date = new Date(today);
+                 date.setDate(today.getDate() + i);
+
+                 const dayName = days[date.getDay()];
+                 const dateNum = date.getDate();
+
+                 // Fix: Construct YYYY-MM-DD using local time explicitly
+                 // Previous toISOString() caused timezone issues (e.g. returning yesterday for JST mornings)
+                 const year = date.getFullYear();
+                 const month = String(date.getMonth() + 1).padStart(2, '0');
+                 const day = String(date.getDate()).padStart(2, '0');
+                 const fullDate = `${year}-${month}-${day}`;
+
+                 const btn = document.createElement('button');
+                 // Default active class for the first item
+                 const isActive = i === 0 ? 'active' : '';
+
+                 btn.className = `date-card flex-shrink-0 w-16 h-20 rounded-xl border border-cafe-dark/10 bg-white/40 flex flex-col items-center justify-center cursor-pointer transition-colors snap-center hover:bg-white/60 ${isActive}`;
+                 btn.onclick = () => window.selectDate(btn, fullDate);
+
+                 btn.innerHTML = `
+                    <span class="text-[10px] font-bold tracking-wider opacity-60">${dayName}</span>
+                    <span class="text-xl font-serif font-bold">${dateNum}</span>
+                 `;
+
+                 container.appendChild(btn);
+             }
+        }
+
+        window.selectDate = (btn, dateValue) => {
+            // Remove active class from siblings
+            const siblings = btn.parentElement.children;
+            for (let sibling of siblings) {
+                sibling.classList.remove('active');
+            }
+            // Add active class to clicked
+            btn.classList.add('active');
+            // Update hidden input
+            document.getElementById('selected-date-value').value = dateValue;
+        }
+
+        // UPDATED: Generate 15min interval times (08:15 - 19:45)
+        window.generateTimeOptions = () => {
+            const select = document.getElementById('pickup-time-select');
+            select.innerHTML = '<option value="" disabled selected>Select Time</option>';
+
+            let startHour = 8;
+            let startMin = 15;
+            const endHour = 19;
+            const endMin = 45;
+
+            while (true) {
+                if (startHour > endHour || (startHour === endHour && startMin > endMin)) break;
+
+                const h = String(startHour).padStart(2, '0');
+                const m = String(startMin).padStart(2, '0');
+                const timeStr = `${h}:${m}`;
+
+                const option = document.createElement('option');
+                option.value = timeStr;
+                option.innerText = timeStr;
+                select.appendChild(option);
+
+                startMin += 15;
+                if (startMin === 60) {
+                    startMin = 0;
+                    startHour++;
+                }
+            }
+        }
+
+        window.confirmOrder = async () => {
+            if (!currentUser) return;
+
+            const store = document.querySelector('input[name="store"]:checked').value;
+            const dateVal = document.getElementById('selected-date-value').value;
+            const timeVal = document.getElementById('pickup-time-select').value;
+
+            if(!timeVal) {
+                window.showToast("Please select a pickup time");
+                return;
+            }
+
+            // --- VALIDATION: Check for past time ---
+            const pickupDateTime = new Date(`${dateVal}T${timeVal}`);
+            const now = new Date();
+
+            if (pickupDateTime < now) {
+                window.showToast("過去の日時は選択できません"); // Cannot select past time
+                return;
+            }
+            // -------------------------------------
+
+            const pickupTime = `${dateVal} ${timeVal}`;
+
+            const orderTotal = parseInt(document.getElementById('cart-total').innerText.replace(/[^0-9]/g, ''));
+
+            // Create Order Object
+            const order = {
+                userId: currentUser.uid,
+                userName: currentUser.displayName,
+                items: cart,
+                total: orderTotal,
+                store: store,
+                pickupTime: pickupTime,
+                paymentMethod: 'Credit Card', // Always credit
+                status: 'pending',
+                createdAt: new Date()
+            };
+
+            // Save to Firestore
+            try {
+                await addDoc(collection(db, "orders"), order);
+
+                // No points update here
+
+                // Success Flow
+                window.closeModal('checkout-modal');
+                // Updated Toast Message
+                window.showToast("Order Placed! Email sent.");
+
+                // Clear Cart
+                cart = [];
+                window.updateCartUI();
+
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                window.showToast("Error placing order. Try again.");
+            }
+        }
+
+        // --- NEW: Open Modal in Sign Up Mode ---
+        window.openSignUpModal = () => {
+            if (currentUser) {
+                window.showToast("You are already logged in");
+                return;
+            }
+            isLoginMode = false;
+            const elements = {
+                title: document.getElementById('auth-title'),
+                subtitle: document.getElementById('auth-subtitle'),
+                btnText: document.getElementById('auth-btn-text'),
+                switchText: document.getElementById('auth-switch-text'),
+                switchBtn: document.getElementById('auth-switch-btn'),
+                nameField: document.getElementById('name-field'),
+                error: document.getElementById('auth-error')
+            };
+            elements.error.classList.add('hidden');
+            document.getElementById('auth-form').classList.remove('hidden');
+            document.getElementById('auth-toggle-area').classList.remove('hidden');
+            document.getElementById('auth-subtitle').classList.remove('hidden');
+            document.getElementById('user-info-display').classList.add('hidden');
+            elements.title.innerText = "Create Account";
+            elements.subtitle.innerText = "Join us to get exclusive offers.";
+            elements.btnText.innerText = "Sign Up";
+            elements.switchText.innerText = "Already have an account?";
+            elements.switchBtn.innerText = "Sign In";
+            elements.nameField.classList.remove('hidden');
+            window.openModal('signin-modal');
+        }
+
+        window.toggleAuthMode = () => {
+            isLoginMode = !isLoginMode;
+            const elements = {
+                title: document.getElementById('auth-title'),
+                subtitle: document.getElementById('auth-subtitle'),
+                btnText: document.getElementById('auth-btn-text'),
+                switchText: document.getElementById('auth-switch-text'),
+                switchBtn: document.getElementById('auth-switch-btn'),
+                nameField: document.getElementById('name-field'),
+                error: document.getElementById('auth-error')
+            };
+            elements.error.classList.add('hidden');
+            if (isLoginMode) {
+                elements.title.innerText = "Welcome Back";
+                elements.subtitle.innerText = "Sign in to access your rewards.";
+                elements.btnText.innerText = "Sign In";
+                elements.switchText.innerText = "Don't have an account?";
+                elements.switchBtn.innerText = "Join now";
+                elements.nameField.classList.add('hidden');
+            } else {
+                elements.title.innerText = "Create Account";
+                elements.subtitle.innerText = "Join us to get exclusive offers.";
+                elements.btnText.innerText = "Sign Up";
+                elements.switchText.innerText = "Already have an account?";
+                elements.switchBtn.innerText = "Sign In";
+                elements.nameField.classList.remove('hidden');
+            }
+        }
+
+        window.handleProfileClick = async () => {
+            if (currentUser) {
+                document.getElementById('auth-form').classList.add('hidden');
+                document.getElementById('auth-toggle-area').classList.add('hidden');
+                document.getElementById('auth-title').innerText = "Your Profile";
+                document.getElementById('auth-subtitle').classList.add('hidden');
+                document.getElementById('user-info-display').classList.remove('hidden');
+
+                document.getElementById('display-email').innerText = currentUser.email;
+                document.getElementById('display-name').innerText = currentUser.displayName || "Cafe Member";
+
+                // No Points Logic here anymore
+
+                // Load Order History
+                window.loadOrderHistory();
+
+            } else {
+                document.getElementById('auth-form').classList.remove('hidden');
+                document.getElementById('auth-toggle-area').classList.remove('hidden');
+                document.getElementById('auth-subtitle').classList.remove('hidden');
+                document.getElementById('user-info-display').classList.add('hidden');
+                isLoginMode = true;
+                window.toggleAuthMode();
+                window.toggleAuthMode();
+                isLoginMode = true;
+                document.getElementById('auth-title').innerText = "Welcome Back";
+                document.getElementById('auth-subtitle').innerText = "Sign in to access your rewards.";
+                document.getElementById('auth-btn-text').innerText = "Sign In";
+                document.getElementById('name-field').classList.add('hidden');
+            }
+            window.openModal('signin-modal');
+        }
+
+        window.loadOrderHistory = async () => {
+            const historyContainer = document.getElementById('order-history-list');
+            historyContainer.innerHTML = '<div class="text-center py-4"><i class="ph ph-spinner animate-spin text-2xl"></i></div>';
+
+            try {
+                // Fetch all orders then filter (Constraint Rule Compliance)
+                const snapshot = await getDocs(collection(db, "orders"));
+                let userOrders = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.userId === currentUser.uid) {
+                        userOrders.push({ id: doc.id, ...data });
+                    }
+                });
+
+                // Sort by date desc
+                userOrders.sort((a, b) => {
+                    const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
+                    const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
+                    return dateB - dateA;
+                });
+
+                historyContainer.innerHTML = '';
+
+                if (userOrders.length === 0) {
+                      historyContainer.innerHTML = `
+                        <div class="flex flex-col items-center justify-center py-6 text-cafe-dark/40 border border-cafe-dark/5 rounded-xl bg-white/30">
+                              <i class="ph ph-receipt text-2xl mb-1"></i>
+                              <span class="text-xs">No orders yet</span>
+                        </div>
+                      `;
+                      return;
+                }
+
+                userOrders.forEach(order => {
+                    const dateObj = order.createdAt?.toDate ? order.createdAt.toDate() : new Date(order.createdAt);
+                    const dateStr = dateObj.toLocaleDateString();
+
+                    const div = document.createElement('div');
+                    div.className = "bg-white/40 p-3 rounded-xl border border-white/60 flex justify-between items-center text-sm";
+                    div.innerHTML = `
+                        <div>
+                            <p class="font-bold text-cafe-dark">${order.store} <span class="text-[10px] font-normal opacity-60">(${dateStr})</span></p>
+                            <p class="text-xs text-cafe-dark/60">${order.items.length} items</p>
+                        </div>
+                        <div class="text-right">
+                             <p class="font-mono font-bold text-cafe-brown">¥${order.total.toLocaleString()}</p>
+                             <span class="text-[10px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-bold uppercase tracking-wider">Done</span>
+                        </div>
+                    `;
+                    historyContainer.appendChild(div);
+                });
+
+            } catch (e) {
+                console.error("History Error", e);
+                historyContainer.innerHTML = '<p class="text-xs text-red-500 text-center">Failed to load history.</p>';
+            }
+        }
+
+        window.handleAuth = async (event) => {
+            event.preventDefault();
+            if (!auth) { alert("Firebase config is missing."); return; }
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-pass').value;
+            const name = document.getElementById('auth-name').value;
+            const errorText = document.getElementById('auth-error');
+            const spinner = document.getElementById('auth-spinner');
+            const btnText = document.getElementById('auth-btn-text');
+
+            errorText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            btnText.classList.add('hidden');
+
+            try {
+                if (isLoginMode) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    window.showToast("Signed in successfully");
+                } else {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+                    await updateProfile(user, { displayName: name });
+                    await setDoc(doc(db, "users", user.uid), {
+                        name: name, email: email, joinedAt: new Date() // No points field
+                    });
+                    window.showToast("Account created!");
+                }
+
+                window.closeModal('signin-modal');
+
+                // Resume checkout if pending
+                if (isCheckoutPending) {
+                    isCheckoutPending = false;
+                    setTimeout(() => window.startCheckoutProcess(), 500);
+                }
+
+            } catch (error) {
+                console.error(error);
+                errorText.innerText = error.message.replace('Firebase: ', '');
+                errorText.classList.remove('hidden');
+            } finally {
+                spinner.classList.add('hidden');
+                btnText.classList.remove('hidden');
+            }
+        }
+
+        window.handleSignOut = async () => {
+            if (!auth) return;
+            await signOut(auth);
+            window.showToast("Signed out");
+            window.closeModal('signin-modal');
+        }
+
+        // --- AUTH STATE LISTENER ---
+        if (auth) {
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                const statusDot = document.getElementById('user-status-dot');
+                const profileBtn = document.getElementById('profile-btn');
+
+                if (user) {
+                    statusDot.classList.remove('hidden');
+                    profileBtn.classList.add('border', 'border-cafe-brown');
+                } else {
+                    statusDot.classList.add('hidden');
+                    profileBtn.classList.remove('border', 'border-cafe-brown');
+                }
+            });
+        }
+
+        // --- Init ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render UI
+            const container = document.getElementById('menu-categories');
+            if(container) {
+                container.innerHTML = '';
+                categories.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.className = `px-6 py-2 rounded-full text-sm font-medium border border-cafe-dark/10 transition-colors whitespace-nowrap ${cat.id === 'all' ? 'bg-cafe-dark text-white' : 'hover:bg-cafe-dark/5'}`;
+                    btn.innerText = cat.label;
+                    btn.onclick = (e) => {
+                        document.querySelectorAll('#menu-categories button').forEach(b => {
+                            b.className = b.className.replace('bg-cafe-dark text-white', 'hover:bg-cafe-dark/5');
+                        });
+                        e.target.className = `px-6 py-2 rounded-full text-sm font-medium border border-cafe-dark/10 transition-colors whitespace-nowrap bg-cafe-dark text-white`;
+                        window.renderMenu(cat.id);
+                    };
+                    container.appendChild(btn);
+                });
+            }
+            window.renderMenu('all');
+
+            // Clock
+            let lastTimeString = '';
+            const updateStatus = () => {
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const currentTimeString = `${String(hours).padStart(2, '0')}:${minutes}`;
+
+                const clockDisplay = document.getElementById('clock-display');
+                const statusText = document.getElementById('status-text');
+                const statusPing = document.getElementById('status-ping');
+                const statusDot = document.getElementById('status-dot');
+
+                if(clockDisplay) {
+                    if (lastTimeString !== currentTimeString) {
+                        clockDisplay.innerText = currentTimeString;
+                        lastTimeString = currentTimeString;
+                        clockDisplay.classList.remove('animate-fade-slide-up');
+                        void clockDisplay.offsetWidth;
+                        clockDisplay.classList.add('animate-fade-slide-up');
+                    }
+                }
+
+                const isOpen = hours >= 8 && hours < 20;
+
+                if (isOpen && statusText) {
+                    statusText.innerText = "Open Now";
+                    if(statusPing) statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75";
+                    if(statusDot) statusDot.className = "relative inline-flex rounded-full h-3 w-3 bg-green-500";
+                } else if(statusText) {
+                    statusText.innerText = "Closed";
+                    if(statusPing) statusPing.className = "hidden";
+                    if(statusDot) statusDot.className = "relative inline-flex rounded-full h-3 w-3 bg-gray-400";
+                }
+            };
+
+            updateStatus();
+            setInterval(updateStatus, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | L'AUBE</title>
+    <meta name="description" content="L'AUBEの季節のメニュー、コース料理、ワインリストのご案内">
+
+    <!-- 外部CSSファイルの読み込み -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&family=Zen+Mincho:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                        jp: ['"Zen Mincho"', 'serif'],
+                    },
+                    colors: {
+                        'brand-black': '#1a1a1a',
+                        'brand-gold': '#a39073',
+                        'brand-gray': '#f4f4f4',
+                    },
+                    letterSpacing: {
+                        'widest-xl': '0.25em',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased selection:bg-brand-gold selection:text-white">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="menu-hidden fixed inset-0 z-[60] bg-brand-black/95 backdrop-blur-sm flex flex-col justify-center items-center text-white">
+        <button id="close-menu-btn" class="absolute top-6 right-8 p-2 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white font-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <nav class="flex flex-col space-y-8 text-center items-center">
+            <a href="../home/index.html" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Home</a>
+            <a href="#lunch" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Lunch</a>
+            <a href="#dinner" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Dinner</a>
+            <a href="#wine" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Wine</a>
+
+            <!-- Reservation Button Added -->
+            <a href="../reservation/index.html" class="mobile-link mt-4 inline-block border border-white px-8 py-3 text-xs tracking-widest uppercase hover:bg-white hover:text-brand-black transition-colors duration-300">
+                Make a Reservation
+            </a>
+        </nav>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 px-6 md:px-8 flex justify-between items-center text-brand-black bg-white/90 backdrop-blur-md shadow-sm">
+        <a href="" class="logo font-serif text-xl md:text-2xl tracking-widest z-50 cursor-pointer hover:opacity-70 transition-opacity">L'AUBE</a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-12 text-xs tracking-widest uppercase font-light z-50">
+            <a href="../home/index.html" class="hover:text-brand-gold transition-colors duration-300">Home</a>
+            <a href="#lunch" class="hover:text-brand-gold transition-colors duration-300">Lunch</a>
+            <a href="#dinner" class="hover:text-brand-gold transition-colors duration-300">Dinner</a>
+            <a href="#wine" class="hover:text-brand-gold transition-colors duration-300">Wine</a>
+            <a href="../reservation/index.html" class="bg-brand-black text-white px-6 py-2 hover:bg-brand-gold transition-colors">Reserve</a>
+        </div>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="open-menu-btn" class="md:hidden space-y-2 cursor-pointer group p-2 focus:outline-none z-50">
+            <span class="block w-6 h-px bg-brand-black group-hover:w-4 transition-all duration-300"></span>
+            <span class="block w-6 h-px bg-brand-black transition-all duration-300"></span>
+        </button>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="relative pt-48 pb-24 px-6 md:px-12 bg-[#f9f9f7]">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-xs tracking-widest-xl uppercase mb-6 text-gray-500 fade-up">Seasonal Menu</p>
+            <h1 class="font-serif text-5xl md:text-7xl text-brand-black mb-8 fade-up delay-100">Carte des Mets</h1>
+            <p class="font-jp text-sm text-gray-600 max-w-2xl mx-auto leading-loose fade-up delay-200">
+                日本の四季が織りなす旬の食材と、伝統的なフランス料理の技法。<br>
+                その日、その瞬間にしか味わえない一皿をご用意してお待ちしております。
+            </p>
+        </div>
+    </header>
+
+    <!-- Lunch Section -->
+    <section id="lunch" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 fade-up">
+                <span class="font-serif text-3xl italic text-brand-gold">Déjeuner</span>
+                <p class="text-[10px] uppercase tracking-widest text-gray-400 mt-2">12:00 - 15:00 (L.O. 13:30)</p>
+            </div>
+
+            <!-- Menu Item 1 -->
+            <div class="mb-16 fade-up">
+                <div class="flex items-baseline justify-between mb-2">
+                    <h3 class="font-serif text-xl md:text-2xl text-brand-black">Menu Déjeuner</h3>
+                    <div class="menu-dots"></div>
+                    <span class="font-sans text-sm">¥ 8,000</span>
+                </div>
+                <p class="font-jp text-xs text-gray-500 leading-relaxed mb-4">
+                    アミューズ / 前菜 / スープ / 魚料理 または 肉料理 / デザート / カフェ
+                </p>
+            </div>
+
+            <!-- Menu Item 2 -->
+            <div class="mb-16 fade-up delay-100">
+                <div class="flex items-baseline justify-between mb-2">
+                    <h3 class="font-serif text-xl md:text-2xl text-brand-black">Menu Spécial</h3>
+                    <div class="menu-dots"></div>
+                    <span class="font-sans text-sm">¥ 12,000</span>
+                </div>
+                <p class="font-jp text-xs text-gray-500 leading-relaxed mb-4">
+                    シェフのおまかせフルコースランチ<br>
+                    アミューズ / 前菜2皿 / 魚料理 / 肉料理 / デザート / ミニャルディーズ / カフェ
+                </p>
+            </div>
+
+            <!-- Image with Frame -->
+            <div class="w-full h-64 md:h-80 mt-12 fade-up delay-200 p-2 border border-brand-gold/50">
+                <img src="https://images.unsplash.com/photo-1626202378396-10522199f36f?q=80&w=1200&auto=format&fit=crop"
+                     alt="Lunch Atmosphere" class="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-1000">
+            </div>
+        </div>
+    </section>
+
+    <hr class="border-gray-200 max-w-xs mx-auto my-12 opacity-50">
+
+    <!-- Dinner Section -->
+    <section id="dinner" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 fade-up">
+                <span class="font-serif text-3xl italic text-brand-gold">Dîner</span>
+                <p class="text-[10px] uppercase tracking-widest text-gray-400 mt-2">18:00 - 23:00 (L.O. 20:30)</p>
+            </div>
+
+            <!-- Course 1 -->
+            <div class="mb-20 fade-up">
+                <div class="flex items-baseline justify-between mb-2">
+                    <h3 class="font-serif text-xl md:text-2xl text-brand-black">Menu Saison</h3>
+                    <div class="menu-dots"></div>
+                    <span class="font-sans text-sm">¥ 18,000</span>
+                </div>
+                <p class="font-jp text-xs text-gray-500 leading-relaxed mb-6">
+                    季節の食材をシンプルに楽しむスタンダードコース（全8品）
+                </p>
+                <div class="pl-4 border-l border-brand-gold/30 space-y-2 text-xs text-gray-600 font-jp">
+                    <p>季節のアミューズ・ブーシュ</p>
+                    <p>北海道産 帆立貝のミ・キュイ キャビア添え</p>
+                    <p>フォアグラのポワレ 季節のフルーツ</p>
+                    <p>本日の鮮魚のポワレ サフランソース</p>
+                    <p>国産牛フィレ肉のロースト トリュフソース</p>
+                    <p>アヴァン・デセール</p>
+                    <p>季節のグラン・デセール</p>
+                    <p>カフェとミニャルディーズ</p>
+                </div>
+            </div>
+
+            <!-- Course 2 (Detailed) -->
+            <div class="mb-16 fade-up delay-100">
+                <div class="flex items-baseline justify-between mb-2">
+                    <h3 class="font-serif text-xl md:text-2xl text-brand-black">Menu Dégustation</h3>
+                    <div class="menu-dots"></div>
+                    <span class="font-sans text-sm">¥ 28,000</span>
+                </div>
+                <p class="font-jp text-xs text-gray-500 leading-relaxed mb-8">
+                    L'AUBEのスペシャリテを含む、贅沢な全11品のフルコース
+                </p>
+
+                <!-- Detailed List -->
+                <div class="space-y-4 text-xs font-jp mb-12 bg-white p-8 shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Amuse-bouche</span>
+                        <span class="text-gray-700">森の香りのコンソメ ジュレ仕立て</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">1ère Entrée</span>
+                        <span class="text-gray-700">雲丹とカリフラワーのムース キャビアの塩気</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">2ème Entrée</span>
+                        <span class="text-gray-700">オマール海老のショーフロワ 柑橘の香り</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Spécialité</span>
+                        <span class="text-gray-700">フォアグラのポワレ 黒トリュフとポルト酒のソース</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Soupe</span>
+                        <span class="text-gray-700">季節野菜のヴェルヴーテ</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Poisson</span>
+                        <span class="text-gray-700">甘鯛の松笠焼き ブールブランソース</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Viande</span>
+                        <span class="text-gray-700">蝦夷鹿のロティ 赤ワインとカシスのソース</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Fromage</span>
+                        <span class="text-gray-700">本日の厳選チーズ 3種盛り合わせ</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Avant Dessert</span>
+                        <span class="text-gray-700">シャンパンと白桃のグラニテ</span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-gray-100 pb-2">
+                        <span class="font-serif italic text-brand-gold text-sm">Grand Dessert</span>
+                        <span class="text-gray-700">ショコラの球体 温かいベリーのソースをかけて</span>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <span class="font-serif italic text-brand-gold text-sm">Mignardises / Café</span>
+                        <span class="text-gray-700">食後の小菓子 / コーヒーまたは紅茶</span>
+                    </div>
+                </div>
+
+                <!-- Visual for Degustation with Frame -->
+                <div class="grid grid-cols-2 gap-6 mt-8">
+                    <div class="p-1 border border-brand-gold">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover" alt="Dish 1">
+                    </div>
+                    <div class="p-1 border border-brand-gold">
+                        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=600&auto=format&fit=crop" class="w-full h-40 object-cover" alt="Dish 2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wine Section -->
+    <section id="wine" class="py-20 px-6 bg-brand-black text-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 fade-up">
+                <span class="font-serif text-3xl italic text-brand-gold">Vins & Boissons</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20 border-b border-gray-800 pb-12">
+                <!-- Pairing -->
+                <div class="fade-up">
+                    <h4 class="font-serif text-xl mb-6 border-b border-gray-700 pb-2">Pairing</h4>
+                    <ul class="space-y-6">
+                        <li class="flex justify-between items-center text-sm font-light">
+                            <span>Wine Pairing (3 Glasses)</span>
+                            <span>¥ 6,000</span>
+                        </li>
+                        <li class="flex justify-between items-center text-sm font-light">
+                            <span>Wine Pairing (5 Glasses)</span>
+                            <span>¥ 9,000</span>
+                        </li>
+                         <li class="flex justify-between items-center text-sm font-light">
+                            <span>Premium Pairing (7 Glasses)</span>
+                            <span>¥ 15,000</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Non-Alcoholic Pairing -->
+                <div class="fade-up delay-100">
+                    <h4 class="font-serif text-xl mb-6 border-b border-gray-700 pb-2">Non-Alcoholic</h4>
+                     <p class="font-jp text-xs text-gray-400 mb-6 leading-relaxed">
+                        厳選したプレミアムティーや発酵ドリンクのペアリング。
+                    </p>
+                    <ul class="space-y-6">
+                        <li class="flex justify-between items-center text-sm font-light">
+                            <span>Tea Pairing (4 Glasses)</span>
+                            <span>¥ 5,000</span>
+                        </li>
+                        <li class="flex justify-between items-center text-sm font-light">
+                            <span>Tea Pairing (6 Glasses)</span>
+                            <span>¥ 7,500</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Full Wine List (Carte des Vins) -->
+            <div class="fade-up">
+                <div class="text-center mb-10">
+                    <span class="font-serif text-2xl italic text-brand-gold">Carte des Vins (Selection)</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Champagne & White -->
+                    <div class="space-y-12">
+                        <div>
+                            <h5 class="font-serif text-lg text-white mb-4 pl-4 border-l-2 border-brand-gold">Champagne</h5>
+                            <ul class="space-y-4 text-xs font-light text-gray-300">
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>N.V. Krug Grande Cuvée</span>
+                                    <span>¥ 65,000</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>2012 Dom Pérignon</span>
+                                    <span>¥ 58,000</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>N.V. Jacques Selosse Initial</span>
+                                    <span>¥ 80,000</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>N.V. Louis Roederer Collection 242</span>
+                                    <span>¥ 18,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-serif text-lg text-white mb-4 pl-4 border-l-2 border-brand-gold">Vin Blanc</h5>
+                            <ul class="space-y-4 text-xs font-light text-gray-300">
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>2018 Puligny-Montrachet (Domaine Leflaive)</span>
+                                    <span>¥ 42,000</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>2019 Meursault (Domaine des Comtes Lafon)</span>
+                                    <span>¥ 55,000</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>2020 Sancerre (Domaine Vacheron)</span>
+                                    <span>¥ 16,000</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-800 pb-2">
+                                    <span>2019 Riesling Cuvée Frédéric Emile (Trimbach)</span>
+                                    <span>¥ 22,000</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Red -->
+                    <div>
+                         <h5 class="font-serif text-lg text-white mb-4 pl-4 border-l-2 border-brand-gold">Vin Rouge</h5>
+                         <ul class="space-y-4 text-xs font-light text-gray-300">
+                            <li class="flex justify-between border-b border-gray-800 pb-2">
+                                <span>2015 Gevrey-Chambertin (Armand Rousseau)</span>
+                                <span>¥ 85,000</span>
+                            </li>
+                            <li class="flex justify-between border-b border-gray-800 pb-2">
+                                <span>2014 Vosne-Romanée (Domaine Méo-Camuzet)</span>
+                                <span>¥ 48,000</span>
+                            </li>
+                            <li class="flex justify-between border-b border-gray-800 pb-2">
+                                <span>2010 Château Margaux</span>
+                                <span>¥ 150,000</span>
+                            </li>
+                            <li class="flex justify-between border-b border-gray-800 pb-2">
+                                <span>2015 Château Lynch-Bages</span>
+                                <span>¥ 45,000</span>
+                            </li>
+                             <li class="flex justify-between border-b border-gray-800 pb-2">
+                                <span>2016 Opus One (Napa Valley)</span>
+                                <span>¥ 95,000</span>
+                            </li>
+                             <li class="flex justify-between border-b border-gray-800 pb-2">
+                                <span>2018 rindo (Kenzo Estate)</span>
+                                <span>¥ 35,000</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 text-center fade-up">
+                <a href="../reservation/index.html" class="inline-block border border-white px-8 py-3 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300">
+                    Make a Reservation
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="reservation" class="bg-[#f9f9f7] pt-24 pb-12 px-6">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="text-center">
+                <p class="font-serif text-2xl tracking-widest-xl text-brand-black mb-4">L'AUBE</p>
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest">&copy; 2024 L'AUBE Restaurant. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Logic
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const openMenuBtn = document.getElementById('open-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenuOverlay.classList.remove('menu-hidden');
+            mobileMenuOverlay.classList.add('menu-visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            mobileMenuOverlay.classList.remove('menu-visible');
+            mobileMenuOverlay.classList.add('menu-hidden');
+            document.body.style.overflow = '';
+        }
+
+        openMenuBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        // Intersection Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-up');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

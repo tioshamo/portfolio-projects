@@ -1,0 +1,398 @@
+      /* * CSS VARIABLES & RESET (継承) */
+      :root {
+        --bg-color: #f4f3ef;
+        --text-color: #2b2b2b;
+        --accent-color: #8c8070;
+        --line-color: rgba(43, 43, 43, 0.1);
+        --font-main: 'Shippori Mincho', serif;
+        --easing: cubic-bezier(0.22, 1, 0.36, 1);
+        --error-color: #a84a4a;
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-main);
+        line-height: 2;
+        overflow-x: hidden;
+        letter-spacing: 0.05em;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* * UTILITIES */
+      .container {
+        width: 90%;
+        max-width: 1000px; /* フォーム用に少し幅を狭める */
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        letter-spacing: 0.2em;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.3s ease;
+      }
+
+      /* * HEADER (共通) */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 100;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        mix-blend-mode: difference;
+        color: #fff;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        pointer-events: auto;
+        letter-spacing: 0.3em;
+      }
+
+      nav { pointer-events: auto; }
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-end;
+      }
+
+      .nav-item a {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: relative;
+      }
+
+      .nav-item a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: currentColor;
+        transition: width 0.6s var(--easing);
+      }
+      .nav-item a:hover::after { width: 100%; left: 0; }
+
+      /* * HERO (Small for Subpage) */
+      .page-hero {
+        height: 60vh;
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-bottom: 5rem;
+      }
+
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 120%;
+        object-fit: cover;
+        filter: brightness(0.9) grayscale(0.2);
+        will-change: transform;
+      }
+
+      .hero-title {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        font-size: 2.5rem;
+        letter-spacing: 0.5em;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1.5s var(--easing) 0.5s forwards;
+      }
+
+      /* * FORM SECTION */
+      .reservation-section {
+        padding-bottom: 8rem;
+      }
+
+      .form-intro {
+        text-align: center;
+        margin-bottom: 6rem;
+        font-size: 0.95rem;
+      }
+
+      .reservation-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        width: 100%;
+      }
+
+      /* Group Styling */
+      .form-group {
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .form-group.full-width {
+        grid-column: span 2;
+      }
+
+      label {
+        display: block;
+        font-size: 0.85rem;
+        color: var(--accent-color);
+        margin-bottom: 0.8rem;
+        letter-spacing: 0.1em;
+      }
+
+      /* Custom Input Styling */
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="number"],
+      input[type="date"],
+      select,
+      textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--line-color);
+        font-family: var(--font-main);
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+        color: var(--text-color);
+        transition: border-color 0.4s var(--easing), color 0.4s;
+        border-radius: 0;
+        appearance: none; /* Remove default arrow */
+      }
+
+      /* Select arrow custom */
+      .select-wrapper {
+        position: relative;
+      }
+      .select-wrapper::after {
+        content: '▼';
+        font-size: 0.6rem;
+        color: var(--accent-color);
+        position: absolute;
+        right: 0;
+        bottom: 1rem;
+        pointer-events: none;
+      }
+
+      textarea {
+        resize: none;
+        min-height: 100px;
+        line-height: 1.8;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-bottom-color: var(--accent-color);
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgba(43, 43, 43, 0.3);
+        font-size: 0.9rem;
+      }
+
+      /* * COURSE SELECTION (Radio Cards) */
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .course-option input {
+        display: none;
+      }
+
+      .course-card {
+        border: 1px solid var(--line-color);
+        padding: 2rem;
+        cursor: pointer;
+        transition: all 0.4s var(--easing);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .course-card:hover {
+        border-color: rgba(140, 128, 112, 0.5);
+      }
+
+      .course-option input:checked + .course-card {
+        border-color: var(--accent-color);
+        background-color: rgba(140, 128, 112, 0.03);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      }
+
+      .course-name {
+        font-size: 1.2rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .course-price {
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        display: block;
+      }
+      .course-desc {
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 1rem;
+        line-height: 1.6;
+      }
+
+      /* * SUBMIT BUTTON */
+      .submit-wrapper {
+        grid-column: span 2;
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .btn-submit {
+        background: transparent;
+        border: 1px solid var(--text-color);
+        color: var(--text-color);
+        padding: 1.2rem 4rem;
+        font-size: 1rem;
+        font-family: var(--font-main);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.4s var(--easing);
+        letter-spacing: 0.2em;
+      }
+
+      .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: var(--text-color);
+        transition: width 0.4s var(--easing);
+        z-index: -1;
+      }
+
+      .btn-submit:hover {
+        color: #fff;
+      }
+      .btn-submit:hover::before {
+        width: 100%;
+      }
+
+      /* * SUCCESS MESSAGE (Hidden by default) */
+      .success-message {
+        display: none;
+        text-align: center;
+        padding: 4rem 0;
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+
+      .success-message.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .success-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      /* * ANIMATIONS */
+      @keyframes fadeUp {
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1s var(--easing), transform 1s var(--easing);
+      }
+      .fade-in-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* * FOOTER (Minimal) */
+      footer {
+        padding: 4rem 0 2rem;
+        text-align: center;
+        font-size: 0.8rem;
+        border-top: 1px solid var(--line-color);
+        margin-top: 4rem;
+        color: #888;
+      }
+
+      /* * RESPONSIVE */
+      @media (max-width: 768px) {
+        /* Header Adjustment */
+        header { padding: 1.5rem; height: auto; align-items: flex-start; }
+        .nav-list { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 1rem; }
+        .vertical-text { writing-mode: horizontal-tb; }
+
+        /* Form Adjustment: Flex Column for Vertical Stacking */
+        .reservation-form {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .form-group {
+          margin-bottom: 0; /* Let gap handle spacing */
+          width: 100%;
+        }
+
+        .submit-wrapper {
+          grid-column: auto;
+          margin-top: 1rem;
+        }
+
+        .course-grid { grid-template-columns: 1fr; }
+        .page-hero { height: 40vh; }
+        .hero-title { font-size: 2rem; }
+
+        .btn-submit { width: 100%; }
+
+        input[type="date"] {
+            /* Fix for iOS aesthetic */
+             min-height: 2.5rem;
+        }
+      }

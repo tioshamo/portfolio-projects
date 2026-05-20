@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ご予約 | 白露 Hakuro</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      /* * CSS VARIABLES & RESET (継承) */
+      :root {
+        --bg-color: #f4f3ef;
+        --text-color: #111111; /* #2b2b2bから変更：より濃い黒 */
+        --accent-color: #6b6255; /* #8c8070から変更：可読性を高めた濃い茶色 */
+        --line-color: rgba(17, 17, 17, 0.2); /* 線の色も少し濃く */
+        --font-main: 'Shippori Mincho', serif;
+        --easing: cubic-bezier(0.22, 1, 0.36, 1);
+        --error-color: #a84a4a;
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        background-image: url('../image/washi.png');
+        color: var(--text-color);
+        font-family: var(--font-main);
+        line-height: 2;
+        overflow-x: hidden;
+        letter-spacing: 0.05em;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* * UTILITIES */
+      .container {
+        width: 90%;
+        max-width: 1000px; /* フォーム用に少し幅を狭める */
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        letter-spacing: 0.2em;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.3s ease;
+      }
+
+      /* * HEADER (共通) */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 100;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        mix-blend-mode: difference;
+        color: #fff;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        pointer-events: auto;
+        letter-spacing: 0.3em;
+      }
+
+      nav { pointer-events: auto; }
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-end;
+      }
+
+      .nav-item a {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: relative;
+      }
+
+      .nav-item a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: currentColor;
+        transition: width 0.6s var(--easing);
+      }
+      .nav-item a:hover::after { width: 100%; left: 0; }
+
+      /* * HERO (Small for Subpage) */
+      .page-hero {
+        height: 60vh;
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-bottom: 5rem;
+        background-color: #1a1a1a; /* 画像がない場合のフォールバック色 */
+      }
+
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 120%;
+        object-fit: cover;
+        filter: brightness(0.9) grayscale(0.2);
+        will-change: transform;
+      }
+
+      .hero-title {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        font-size: 2.5rem;
+        letter-spacing: 0.5em;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1.5s var(--easing) 0.5s forwards;
+      }
+
+      /* * FORM SECTION */
+      .reservation-section {
+        padding-bottom: 8rem;
+      }
+
+      .form-intro {
+        text-align: center;
+        margin-bottom: 6rem;
+        font-size: 0.95rem;
+      }
+
+      .reservation-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        width: 100%;
+      }
+
+      /* Group Styling */
+      .form-group {
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .form-group.full-width {
+        grid-column: span 2;
+      }
+
+      label {
+        display: block;
+        font-size: 0.9rem; /* フォントサイズも少し大きく */
+        font-weight: 500; /* 太さを少し追加 */
+        color: var(--accent-color);
+        margin-bottom: 0.8rem;
+        letter-spacing: 0.1em;
+      }
+
+      /* Custom Input Styling */
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="number"],
+      input[type="date"],
+      select,
+      textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--line-color);
+        font-family: var(--font-main);
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+        color: var(--text-color);
+        transition: border-color 0.4s var(--easing), color 0.4s;
+        border-radius: 0;
+        appearance: none; /* Remove default arrow */
+      }
+
+      /* Select arrow custom */
+      .select-wrapper {
+        position: relative;
+      }
+      .select-wrapper::after {
+        content: '▼';
+        font-size: 0.6rem;
+        color: var(--accent-color);
+        position: absolute;
+        right: 0;
+        bottom: 1rem;
+        pointer-events: none;
+      }
+
+      textarea {
+        resize: none;
+        min-height: 100px;
+        line-height: 1.8;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-bottom-color: var(--accent-color);
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgba(17, 17, 17, 0.5); /* プレースホルダーを少し濃く */
+        font-size: 0.9rem;
+      }
+
+      /* * COURSE SELECTION (Radio Cards) */
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .course-option input {
+        display: none;
+      }
+
+      .course-card {
+        border: 1px solid var(--line-color);
+        padding: 2rem;
+        cursor: pointer;
+        transition: all 0.4s var(--easing);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .course-card:hover {
+        border-color: rgba(107, 98, 85, 0.5); /* アクセントカラーに合わせて調整 */
+      }
+
+      .course-option input:checked + .course-card {
+        border-color: var(--accent-color);
+        background-color: rgba(107, 98, 85, 0.05);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      }
+
+      .course-name {
+        font-size: 1.2rem;
+        font-weight: 500;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .course-price {
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        display: block;
+        font-weight: 600; /* 値段を強調 */
+      }
+      .course-desc {
+        font-size: 0.85rem;
+        color: #444; /* #666から変更：説明文を濃く */
+        margin-top: 1rem;
+        line-height: 1.6;
+      }
+
+      /* * SUBMIT BUTTON */
+      .submit-wrapper {
+        grid-column: span 2;
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .btn-submit {
+        background: transparent;
+        border: 1px solid var(--text-color);
+        color: var(--text-color);
+        padding: 1.2rem 4rem;
+        font-size: 1rem;
+        font-family: var(--font-main);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.4s var(--easing);
+        letter-spacing: 0.2em;
+      }
+
+      .btn-submit::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: var(--text-color);
+        transition: width 0.4s var(--easing);
+        z-index: -1;
+      }
+
+      .btn-submit:hover {
+        color: #fff;
+      }
+      .btn-submit:hover::before {
+        width: 100%;
+      }
+
+      /* * SUCCESS MESSAGE (Hidden by default) */
+      .success-message {
+        display: none;
+        text-align: center;
+        padding: 4rem 0;
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+
+      .success-message.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .success-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      /* * ANIMATIONS */
+      @keyframes fadeUp {
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1s var(--easing), transform 1s var(--easing);
+      }
+      .fade-in-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* * FOOTER (Minimal) */
+      footer {
+        padding: 4rem 0 2rem;
+        text-align: center;
+        font-size: 0.8rem;
+        border-top: 1px solid var(--line-color);
+        margin-top: 4rem;
+        color: #555; /* #888から変更 */
+      }
+
+      /* * RESPONSIVE */
+      @media (max-width: 768px) {
+        /* Header Adjustment */
+        header { padding: 1.5rem; height: auto; align-items: flex-start; }
+        .nav-list { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 1rem; }
+        .vertical-text { writing-mode: horizontal-tb; }
+
+        /* Form Adjustment: Flex Column for Vertical Stacking */
+        .reservation-form {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .form-group {
+          margin-bottom: 0; /* Let gap handle spacing */
+          width: 100%;
+        }
+
+        .submit-wrapper {
+          grid-column: auto;
+          margin-top: 1rem;
+        }
+
+        .course-grid { grid-template-columns: 1fr; }
+        .page-hero { height: 40vh; }
+        .hero-title { font-size: 2rem; }
+
+        .btn-submit { width: 100%; }
+
+        input[type="date"] {
+            /* Fix for iOS aesthetic */
+             min-height: 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <div class="logo vertical-text"><a href="../home/index.html">白露</a></div>
+      <nav>
+        <ul class="nav-list vertical-text">
+          <li class="nav-item"><a href="../home/index.html#concept">理念</a></li>
+          <li class="nav-item"><a href="../home/index.html#menu">献立</a></li>
+          <li class="nav-item"><a href="../home/index.html#space">空間</a></li>
+          <li class="nav-item"><a href="#">予約</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <div class="page-hero">
+        <img src="../image/fuji-night.png" alt="Reservation Background" class="hero-bg" data-parallax="0.2">
+        <h1 class="hero-title vertical-text">ご予約</h1>
+      </div>
+
+      <!-- Reservation Form Section -->
+      <section class="container reservation-section">
+
+        <div class="form-intro fade-in-up">
+          <p>
+            四季の移ろいを膳にのせて。<br>
+            皆様のお越しを心よりお待ちしております。<br><br>
+            <span style="font-size: 0.8rem; color: #444;">※ 完全予約制となっております。3日前までにご予約ください。</span>
+          </p>
+        </div>
+
+        <form id="reservationForm" class="reservation-form fade-in-up">
+
+          <!-- DATE & TIME -->
+          <div class="form-group">
+            <label for="date">ご来店日</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+
+          <div class="form-group">
+            <label for="time">お時間</label>
+            <div class="select-wrapper">
+              <select id="time" name="time" required>
+                <option value="" disabled selected>選択してください</option>
+                <option value="12:00">12:00 (昼の部)</option>
+                <option value="12:30">12:30 (昼の部)</option>
+                <option value="18:00">18:00 (夜の部)</option>
+                <option value="18:30">18:30 (夜の部)</option>
+                <option value="19:00">19:00 (夜の部)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="guests">人数</label>
+            <div class="select-wrapper">
+              <select id="guests" name="guests" required>
+                <option value="1">1名様</option>
+                <option value="2" selected>2名様</option>
+                <option value="3">3名様</option>
+                <option value="4">4名様</option>
+                <option value="5">5名様〜 (要相談)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- COURSE SELECTION -->
+          <div class="form-group full-width">
+            <label>コースをお選びください</label>
+            <div class="course-grid">
+
+              <label class="course-option">
+                <input type="radio" name="course" value="kasumi" required>
+                <div class="course-card">
+                  <div>
+                    <span class="course-name">昼の懐石 "霞"</span>
+                    <span class="course-price">8,800円 (税込)</span>
+                  </div>
+                  <p class="course-desc">季節の食材を軽やかに楽しむ、お昼限定のコースです。</p>
+                </div>
+              </label>
+
+              <label class="course-option">
+                <input type="radio" name="course" value="hakuro" checked>
+                <div class="course-card">
+                  <div>
+                    <span class="course-name">季節のおまかせ "白露"</span>
+                    <span class="course-price">16,500円 (税込)</span>
+                  </div>
+                  <p class="course-desc">当店のシグネチャーコース。旬の真髄を味わう全10品。</p>
+                </div>
+              </label>
+
+              <label class="course-option">
+                <input type="radio" name="course" value="tsuki">
+                <div class="course-card">
+                  <div>
+                    <span class="course-name">特別懐石 "月"</span>
+                    <span class="course-price">24,200円 (税込)</span>
+                  </div>
+                  <p class="course-desc">厳選された希少食材を使用した、特別な一日のための懐石。</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- GUEST DETAILS -->
+          <div class="form-group">
+            <label for="name">お名前</label>
+            <input type="text" id="name" name="name" placeholder="例：山田 太郎" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">お電話番号</label>
+            <input type="tel" id="phone" name="phone" placeholder="例：090-1234-5678" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" name="email" placeholder="例：info@example.com" required>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="requests">アレルギー・苦手な食材</label>
+            <textarea id="requests" name="requests" placeholder="食材やアレルギー等がございましたら、ご記入ください。"></textarea>
+          </div>
+
+          <!-- SUBMIT -->
+          <div class="submit-wrapper">
+            <button type="submit" class="btn-submit">予約を申し込む</button>
+          </div>
+        </form>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message">
+          <h2 class="success-title vertical-text" style="height: 200px; margin: 0 auto;">予約完了</h2>
+          <p style="margin-top: 3rem;">
+            この度はご予約ありがとうございます。<br>
+            ご入力いただいたメールアドレスへ確認メールをお送りいたしました。<br><br>
+            当日お会いできることを、心より楽しみにしております。
+          </p>
+          <div style="margin-top: 4rem;">
+            <a href="index.html" class="btn-submit" style="padding: 1rem 3rem; font-size: 0.9rem;">トップへ戻る</a>
+          </div>
+        </div>
+
+      </section>
+
+      <footer>
+        <p class="copyright">&copy; 2024 Hakuro. All Rights Reserved.</p>
+      </footer>
+    </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+        // 1. Parallax Logic (Same as Landing Page)
+        const parallaxElements = document.querySelectorAll('[data-parallax]');
+        function scrollHandler() {
+          const scrollY = window.scrollY;
+          parallaxElements.forEach(el => {
+            const speed = el.getAttribute('data-parallax');
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              el.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
+            }
+          });
+        }
+        window.addEventListener('scroll', () => window.requestAnimationFrame(scrollHandler));
+
+        // 2. Fade In Logic
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            }
+          });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+        // 3. Form Handling (Mock Submission)
+        const form = document.getElementById('reservationForm');
+        const successMsg = document.getElementById('successMessage');
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          // Submit Button Animation Simulation
+          const btn = form.querySelector('.btn-submit');
+          const originalText = btn.textContent;
+          btn.textContent = "送信中...";
+          btn.style.opacity = "0.7";
+
+          setTimeout(() => {
+            // Fade out form
+            form.style.opacity = '0';
+            form.style.transition = 'opacity 0.5s ease';
+
+            setTimeout(() => {
+              form.style.display = 'none';
+              successMsg.classList.add('active');
+
+              // Smooth scroll to message
+              window.scrollTo({
+                top: successMsg.offsetTop - 100,
+                behavior: 'smooth'
+              });
+            }, 500);
+          }, 1500);
+        });
+
+        // 4. Default Date (Today + 3 days)
+        const dateInput = document.getElementById('date');
+        const today = new Date();
+        today.setDate(today.getDate() + 3);
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateInput.min = `${yyyy}-${mm}-${dd}`;
+      });
+    </script>
+
+  </body>
+</html>

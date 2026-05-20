@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'AUBE | Modern French Gastronomy</title>
+    <meta name="description" content="静寂と美食が交差する、大人のための隠れ家フレンチ L'AUBE">
+
+    <!-- 外部CSSファイルの読み込み -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts: Serif for Elegance, Sans for Cleanliness -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&family=Zen+Mincho:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for Custom Fonts and Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                        jp: ['"Zen Mincho"', 'serif'],
+                    },
+                    colors: {
+                        'brand-black': '#1a1a1a',
+                        'brand-gold': '#a39073',
+                        'brand-gray': '#f4f4f4',
+                    },
+                    letterSpacing: {
+                        'widest-xl': '0.25em',
+                    },
+                    height: {
+                        'screen-90': '90vh',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased selection:bg-brand-gold selection:text-white">
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="text-center">
+            <h1 class="font-serif text-3xl md:text-4xl tracking-widest-xl text-brand-black animate-pulse">L'AUBE</h1>
+            <p class="mt-2 text-[10px] md:text-xs uppercase tracking-widest text-gray-500">Tokyo</p>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="menu-hidden fixed inset-0 z-[60] bg-brand-black/95 backdrop-blur-sm flex flex-col justify-center items-center text-white">
+        <!-- Close Button -->
+        <button id="close-menu-btn" class="absolute top-6 right-8 p-2 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white font-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
+        <!-- Mobile Links -->
+        <nav class="flex flex-col space-y-8 text-center">
+            <a href="#philosophy" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Philosophy</a>
+            <a href="#menu" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Menu</a>
+            <a href="#space" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Space</a>
+            <a href="#reservation" class="mobile-link font-serif text-3xl italic tracking-widest hover:text-brand-gold transition-colors">Reservation</a>
+        </nav>
+
+        <div class="mt-16 text-center opacity-60">
+            <p class="font-serif text-xl tracking-widest mb-2">L'AUBE</p>
+            <p class="text-[10px] uppercase tracking-widest">Modern French Gastronomy</p>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 px-6 md:px-8 flex justify-between items-center mix-blend-difference text-white">
+        <div class="logo font-serif text-xl md:text-2xl tracking-widest z-50 cursor-pointer">L'AUBE</div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-12 text-xs tracking-widest uppercase font-light z-50">
+            <a href="#philosophy" class="hover:text-brand-gold transition-colors duration-300">Philosophy</a>
+            <a href="#menu" class="hover:text-brand-gold transition-colors duration-300">Menu</a>
+            <a href="#space" class="hover:text-brand-gold transition-colors duration-300">Space</a>
+            <a href="#reservation" class="hover:text-brand-gold transition-colors duration-300">Reservation</a>
+        </div>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="open-menu-btn" class="md:hidden space-y-2 cursor-pointer group p-2 focus:outline-none z-50">
+            <span class="block w-8 h-px bg-current group-hover:w-6 transition-all duration-300"></span>
+            <span class="block w-8 h-px bg-current transition-all duration-300"></span>
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 bg-black/30 z-10"></div>
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2574&auto=format&fit=crop"
+             alt="Hero Abstract"
+             class="absolute inset-0 w-full h-full object-cover animate-pan-slow object-center">
+
+        <div class="relative z-20 text-center text-white px-4 w-full">
+            <p class="text-[10px] md:text-sm tracking-widest-xl uppercase mb-4 md:mb-6 fade-up delay-100">Modern French Gastronomy</p>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-9xl tracking-wider mb-6 md:mb-8 fade-up delay-200">L'AUBE</h1>
+            <p class="font-jp text-xs md:text-base tracking-widest font-light opacity-90 fade-up delay-300 leading-loose">
+                夜明けの静寂に、<br class="md:hidden">美しき一皿を。
+            </p>
+        </div>
+
+        <div class="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+            <span class="text-white text-opacity-50 text-[10px] md:text-xs tracking-widest">SCROLL</span>
+        </div>
+    </header>
+
+    <!-- Philosophy Section (Editorial Layout) -->
+    <section id="philosophy" class="py-24 md:py-48 px-6 md:px-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <!-- Offset Layout -->
+            <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24">
+
+                <!-- Text Block -->
+                <div class="w-full md:w-5/12 order-2 md:order-1 fade-up">
+                    <span class="block text-brand-gold text-xs tracking-widest uppercase mb-4">Our Philosophy</span>
+                    <h2 class="font-serif text-3xl md:text-5xl mb-6 md:mb-8 leading-tight text-brand-black">
+                        Simplicity is the <br>
+                        <span class="italic font-light">Ultimate Sophistication.</span>
+                    </h2>
+                    <div class="font-jp text-gray-600 leading-loose space-y-6 text-justify text-sm md:text-base">
+                        <p>
+                            本質を追求した先に残るもの、それがL'AUBEの料理です。
+                            過剰な装飾を削ぎ落とし、食材そのものが持つ「声」に耳を傾ける。
+                            それは、静寂の中で奏でられる旋律のように。
+                        </p>
+                        <p>
+                            日本の四季が育んだ繊細な恵みと、フランス料理の伝統的な技法の融合。
+                            皿の上に広がる余白は、お客様の想像力が入り込むための空間です。
+                        </p>
+                    </div>
+                    <div class="mt-8 md:mt-12">
+                         <img src="https://images.unsplash.com/photo-1556760544-74068565f05c?q=80&w=800&auto=format&fit=crop"
+                             alt="Signature Dish"
+                             class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-xl">
+                        <p class="text-right text-[10px] md:text-xs text-gray-400 mt-2 font-serif italic">Signature: Foie gras poêlé</p>
+                    </div>
+                </div>
+
+                <!-- Image Block -->
+                <div class="w-full md:w-7/12 order-1 md:order-2 fade-up delay-200">
+                    <div class="img-zoom-container relative shadow-lg md:shadow-xl aspect-[3/4] md:aspect-auto">
+                        <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?q=80&w=1200&auto=format&fit=crop"
+                             alt="Chef Plating"
+                             class="w-full h-full object-cover img-zoom">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decoration Text (Hidden on small mobile to avoid clutter) -->
+        <div class="hidden sm:block absolute top-20 right-0 -mr-20 text-6xl md:text-9xl font-serif text-gray-100 -z-10 rotate-90 select-none opacity-50">
+            Essence
+        </div>
+    </section>
+
+    <!-- Menu Section (Grid & Editorial) -->
+    <section id="menu" class="bg-white py-24 md:py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 md:mb-24 fade-up">
+                <span class="text-xs tracking-widest uppercase text-gray-400 block mb-3">Gastronomy</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-brand-black">Menu</h2>
+            </div>
+
+            <!-- Course Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-16 md:gap-y-20 gap-x-16">
+
+                <!-- Item 1 -->
+                <div class="group fade-up">
+                    <div class="img-zoom-container mb-6 aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=1200&auto=format&fit=crop"
+                             class="w-full h-full object-cover img-zoom" alt="Course Dègustation">
+                    </div>
+                    <div class="flex justify-between items-baseline border-b border-gray-200 pb-4">
+                        <h3 class="font-serif text-2xl italic">Dégustation</h3>
+                        <span class="font-sans text-sm tracking-wide">¥ 28,000</span>
+                    </div>
+                    <p class="font-jp text-xs text-gray-500 mt-4 leading-relaxed text-justify">
+                        シェフのインスピレーションによる、季節の食材をふんだんに使用した全11品のフルコース。
+                        L'AUBEの世界観を余すことなくご堪能いただけます。
+                    </p>
+                </div>
+
+                <!-- Item 2 (Offset top on desktop only) -->
+                <div class="group fade-up delay-100 md:mt-24">
+                    <div class="img-zoom-container mb-6 aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1595130761358-86867375a069?q=80&w=1200&auto=format&fit=crop"
+                             class="w-full h-full object-cover img-zoom" alt="Course Saison">
+                    </div>
+                    <div class="flex justify-between items-baseline border-b border-gray-200 pb-4">
+                        <h3 class="font-serif text-2xl italic">Saison</h3>
+                        <span class="font-sans text-sm tracking-wide">¥ 18,000</span>
+                    </div>
+                    <p class="font-jp text-xs text-gray-500 mt-4 leading-relaxed text-justify">
+                        旬の味覚を軽やかに楽しむ、全8品のスタンダードコース。
+                        初めてご来店される方にもおすすめの構成です。
+                    </p>
+                </div>
+
+                <!-- View Full Menu Button -->
+                <div class="md:col-span-2 text-center fade-up mt-4 md:mt-8">
+                    <a href="../menu/index.html" class="inline-block border border-brand-black px-12 py-4 text-xs tracking-widest uppercase text-brand-black hover:bg-brand-black hover:text-white transition-colors duration-300">
+                        View Full Menu
+                    </a>
+                </div>
+
+                 <!-- Wine Pairing -->
+                 <div class="md:col-span-2 mt-8 md:mt-12 fade-up">
+                    <div class="relative w-full h-[50vh] md:h-[60vh] overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2000&auto=format&fit=crop"
+                             class="w-full h-full object-cover brightness-75 transition-transform duration-1000 group-hover:scale-105" alt="Wine Pairing">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6">
+                            <h3 class="font-serif text-3xl md:text-4xl mb-4 italic">Vin & Mariage</h3>
+                            <p class="font-jp text-xs md:text-sm tracking-widest mb-8 max-w-lg leading-loose">
+                                ソムリエが厳選した、世界各国のワインと料理の幸福なマリアージュ。<br>
+                                ペアリングコースもご用意しております。
+                            </p>
+                            <a href="../menu/index.html#wine" class="border border-white px-8 py-3 text-[10px] md:text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300">
+                                View Wine List
+                            </a>
+                        </div>
+                    </div>
+                 </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interior Section -->
+    <section id="space" class="py-24 md:py-32 bg-brand-black text-brand-gray relative">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-12 md:gap-16 items-center">
+                <div class="w-full md:w-1/2 fade-up">
+                    <span class="text-brand-gold text-xs tracking-widest uppercase mb-4 block">L'Espace</span>
+                    <h2 class="font-serif text-3xl md:text-5xl mb-6 md:mb-8">Sanctuary of <br>Silence</h2>
+                    <p class="font-jp text-gray-400 leading-loose text-sm mb-8 text-justify">
+                        都会の喧騒を忘れさせる、洗練された静謐な空間。
+                        キャンドルの灯りが揺れるテーブルで、大切な方との語らいを。
+                        インテリアには本革と天然木を使用し、温かみのある上質さを演出しています。
+                    </p>
+                </div>
+                <div class="w-full md:w-1/2 fade-up delay-100">
+                     <!-- Gallery Grid -->
+                     <div class="grid grid-cols-2 gap-4">
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop" class="w-full h-48 md:h-64 object-cover opacity-80 hover:opacity-100 transition-opacity" alt="Interior 1">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?q=80&w=800&auto=format&fit=crop" class="w-full h-48 md:h-64 object-cover opacity-80 hover:opacity-100 transition-opacity translate-y-8" alt="Interior 2">
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation / Footer -->
+    <footer id="reservation" class="bg-[#f9f9f7] pt-24 md:pt-32 pb-12 px-6">
+        <div class="max-w-5xl mx-auto text-center">
+
+            <div class="mb-16 md:mb-20 fade-up">
+                <h2 class="font-serif text-3xl md:text-5xl mb-6 text-brand-black">Reservation</h2>
+                <p class="font-jp text-sm text-gray-600 mb-10 tracking-wider leading-relaxed">
+                    ご予約はオンライン、またはお電話にて承っております。<br class="hidden md:inline">
+                    特別な日の演出などもお気軽にご相談ください。
+                </p>
+                <a href="../reservation/index.html" class="inline-block bg-brand-black text-white px-10 py-4 text-xs tracking-widest uppercase hover:bg-brand-gold transition-colors duration-300 shadow-lg">
+                    Book a Table
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 border-t border-gray-300 pt-16 text-brand-black fade-up">
+                <div class="text-center">
+                    <h4 class="font-serif text-lg italic mb-4">Address</h4>
+                    <p class="font-sans text-xs leading-loose tracking-wide text-gray-600">
+                        1-2-3 Minami-Aoyama,<br>
+                        Minato-ku, Tokyo<br>
+                        107-0062
+                    </p>
+                </div>
+                <div class="text-center">
+                    <h4 class="font-serif text-lg italic mb-4">Hours</h4>
+                    <p class="font-sans text-xs leading-loose tracking-wide text-gray-600">
+                        Lunch: 12:00 - 15:00 (L.O. 13:30)<br>
+                        Dinner: 18:00 - 23:00 (L.O. 20:30)<br>
+                        Closed: Wednesday
+                    </p>
+                </div>
+                <div class="text-center">
+                    <h4 class="font-serif text-lg italic mb-4">Contact</h4>
+                    <p class="font-sans text-xs leading-loose tracking-wide text-gray-600">
+                        Tel: 03-1234-5678<br>
+                        Email: info@laube-tokyo.com
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-20 md:mt-24 text-center">
+                <p class="font-serif text-2xl tracking-widest-xl text-brand-black mb-4">L'AUBE</p>
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest">&copy; 2024 L'AUBE Restaurant. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loading Animation
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('loader-hidden');
+            }, 1000);
+        });
+
+        // Mobile Menu Logic
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const openMenuBtn = document.getElementById('open-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenuOverlay.classList.remove('menu-hidden');
+            mobileMenuOverlay.classList.add('menu-visible');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeMenu() {
+            mobileMenuOverlay.classList.remove('menu-visible');
+            mobileMenuOverlay.classList.add('menu-hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        openMenuBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // Intersection Observer for Scroll Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-up');
+            fadeElements.forEach(el => observer.observe(el));
+
+            // Navbar Scroll Effect
+            const navbar = document.getElementById('navbar');
+            const logo = navbar.querySelector('.logo');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.remove('py-6', 'mix-blend-difference', 'text-white');
+                    navbar.classList.add('py-4', 'bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'text-brand-black');
+                } else {
+                    navbar.classList.add('py-6', 'mix-blend-difference', 'text-white');
+                    navbar.classList.remove('py-4', 'bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'text-brand-black');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>白露 Hakuro | Modern Japanese Cuisine</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      /* * CSS VARIABLES & RESET */
+      :root {
+        --bg-color: #f4f3ef; /* 和紙のようなオフホワイト */
+        --text-color: #2b2b2b; /* 墨色 */
+        --accent-color: #8c8070; /* 枯茶色 */
+        --line-color: rgba(43, 43, 43, 0.1);
+        --font-main: 'Shippori Mincho', serif;
+        --easing: cubic-bezier(0.22, 1, 0.36, 1);
+        --footer-bg: #4a3b32; /* 上品な焦げ茶 */
+        --footer-text: #eaddcf; /* フッター用テキスト色 */
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-main);
+        line-height: 2;
+        overflow-x: hidden;
+        letter-spacing: 0.05em;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* * UTILITIES & LAYOUT */
+      .container {
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        letter-spacing: 0.2em;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      /* * HEADER */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 100;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        mix-blend-mode: difference;
+        color: #fff;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        pointer-events: auto;
+        letter-spacing: 0.3em;
+      }
+
+      nav {
+        pointer-events: auto;
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-end;
+      }
+
+      .nav-item a {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Link Micro-interaction */
+      .nav-item a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: currentColor;
+        transition: width 0.6s var(--easing);
+      }
+
+      .nav-item a:hover::after {
+        width: 100%;
+        left: 0;
+      }
+
+      /* * WATERMARK DECORATION (ASANOHA) */
+      .accent-watermark {
+        position: fixed; /* 画面に固定（透かし） */
+        z-index: 0; /* 背景より手前、コンテンツより奥 */
+        width: 65vh;
+        height: 65vh;
+        background-color: var(--accent-color); /* 線の色として機能 */
+        opacity: 0.15;
+        pointer-events: none;
+
+        /* 麻の葉模様のマスク */
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='60' height='34.6' viewBox='0 0 60 34.6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L15 8.65 L0 0 M30 0 L45 8.65 L60 0 M30 0 L30 17.3 M0 0 L0 34.6 M60 0 L60 34.6 M15 8.65 L15 25.95 M45 8.65 L45 25.95 M0 34.6 L15 25.95 L30 34.6 L45 25.95 L60 34.6 M30 17.3 L15 8.65 M30 17.3 L45 8.65 M30 17.3 L15 25.95 M30 17.3 L45 25.95' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg width='60' height='34.6' viewBox='0 0 60 34.6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0 L15 8.65 L0 0 M30 0 L45 8.65 L60 0 M30 0 L30 17.3 M0 0 L0 34.6 M60 0 L60 34.6 M15 8.65 L15 25.95 M45 8.65 L45 25.95 M0 34.6 L15 25.95 L30 34.6 L45 25.95 L60 34.6 M30 17.3 L15 8.65 M30 17.3 L45 8.65 M30 17.3 L15 25.95 M30 17.3 L45 25.95' stroke='black' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+
+        -webkit-mask-size: 60px;
+        mask-size: 60px;
+        -webkit-mask-repeat: repeat;
+        mask-repeat: repeat;
+      }
+
+      /* 右上：逆三角形 */
+      .watermark-tr {
+        top: 0;
+        right: 0;
+        /* 大きな三角形に切り抜き */
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+      }
+
+      /* 左下：三角形 */
+      .watermark-bl {
+        bottom: 0;
+        left: 0;
+        /* 大きな三角形に切り抜き */
+        clip-path: polygon(0 100%, 100% 100%, 0 0);
+      }
+
+
+      /* * HERO SECTION */
+      .hero {
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 120%; /* For parallax */
+        object-fit: cover;
+        filter: brightness(0.8) contrast(1.1);
+        will-change: transform;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 4rem;
+        font-weight: 500;
+        margin-bottom: 2rem;
+        letter-spacing: 0.5em;
+        line-height: 1;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1.5s var(--easing) 0.5s forwards;
+      }
+
+      .hero-sub {
+        font-size: 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1.5s var(--easing) 0.8s forwards;
+      }
+
+      /* * SECTIONS COMMON */
+      section {
+        padding: 8rem 0;
+        position: relative;
+      }
+
+      .section-title {
+        font-size: 3rem;
+        position: absolute;
+        z-index: 1;
+        color: var(--text-color);
+        opacity: 0.1;
+        font-weight: 400;
+      }
+
+      /* * CONCEPT SECTION (Asymmetrical Grid) */
+      .concept {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .concept-text {
+        padding-left: 10%;
+        position: relative;
+      }
+
+      .concept-text h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      .concept-image-wrapper {
+        position: relative;
+        height: 80vh;
+        overflow: hidden;
+      }
+
+      /* 新しいシンプルフェードインアニメーション */
+      .fade-in-slow {
+        opacity: 0;
+        transition: opacity 2.5s ease-out;
+      }
+
+      .fade-in-slow.is-visible {
+        opacity: 1;
+      }
+
+      /* Concept Image Animation Class */
+      .concept-image {
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      /* Conceptセクション専用のサイズ指定 */
+      .concept-image-wrapper img {
+        height: 120%;
+      }
+
+      /* * MENU SECTION (Reverted to Original) */
+      .menu-section {
+        background-color: #f9f8f6;
+        background-image: url("../image/washi.png");
+        padding: 10rem 0;
+      }
+
+      .menu-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: flex-start;
+      }
+
+      .menu-list {
+        list-style: none;
+      }
+
+      .menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--line-color);
+        transition: padding-left 0.4s var(--easing);
+      }
+
+      .menu-item:hover {
+        padding-left: 1rem;
+        border-bottom: 1px solid var(--accent-color);
+      }
+
+      .dish-name {
+        font-size: 1.1rem;
+      }
+
+      .dish-price {
+        font-size: 0.9rem;
+        color: var(--accent-color);
+      }
+
+      .menu-image {
+        width: 100%;
+        height: 60vh;
+        object-fit: cover;
+        margin-top: -12rem; /* PC版: 大胆に上に */
+      }
+
+      /* * GALLERY SECTION */
+      .gallery {
+        padding-top: 5rem;
+        padding-bottom: 5rem; /* 背景を見せるために下部にも余白を追加 */
+        /* 背景画像を追加 */
+        background-image: url("../image/washi2.png");
+        background-size: cover; /* 全面に表示 */
+        background-position: center;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 2rem;
+      }
+
+      .g-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .g-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .g-item:hover img {
+        transform: scale(1.05);
+        transition: transform 0.8s var(--easing);
+      }
+
+      .g-1 { grid-column: 2 / span 4; grid-row: 1 / span 4; height: 400px; }
+      .g-2 { grid-column: 7 / span 5; grid-row: 2 / span 3; height: 300px; }
+      .g-3 { grid-column: 4 / span 6; grid-row: 5 / span 5; height: 500px; margin-top: -2rem;}
+
+      /* * FOOTER */
+      footer {
+        padding: 6rem 0 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        border-top: 1px solid var(--line-color);
+        /* 背景色と文字色を変更 */
+        background-color: var(--footer-bg);
+        color: var(--footer-text);
+      }
+
+      .footer-logo {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        display: inline-block;
+      }
+
+      /* ボタンのスタイル（厚みのあるデザイン） */
+      .reservation-btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 1rem 3rem;
+        background-image: url("../image/wood.png"); /* 背景画像 */
+        background-size: cover;
+        background-position: center;
+
+        color: #000; /* 文字は黒字 */
+        font-size: 1.5rem; /* 文字を大きく */
+        font-weight: 700; /* 文字を太く */
+        text-decoration: none;
+
+        /* 厚みを表現する影とボーダー */
+        box-shadow: 0 5px 0 #3e2723, 0 10px 10px rgba(0,0,0,0.3);
+        border-radius: 4px;
+        transition: all 0.2s var(--easing);
+        position: relative;
+        top: 0;
+      }
+
+      .reservation-btn:hover {
+        /* 押した感じのアニメーション */
+        top: 3px;
+        box-shadow: 0 2px 0 #3e2723, 0 5px 5px rgba(0,0,0,0.2);
+        opacity: 1; /* 不透明度は維持 */
+      }
+
+      .info p {
+        margin-bottom: 0.5rem;
+      }
+
+      .copyright {
+        margin-top: 4rem;
+        font-size: 0.75rem;
+        color: rgba(234, 221, 207, 0.6); /* フッターに合わせて薄いベージュ */
+      }
+
+      /* * ANIMATION CLASSES & KEYFRAMES */
+      @keyframes fadeUp {
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1s var(--easing), transform 1s var(--easing);
+      }
+
+      .fade-in-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-color);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #dcdcdc;
+        border-radius: 3px;
+      }
+
+      /* * =========================================
+         * RESPONSIVE DESIGN (High-End Mobile Layout)
+         * =========================================
+         */
+      @media (max-width: 768px) {
+
+        /* 1. 全体設定：余白のバランスを再構築 */
+        .container {
+          width: 88%; /* 左右に少し余裕を持たせる */
+        }
+
+        section {
+          padding: 6rem 0; /* セクション間の間隔を適切に */
+        }
+
+        /* 2. ヘッダー：ミニマルな下部配置へ変更も検討できるが、
+              今回は上部に固定しつつ、リストを洗練させる */
+        header {
+          padding: 1.5rem;
+          height: auto;
+          align-items: flex-start;
+        }
+
+        .logo {
+          font-size: 1.4rem;
+        }
+
+        .nav-list {
+          flex-direction: row;
+          gap: 1.2rem;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          margin-top: 0.2rem;
+        }
+
+        .nav-item a {
+          font-size: 0.75rem; /* 小さくエレガントに */
+          letter-spacing: 0.05em;
+        }
+
+        .vertical-text {
+          writing-mode: horizontal-tb; /* スマホは横書きベースで可読性重視 */
+        }
+
+        /* 3. Hero Section */
+        h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero-sub { font-size: 0.9rem; letter-spacing: 0.2em; }
+
+        /* 4. Concept Section：雑誌風レイアウト */
+        .concept {
+          display: flex;
+          flex-direction: column-reverse; /* 画像を上に、テキストを下に */
+          gap: 3rem;
+          position: relative;
+        }
+
+        /* 画像を小さく、右側に寄せて配置（アシンメトリー） */
+        .concept-image-wrapper {
+          width: 75%;
+          height: 40vh;
+          margin-left: auto; /* 右寄せ */
+          margin-right: -1rem; /* 画面端に少し近づける */
+          position: relative;
+          z-index: 1;
+        }
+
+        .concept-text {
+          padding: 0;
+          margin-bottom: 0;
+          width: 90%;
+          z-index: 2;
+          /* 画像に少しテキストを被せるようなネガティブマージン */
+          margin-top: -4rem;
+          background: linear-gradient(to right, var(--bg-color) 0%, var(--bg-color) 60%, transparent 100%);
+          padding-top: 2rem;
+        }
+
+        .concept-text p {
+          font-size: 0.95rem;
+          line-height: 2.2;
+          text-align: justify;
+        }
+
+        /* タイトルを縦書きにしてアクセントにする */
+        .concept-text h2 {
+          writing-mode: vertical-rl;
+          position: absolute;
+          right: 0;
+          top: -180px; /* 画像の左側に配置されるように調整 */
+          font-size: 1.5rem;
+          color: #fff; /* 画像の上に乗るので白字 */
+          text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+          letter-spacing: 0.3em;
+          height: auto;
+        }
+
+        /* 5. Menu Section：非対称な余白 */
+        .menu-section {
+          padding: 6rem 0;
+          background: linear-gradient(180deg, #f9f8f6 0%, var(--bg-color) 100%);
+        }
+
+        .menu-container {
+          grid-template-columns: 1fr;
+          gap: 4rem;
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* 画像を非常に小さく、左上に配置してアクセントに */
+        .menu-image-wrapper {
+          width: 50%; /* 画面半分のサイズ */
+          margin-right: auto; /* 左寄せ */
+          margin-left: 0;
+        }
+
+        .menu-image {
+          height: 35vh; /* 高さを抑える */
+          margin-top: -3rem; /* スマホ版でも位置を少し上に */
+          margin-bottom: 3rem; /* 下の要素との距離を確保 */
+          object-fit: cover;
+          box-shadow: 10px 10px 0px rgba(140, 128, 112, 0.2); /* 影で立体感 */
+        }
+
+        .menu-content {
+          width: 100%;
+          padding-left: 10%; /* 左に余白を作り、画像とのバランスを取る */
+        }
+
+        .menu-content h2 {
+          text-align: right; /* 見出しを右に寄せてリズムを作る */
+          font-size: 1.5rem;
+          margin-top: -6rem; /* 画像の横にタイトルを持ってくる */
+          margin-bottom: 4rem;
+        }
+
+        .menu-item {
+          padding: 1.2rem 0;
+        }
+        .dish-name { font-size: 1rem; }
+        .dish-price { font-size: 0.85rem; }
+
+        /* 6. Gallery Section：ジグザグ配置 */
+        .gallery { padding-top: 0; }
+        .gallery .section-title {
+          position: static;
+          font-size: 2rem;
+          margin-bottom: 3rem;
+          text-align: center;
+          writing-mode: horizontal-tb;
+          opacity: 1; /* スマホでははっきり見せる */
+          color: var(--accent-color);
+          letter-spacing: 0.2em;
+        }
+
+        .gallery-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 6rem; /* 間隔を広げる */
+        }
+
+        .g-item {
+          height: auto;
+          width: 75%; /* 幅を狭めて余白を作る */
+          box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        .g-item img {
+          height: 60vw; /* 正方形に近い比率 */
+          object-fit: cover;
+        }
+
+        /* 奇数番目：左寄せ */
+        .g-item:nth-child(odd) {
+          margin-right: auto;
+          margin-left: 0;
+        }
+
+        /* 偶数番目：右寄せ */
+        .g-item:nth-child(even) {
+          margin-left: auto;
+          margin-right: 0;
+        }
+
+        /* 3つ目（Interior）：中央配置でワイドに */
+        .g-3 {
+          width: 100%;
+          margin: 0 !important;
+          margin-top: 2rem !important;
+        }
+        .g-3 img { height: 50vh; }
+
+        /* 7. スマホ用追加調整 */
+
+        /* 和柄デザイン：スマホ時は全画面背景として表示 */
+        .accent-watermark {
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          /* 切り抜きを解除して全面表示 */
+          clip-path: none;
+          -webkit-clip-path: none;
+          /* 全面表示用に少し透明度を調整 */
+          opacity: 0.1;
+        }
+        /* 重ならないように片方を非表示 */
+        .watermark-bl {
+          display: none;
+        }
+
+        /* 予約ボタン：スマホ用にサイズダウンしつつ、厚みを表現 */
+        .reservation-btn {
+          font-size: 1.1rem; /* PC版の1.5remから縮小 */
+          padding: 0.8rem 2rem; /* 余白を縮小 */
+          margin-top: 0.5rem;
+          /* スマホでも厚み（立体感）をしっかり表現：影のサイズをボタンに合わせて調整 */
+          box-shadow: 0 4px 0 #3e2723, 0 8px 8px rgba(0,0,0,0.3);
+        }
+
+        /* スマホでのタップ時にボタンが沈み込む演出 */
+        .reservation-btn:active {
+          top: 4px; /* 影の分だけ下に移動 */
+          box-shadow: 0 0 0 #3e2723, 0 2px 2px rgba(0,0,0,0.2); /* 影をなくす */
+        }
+      }
+    </style>
+
+  </head>
+  <body>
+
+    <!-- Asanoha Accents -->
+    <div class="accent-watermark watermark-tr"></div>
+    <div class="accent-watermark watermark-bl"></div>
+
+    <header>
+      <div class="logo vertical-text">白露</div>
+      <nav>
+        <ul class="nav-list vertical-text">
+          <li class="nav-item"><a href="#concept">理念</a></li>
+          <li class="nav-item"><a href="#menu">献立</a></li>
+          <li class="nav-item"><a href="#gallery">空間</a></li>
+          <li class="nav-item"><a href="#reservation">予約</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <div class="hero">
+        <!-- Unsplash Image: Moody Japanese Atmosphere / Texture -->
+        <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=2070&auto=format&fit=crop" alt="Background" class="hero-bg" data-parallax="0.2">
+        <div class="hero-content vertical-text">
+          <h1>白露</h1>
+          <span class="hero-sub">季節を映す、余白の美</span>
+        </div>
+      </div>
+
+      <!-- Concept Section -->
+      <section id="concept" class="container concept">
+        <div class="concept-text fade-in-up">
+          <p class="vertical-text" style="height: auto; min-height: 200px; line-height: 2.5;">
+            静謐な空間で、<br>
+            旬の食材と対話する。<br><br>
+            削ぎ落とすことで生まれる<br>
+            本質的な豊かさを<br>
+            一皿に込めて。
+          </p>
+          <br>
+          <h2>料理哲学</h2>
+        </div>
+        <!-- 変更: reveal-img を fade-in-slow に変更 -->
+        <div class="concept-image-wrapper fade-in-slow">
+          <!-- Unsplash Image: Sushi Chef's Hands / Craftsmanship -->
+          <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=2070&auto=format&fit=crop" alt="Craftsmanship" class="concept-image" data-parallax="0.05">
+        </div>
+      </section>
+
+      <!-- Menu Section -->
+      <section id="menu" class="menu-section">
+        <div class="container menu-container">
+          <!-- 変更: reveal-img を fade-in-slow に変更 -->
+          <div class="menu-image-wrapper fade-in-slow">
+            <!-- プレビュー用にローカル画像をUnsplash画像に置換: Tempura/Kaiseki -->
+            <img src="../image/tenpura.png" class="menu-image concept-image" data-parallax="0.06" alt="Seasonal Tempura">
+          </div>
+          <div class="menu-content fade-in-up">
+            <h2 style="font-weight:500;">お品書き</h2>
+            <ul class="menu-list">
+              <li class="menu-item">
+                <span class="dish-name">昼の懐石 "霞"</span>
+                <span class="dish-price">8,800円</span>
+              </li>
+              <li class="menu-item">
+                <span class="dish-name">季節のおまかせ "白露"</span>
+                <span class="dish-price">16,500円</span>
+              </li>
+              <li class="menu-item">
+                <span class="dish-name">特別懐石 "月"</span>
+                <span class="dish-price">24,200円</span>
+              </li>
+              <li class="menu-item">
+                <span class="dish-name">日本酒ペアリング (五種)</span>
+                <span class="dish-price">5,500円</span>
+              </li>
+            </ul>
+            <p style="margin-top: 3rem; font-size: 0.8rem; color: #666;">※価格は全て税込・サービス料別でございます。<br>※季節の食材を使用するため、内容は日によって異なります。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery Section -->
+      <!-- 変更: containerクラスを削除し、内部にdiv.containerを追加することで背景を全幅にする -->
+      <section id="gallery" class="gallery">
+        <div class="container">
+          <div class="section-title vertical-text" style="left: 0; top: 100px;">設え</div>
+          <div class="gallery-grid">
+            <!-- 変更: reveal-img を fade-in-slow に変更 -->
+            <div class="g-item g-1 fade-in-slow">
+              <img src="https://images.unsplash.com/photo-1534482421-64566f976cfa?q=80&w=2070&auto=format&fit=crop" alt="Sushi Detail" class="concept-image">
+            </div>
+            <!-- 変更: reveal-img を fade-in-slow に変更 -->
+            <div class="g-item g-2 fade-in-slow">
+              <img src="https://images.unsplash.com/photo-1584225064785-c62a8b43d148?q=80&w=2070&auto=format&fit=crop" alt="Sake" class="concept-image">
+            </div>
+            <!-- 変更: reveal-img を fade-in-slow に変更 -->
+            <div class="g-item g-3 fade-in-slow">
+              <!-- プレビュー用にローカル画像をUnsplash画像に置換: Interior -->
+              <img src="../image/interior.png" alt="Interior" class="concept-image">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reservation / Footer -->
+      <footer id="reservation">
+        <div class="container fade-in-up">
+          <div class="footer-logo vertical-text">白露</div>
+          <div class="info">
+            <p>東京都港区南青山 5-XX-XX</p>
+            <p>03-1234-5678</p>
+            <p>水曜定休 / 完全予約制</p>
+          </div>
+          <div style="margin-top: 3rem;">
+            <!-- クラスを適用してデザイン変更 -->
+            <a href="../reservation/index.html" class="reservation-btn">オンライン予約はこちら</a>
+          </div>
+          <p class="copyright">&copy; 2024 Hakuro. All Rights Reserved.</p>
+        </div>
+      </footer>
+    </main>
+
+    <!-- JS -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+        // 1. パララックス効果
+        // 画像自体を動かします（transform）。これは opacity（CSS）と干渉しません。
+        const parallaxElements = document.querySelectorAll('[data-parallax]');
+
+        function scrollHandler() {
+          const scrollY = window.scrollY;
+
+          parallaxElements.forEach(el => {
+            const speed = el.getAttribute('data-parallax');
+            const rect = el.getBoundingClientRect();
+
+            // 画面内にある時だけ計算
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              const offset = scrollY * speed;
+              // 単純な移動のみ。scaleなどは操作しないため安全です。
+              el.style.transform = `translate3d(0, ${offset}px, 0)`;
+            }
+          });
+        }
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              scrollHandler();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        });
+
+        // 初期ロード時にも位置計算を実行
+        window.addEventListener('load', () => {
+          scrollHandler();
+        });
+
+        // 2. ふわっと表示させるアニメーション (Intersection Observer)
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.1 // 10%見えたら発火
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // 画面に入ったら 'is-visible' クラスを追加
+              // CSSで opacity が 0 -> 1 に変化します
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        // 監視対象: テキスト(.fade-in-up) と 画像ラッパー(.fade-in-slow)
+        const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-slow');
+        animatedElements.forEach(el => observer.observe(el));
+      });
+    </script>
+  </body>
+</html>

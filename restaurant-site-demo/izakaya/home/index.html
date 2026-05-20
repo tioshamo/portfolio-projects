@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO SAKABA ｜ 酔虎 - SUICO -</title>
+
+    <!-- Google Fonts: Syne (English display), Noto Sans JP (Japanese) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           RESET & VARIABLES
+           ========================================= */
+        :root {
+            --c-bg: #0a0a0a;
+            --c-text: #f0f0f0;
+            --c-accent-1: #ccff00; /* Acid Green */
+            --c-accent-2: #ff00ff; /* Hot Pink */
+            --c-accent-3: #00ffff; /* Cyber Blue */
+            --border-w: 3px;
+            --border-c: #000;
+            --font-main: 'Syne', sans-serif;
+            --font-jp: 'Noto Sans JP', sans-serif;
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            font-family: var(--font-jp);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: none; }
+        ul { list-style: none; }
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            background: var(--c-accent-1);
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        .cursor.hovered {
+            width: 80px; height: 80px;
+            background: var(--c-text);
+        }
+
+        /* =========================================
+           UTILITIES (Neo-Brutalism Core)
+           ========================================= */
+        .brutal-box {
+            border: var(--border-w) solid var(--c-text);
+            background: var(--c-bg);
+            position: relative;
+            transition: transform 0.3s var(--ease-out);
+        }
+
+        .brutal-shadow {
+            box-shadow: 8px 8px 0px var(--c-accent-1);
+        }
+
+        .brutal-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 1.5rem;
+            padding: 1rem 3rem;
+            background: var(--c-accent-1);
+            color: #000;
+            border: var(--border-w) solid #000;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .brutal-btn:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px var(--c-accent-3);
+        }
+        .brutal-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.3);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+        .brutal-btn:hover::after {
+            left: 100%;
+        }
+
+        /* Kinetic Typography Class */
+        .kinetic-text {
+            font-family: var(--font-main);
+            line-height: 0.8;
+            text-transform: uppercase;
+            font-weight: 800;
+            word-break: break-all;
+        }
+
+        /* =========================================
+           HEADER
+           ========================================= */
+        header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: var(--font-main);
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .menu-trigger {
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: 2px solid #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero-text-container {
+            position: relative;
+            z-index: 2;
+            padding-left: 4vw;
+        }
+
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 15rem);
+            color: var(--c-text);
+            /* Outline Text */
+            -webkit-text-stroke: 2px var(--c-text);
+            color: transparent;
+            transition: color 0.5s;
+        }
+        .hero-title:hover {
+            color: var(--c-accent-1);
+            -webkit-text-stroke: 0px;
+        }
+
+        .hero-title span {
+            display: block;
+            transform: translateX(-100px);
+            opacity: 0;
+            animation: slideIn 1s var(--ease-out) forwards;
+        }
+        .hero-title span:nth-child(2) {
+            color: var(--c-accent-1);
+            -webkit-text-stroke: 0px;
+            animation-delay: 0.2s;
+            margin-left: 10vw;
+        }
+        .hero-title span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .hero-visual {
+            position: absolute;
+            right: 5vw;
+            top: 20vh;
+            width: 40vw;
+            height: 60vh;
+            border: 4px solid var(--c-accent-2);
+            z-index: 1;
+            transform: rotate(-5deg);
+            transition: transform 0.5s;
+        }
+
+        /* Scroll Trigger Effect */
+        .hero-visual.scrolled {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        .hero-visual img {
+            filter: grayscale(100%) contrast(120%);
+            transition: filter 0.5s;
+        }
+        .hero-visual:hover img {
+            filter: grayscale(0%) contrast(110%);
+        }
+
+        /* Marquee Strip */
+        .marquee-strip {
+            position: absolute;
+            bottom: 5vh;
+            width: 100%;
+            background: var(--c-accent-1);
+            color: #000;
+            padding: 1rem 0;
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 1.5rem;
+            transform: rotate(2deg) scaleX(1.1);
+            border-top: 3px solid #000;
+            border-bottom: 3px solid #000;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+
+        /* =========================================
+           MENU / CONCEPT (Updated Collage Style)
+           ========================================= */
+        .section-concept {
+            padding: 15vh 4vw;
+            background: var(--c-text);
+            color: var(--c-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collage-grid {
+            display: grid;
+            grid-template-columns: 4fr 6fr; /* Text | Images */
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .concept-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-weight: 700;
+            position: relative;
+            z-index: 5;
+        }
+        .concept-text h2 {
+            font-family: var(--font-main);
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            line-height: 0.9;
+        }
+
+        /* Collage Wrapper */
+        .collage-images {
+            position: relative;
+            height: 70vh;
+            min-height: 600px;
+            width: 100%;
+            /* Debug background */
+            /* background: rgba(0,0,0,0.1); */
+        }
+
+        .menu-card {
+            position: absolute;
+            width: 55%;
+            height: 65%;
+            border: 3px solid #000;
+            background: #000;
+            overflow: hidden;
+            transition: all 0.5s var(--ease-out);
+            cursor: pointer;
+        }
+
+        .menu-card img {
+            opacity: 0.7;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .menu-card:hover img {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Card Positioning */
+        .menu-card.card-food {
+            top: 5%;
+            left: 5%;
+            transform: rotate(-6deg);
+            z-index: 1;
+            border-color: #000;
+        }
+
+        .menu-card.card-drink {
+            bottom: 5%;
+            right: 5%;
+            transform: rotate(4deg);
+            z-index: 2;
+            border-color: var(--c-accent-3); /* Cyan border */
+        }
+
+        /* Hover Interaction */
+        .menu-card:hover {
+            z-index: 10;
+            transform: scale(1.05) rotate(0deg) translateY(-10px);
+            box-shadow: 15px 15px 0 rgba(0,0,0,0.2);
+            border-color: var(--c-accent-2); /* Pink on hover */
+        }
+
+        .menu-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: var(--c-accent-2);
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 2.5rem;
+            border-top: 3px solid #000;
+            border-right: 3px solid #000;
+        }
+
+        /* Decorative Sticker */
+        .sticker-badge {
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            width: 140px;
+            height: 140px;
+            background: var(--c-accent-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transform: translate(-50%, -50%) rotate(15deg);
+            z-index: 5;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px rgba(0,0,0,1);
+            pointer-events: none;
+            animation: floatSticker 3s ease-in-out infinite;
+        }
+        .sticker-badge span {
+            font-family: var(--font-main);
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #000;
+            line-height: 1.1;
+        }
+
+        @keyframes floatSticker {
+            0%, 100% { transform: translate(-50%, -50%) rotate(15deg) translateY(0); }
+            50% { transform: translate(-50%, -50%) rotate(15deg) translateY(-10px); }
+        }
+
+        /* =========================================
+           VIBE SECTION (Scroll Trigger)
+           ========================================= */
+        .section-vibe {
+            min-height: 100vh;
+            padding: 10vh 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .big-message {
+            font-family: var(--font-main);
+            font-size: 15vw;
+            line-height: 0.8;
+            text-align: center;
+            color: var(--c-bg);
+            -webkit-text-stroke: 2px var(--c-accent-3);
+            white-space: nowrap;
+            transform: translateX(100%);
+            transition: transform 0.1s linear; /* Controlled by JS */
+        }
+
+        .photo-stack {
+            position: relative;
+            width: 80vw;
+            height: 60vh;
+            margin-top: -5vw;
+        }
+
+        .stack-img {
+            position: absolute;
+            width: 300px;
+            height: 400px;
+            border: 3px solid var(--c-accent-1);
+            transition: transform 0.5s var(--ease-out);
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        .stack-img.show {
+            opacity: 1;
+            transform: translateY(0) rotate(var(--r));
+        }
+
+        .stack-img:nth-child(1) { left: 10%; top: 0; --r: -5deg; z-index: 1; }
+        .stack-img:nth-child(2) { left: 40%; top: 50px; --r: 3deg; z-index: 2; border-color: var(--c-accent-2); }
+        .stack-img:nth-child(3) { left: 70%; top: -20px; --r: 8deg; z-index: 3; border-color: var(--c-accent-3); }
+
+        .vibe-cta {
+            margin-top: 5rem;
+            z-index: 10;
+        }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer {
+            background: var(--c-accent-1);
+            color: #000;
+            padding: 4rem 2rem;
+            border-top: 4px solid #fff;
+            text-align: center;
+        }
+        .footer-cta {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+        }
+        .footer-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* =========================================
+           ANIMATIONS
+           ========================================= */
+        @keyframes slideIn {
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* =========================================
+           MOBILE RESPONSIVE
+           ========================================= */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+            }
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            /* Hero adjustments */
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .hero-text-container {
+                padding-left: 0;
+                margin-bottom: 2rem;
+                text-align: center;
+                width: 100%;
+            }
+            .hero-title {
+                font-size: 18vw;
+                line-height: 0.9;
+            }
+            .hero-title span:nth-child(2) {
+                margin-left: 2rem; /* Reduce offset on mobile */
+            }
+
+            .hero-visual {
+                position: relative;
+                width: 90vw;
+                height: 40vh;
+                right: auto;
+                top: auto;
+                opacity: 0.8;
+                margin-top: -2rem;
+            }
+
+            /* Concept adjustments */
+            .collage-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .concept-text {
+                margin-bottom: 1rem;
+            }
+            .concept-text h2 {
+                font-size: 3rem;
+            }
+
+            .collage-images {
+                height: 500px; /* Reduced height for mobile */
+                width: 100%;
+                margin-top: 1rem;
+            }
+            .menu-card {
+                width: 70%;
+                height: 60%;
+            }
+            .menu-card.card-food {
+                left: 0;
+                top: 0;
+                transform: rotate(-3deg);
+            }
+            .menu-card.card-drink {
+                right: 0;
+                bottom: 0;
+                transform: rotate(3deg);
+            }
+            .sticker-badge {
+                width: 100px;
+                height: 100px;
+                font-size: 0.8rem;
+            }
+
+
+            /* Vibe adjustments */
+            .section-vibe {
+                padding: 5vh 0;
+            }
+            .big-message {
+                margin-bottom: 2rem;
+            }
+
+            /* VIBE SECTION MOBILE UPDATE */
+            .photo-stack {
+                width: 100%;
+                height: 750px; /* Increase height for vertical stack */
+                margin-top: 2rem;
+            }
+            .stack-img {
+                width: 80%;
+                height: 350px;
+                left: 10% !important; /* Center horizontally roughly */
+            }
+            .stack-img:nth-child(1) {
+                top: 0;
+                left: 10% !important;
+                --r: -3deg; /* Override rotation var */
+            }
+            .stack-img:nth-child(2) {
+                left: 15% !important;
+                top: 220px; /* Shift down */
+                --r: 2deg;
+                z-index: 2;
+            }
+            .stack-img:nth-child(3) {
+                left: 5% !important;
+                top: 440px; /* Shift down further */
+                --r: -2deg;
+                z-index: 3;
+            }
+
+            .vibe-cta {
+                margin-top: 2rem; /* Reduce margin on mobile */
+            }
+
+            /* Footer adjustments */
+            .footer-cta {
+                font-size: 2rem;
+            }
+            .footer-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            .brutal-btn {
+                width: 100%;
+                max-width: 300px;
+                padding: 1rem;
+                font-size: 1.2rem;
+                margin-left: 0 !important; /* Override inline styles */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <header>
+        <div class="logo">SUICO</div>
+        <div class="menu-trigger">
+          <a href="../menu/index.html" class="back-link">MENU</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-text-container kinetic-text">
+                <h1 class="hero-title">
+                    <span>NEO</span>
+                    <span>IZAKAYA</span>
+                    <span>TOKYO</span>
+                </h1>
+                <a href="#" class="brutal-btn" style="margin-top: 2rem; margin-left: 1rem;">Reserve Now</a>
+            </div>
+
+            <div class="hero-visual" data-scroll>
+                <!-- Image: Cyberpunk City / Neon -->
+                <img src="https://images.unsplash.com/photo-1565551988880-99786e6878d6?q=80&w=1000&auto=format&fit=crop" alt="Neo Tokyo Vibe">
+            </div>
+
+            <div class="marquee-strip">
+                <div class="marquee-content">
+                    NEO SAKABA TOKYO /// DRINK OR DIE /// GYOZA & HIGHBALL /// Z-GENERATION CHAOS /// 24 HOURS PARTY PEOPLE ///
+                    NEO SAKABA TOKYO /// DRINK OR DIE /// GYOZA & HIGHBALL /// Z-GENERATION CHAOS /// 24 HOURS PARTY PEOPLE ///
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCEPT & MENU SECTION (Updated) -->
+        <section class="section-concept">
+            <div class="collage-grid">
+
+                <!-- Text Area -->
+                <div class="concept-text" data-scroll>
+                    <h2>REDEFINE<br>TRADITION.</h2>
+                    <p>
+                        昭和レトロとサイバーパンクの衝突。<br>
+                        "エモい"だけじゃない、<br>
+                        五感を殴るような食体験。<br>
+                        ここは東京のバグ、あるいは理想郷。
+                    </p>
+                    <br>
+                    <p style="font-weight:900; font-size: 1.5rem; color: #000; background: var(--c-accent-1); display:inline-block; padding: 0.2rem 0.5rem;">#NEO_IZAKAYA</p>
+                </div>
+
+                <!-- Collage Images Area -->
+                <div class="collage-images">
+                    <!-- Menu Card 1: Food -->
+                    <div class="menu-card card-food" data-scroll>
+                        <img src="https://images.unsplash.com/photo-1549488344-c7059349bd5c?q=80&w=800&auto=format&fit=crop" alt="Neo Food">
+                        <div class="menu-label">FOOD</div>
+                    </div>
+
+                    <!-- Decorative Sticker -->
+                    <div class="sticker-badge">
+                        <span>RECOMMEND<br>MENU<br>2024</span>
+                    </div>
+
+                    <!-- Menu Card 2: Drink -->
+                    <div class="menu-card card-drink" data-scroll>
+                        <img src="https://images.unsplash.com/photo-1556763428-144a82c40c1d?q=80&w=800&auto=format&fit=crop" alt="Neon Drink">
+                        <div class="menu-label">SOUR</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VIBE / GALLERY SECTION -->
+        <section class="section-vibe">
+            <div class="big-message" id="scrollingText">
+                CHAOS NIGHT CHAOS NIGHT CHAOS NIGHT
+            </div>
+
+            <div class="photo-stack">
+                <div class="stack-img" data-scroll>
+                    <!-- Image: Portrait / Fashion / Neon -->
+                    <img src="https://images.unsplash.com/photo-1515634918662-8e4835a2977d?q=80&w=600&auto=format&fit=crop" alt="Vibe 1">
+                </div>
+                <div class="stack-img" data-scroll>
+                    <!-- Image: Cyberpunk Street -->
+                    <img src="https://images.unsplash.com/photo-1588636906232-a279c2980d21?q=80&w=600&auto=format&fit=crop" alt="Vibe 2">
+                </div>
+                <div class="stack-img" data-scroll>
+                    <!-- Image: Party / DJ -->
+                    <img src="https://images.unsplash.com/photo-1574391884720-3850ea598871?q=80&w=600&auto=format&fit=crop" alt="Vibe 3">
+                </div>
+            </div>
+
+            <!-- New Instagram Button -->
+            <div class="vibe-cta" data-scroll>
+                <a href="https://instagram.com" target="_blank" class="brutal-btn" style="background:transparent; color:var(--c-accent-3); border-color:var(--c-accent-3);">
+                    <i class="fab fa-instagram"></i> FOLLOW US
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-cta kinetic-text">
+            ARE YOU READY<br>TO GET GLITCHED?
+        </div>
+        <div class="footer-buttons">
+            <a href="#" class="brutal-btn" style="background:#fff; color:#000;">BOOK A TABLE</a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.8rem;">© 2024 SUICO - NEO SAKABA PROJECT.</p>
+    </footer>
+
+    <script>
+        // =========================================
+        // CUSTOM CURSOR
+        // =========================================
+        const cursor = document.querySelector('.cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const hoverElements = document.querySelectorAll('a, .menu-card, .stack-img');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // =========================================
+        // SCROLL OBSERVER (REVEAL ANIMATION)
+        // =========================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    entry.target.classList.add('scrolled');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('[data-scroll]').forEach(el => {
+            observer.observe(el);
+        });
+
+        // =========================================
+        // PARALLAX TEXT EFFECT
+        // =========================================
+        const bigText = document.getElementById('scrollingText');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const rate = scrolled * 0.5;
+
+            // Hero Title Movement
+            const heroVisual = document.querySelector('.hero-visual');
+            if(heroVisual) {
+                // Check if width is less than 768px to apply different logic if needed
+                if(window.innerWidth > 768){
+                    heroVisual.style.transform = `translateY(${scrolled * 0.1}px) rotate(${Math.max(-5 + scrolled * 0.01, 0)}deg)`;
+                } else {
+                     // Simplified parallax for mobile
+                     heroVisual.style.transform = `translateY(${scrolled * 0.05}px) rotate(0deg)`;
+                }
+            }
+
+            // Big Marquee Text in Vibe Section
+            if (bigText) {
+                const sectionTop = document.querySelector('.section-vibe').offsetTop;
+                if (scrolled > sectionTop - window.innerHeight) {
+                    const offset = (scrolled - sectionTop) * 1.5;
+                    bigText.style.transform = `translateX(${100 - offset}px)`;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

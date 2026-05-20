@@ -1,0 +1,546 @@
+/* * CSS VARIABLES & RESET */
+      :root {
+        --bg-color: #f4f3ef; /* 和紙のようなオフホワイト */
+        --text-color: #2b2b2b; /* 墨色 */
+        --accent-color: #8c8070; /* 枯茶色 */
+        --line-color: rgba(43, 43, 43, 0.1);
+        --font-main: 'Shippori Mincho', serif;
+        --easing: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-main);
+        line-height: 2;
+        overflow-x: hidden;
+        letter-spacing: 0.05em;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* * UTILITIES & LAYOUT */
+      .container {
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        letter-spacing: 0.2em;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      /* * HEADER */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 100;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        mix-blend-mode: difference;
+        color: #fff;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 600;
+        pointer-events: auto;
+        letter-spacing: 0.3em;
+      }
+
+      nav {
+        pointer-events: auto;
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: flex-end;
+      }
+
+      .nav-item a {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Link Micro-interaction */
+      .nav-item a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: currentColor;
+        transition: width 0.6s var(--easing);
+      }
+
+      .nav-item a:hover::after {
+        width: 100%;
+        left: 0;
+      }
+
+      /* * HERO SECTION */
+      .hero {
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 120%; /* For parallax */
+        object-fit: cover;
+        filter: brightness(0.8) contrast(1.1);
+        will-change: transform;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 4rem;
+        font-weight: 500;
+        margin-bottom: 2rem;
+        letter-spacing: 0.5em;
+        line-height: 1;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1.5s var(--easing) 0.5s forwards;
+      }
+
+      .hero-sub {
+        font-size: 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1.5s var(--easing) 0.8s forwards;
+      }
+
+      /* * SECTIONS COMMON */
+      section {
+        padding: 8rem 0;
+        position: relative;
+      }
+
+      .section-title {
+        font-size: 3rem;
+        position: absolute;
+        z-index: 1;
+        color: var(--text-color);
+        opacity: 0.1;
+        font-weight: 400;
+      }
+
+      /* * CONCEPT SECTION (Asymmetrical Grid) */
+      .concept {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .concept-text {
+        padding-left: 10%;
+        position: relative;
+      }
+
+      .concept-text h2 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      .concept-image-wrapper {
+        position: relative;
+        height: 80vh;
+        overflow: hidden;
+      }
+
+      /* 新しいシンプルフェードインアニメーション */
+      .fade-in-slow {
+        opacity: 0;
+        transition: opacity 2.5s ease-out;
+      }
+
+      .fade-in-slow.is-visible {
+        opacity: 1;
+      }
+
+      /* Concept Image Animation Class */
+      .concept-image {
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      /* Conceptセクション専用のサイズ指定 */
+      .concept-image-wrapper img {
+        height: 120%;
+      }
+
+      /* * MENU SECTION */
+      .menu-section {
+        background-color: #f9f8f6;
+        padding: 10rem 0;
+      }
+
+      .menu-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: flex-start;
+      }
+
+      .menu-list {
+        list-style: none;
+      }
+
+      .menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--line-color);
+        transition: padding-left 0.4s var(--easing);
+      }
+
+      .menu-item:hover {
+        padding-left: 1rem;
+        border-bottom: 1px solid var(--accent-color);
+      }
+
+      .dish-name {
+        font-size: 1.1rem;
+      }
+
+      .dish-price {
+        font-size: 0.9rem;
+        color: var(--accent-color);
+      }
+
+      .menu-image {
+        width: 100%;
+        height: 60vh;
+        object-fit: cover;
+        margin-top: -12rem; /* PC版: 大胆に上に */
+      }
+
+      /* * GALLERY SECTION */
+      .gallery {
+        padding-top: 5rem;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 2rem;
+      }
+
+      .g-item {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .g-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .g-item:hover img {
+        transform: scale(1.05);
+        transition: transform 0.8s var(--easing);
+      }
+
+      .g-1 { grid-column: 2 / span 4; grid-row: 1 / span 4; height: 400px; }
+      .g-2 { grid-column: 7 / span 5; grid-row: 2 / span 3; height: 300px; }
+      .g-3 { grid-column: 4 / span 6; grid-row: 5 / span 5; height: 500px; margin-top: -2rem;}
+
+      /* * FOOTER */
+      footer {
+        padding: 6rem 0 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        border-top: 1px solid var(--line-color);
+      }
+
+      .footer-logo {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        display: inline-block;
+      }
+
+      .info p {
+        margin-bottom: 0.5rem;
+      }
+
+      .copyright {
+        margin-top: 4rem;
+        font-size: 0.75rem;
+        color: #888;
+      }
+
+      /* * ANIMATION CLASSES & KEYFRAMES */
+      @keyframes fadeUp {
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 1s var(--easing), transform 1s var(--easing);
+      }
+
+      .fade-in-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-color);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #dcdcdc;
+        border-radius: 3px;
+      }
+
+      /* * =========================================
+       * RESPONSIVE DESIGN (High-End Mobile Layout)
+       * =========================================
+       */
+      @media (max-width: 768px) {
+
+        /* 1. 全体設定：余白のバランスを再構築 */
+        .container {
+          width: 88%; /* 左右に少し余裕を持たせる */
+        }
+
+        section {
+          padding: 6rem 0; /* セクション間の間隔を適切に */
+        }
+
+        /* 2. ヘッダー：ミニマルな下部配置へ変更も検討できるが、
+             今回は上部に固定しつつ、リストを洗練させる */
+        header {
+          padding: 1.5rem;
+          height: auto;
+          align-items: flex-start;
+        }
+
+        .logo {
+          font-size: 1.4rem;
+        }
+
+        .nav-list {
+          flex-direction: row;
+          gap: 1.2rem;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          margin-top: 0.2rem;
+        }
+
+        .nav-item a {
+          font-size: 0.75rem; /* 小さくエレガントに */
+          letter-spacing: 0.05em;
+        }
+
+        .vertical-text {
+          writing-mode: horizontal-tb; /* スマホは横書きベースで可読性重視 */
+        }
+
+        /* 3. Hero Section */
+        h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero-sub { font-size: 0.9rem; letter-spacing: 0.2em; }
+
+        /* 4. Concept Section：雑誌風レイアウト */
+        .concept {
+          display: flex;
+          flex-direction: column-reverse; /* 画像を上に、テキストを下に */
+          gap: 3rem;
+          position: relative;
+        }
+
+        /* 画像を小さく、右側に寄せて配置（アシンメトリー） */
+        .concept-image-wrapper {
+          width: 75%;
+          height: 40vh;
+          margin-left: auto; /* 右寄せ */
+          margin-right: -1rem; /* 画面端に少し近づける */
+          position: relative;
+          z-index: 1;
+        }
+
+        .concept-text {
+          padding: 0;
+          margin-bottom: 0;
+          width: 90%;
+          z-index: 2;
+          /* 画像に少しテキストを被せるようなネガティブマージン */
+          margin-top: -4rem;
+          background: linear-gradient(to right, var(--bg-color) 0%, var(--bg-color) 60%, transparent 100%);
+          padding-top: 2rem;
+        }
+
+        .concept-text p {
+          font-size: 0.95rem;
+          line-height: 2.2;
+          text-align: justify;
+        }
+
+        /* タイトルを縦書きにしてアクセントにする */
+        .concept-text h2 {
+          writing-mode: vertical-rl;
+          position: absolute;
+          right: 0;
+          top: -180px; /* 画像の左側に配置されるように調整 */
+          font-size: 1.5rem;
+          color: #fff; /* 画像の上に乗るので白字 */
+          text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+          letter-spacing: 0.3em;
+          height: auto;
+        }
+
+        /* 5. Menu Section：非対称な余白 */
+        .menu-section {
+          padding: 6rem 0;
+          background: linear-gradient(180deg, #f9f8f6 0%, var(--bg-color) 100%);
+        }
+
+        .menu-container {
+          grid-template-columns: 1fr;
+          gap: 4rem;
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* 画像を非常に小さく、左上に配置してアクセントに */
+        .menu-image-wrapper {
+          width: 50%; /* 画面半分のサイズ */
+          margin-right: auto; /* 左寄せ */
+          margin-left: 0;
+        }
+
+        .menu-image {
+          height: 35vh; /* 高さを抑える */
+          margin-top: -3rem; /* スマホ版でも位置を少し上に */
+          margin-bottom: 3rem; /* 下の要素との距離を確保 */
+          object-fit: cover;
+          box-shadow: 10px 10px 0px rgba(140, 128, 112, 0.2); /* 影で立体感 */
+        }
+
+        .menu-content {
+          width: 100%;
+          padding-left: 10%; /* 左に余白を作り、画像とのバランスを取る */
+        }
+
+        .menu-content h2 {
+          text-align: right; /* 見出しを右に寄せてリズムを作る */
+          font-size: 1.5rem;
+          margin-top: -6rem; /* 画像の横にタイトルを持ってくる */
+          margin-bottom: 4rem;
+        }
+
+        .menu-item {
+          padding: 1.2rem 0;
+        }
+        .dish-name { font-size: 1rem; }
+        .dish-price { font-size: 0.85rem; }
+
+        /* 6. Gallery Section：ジグザグ配置 */
+        .gallery { padding-top: 0; }
+        .gallery .section-title {
+          position: static;
+          font-size: 2rem;
+          margin-bottom: 3rem;
+          text-align: center;
+          writing-mode: horizontal-tb;
+          opacity: 1; /* スマホでははっきり見せる */
+          color: var(--accent-color);
+          letter-spacing: 0.2em;
+        }
+
+        .gallery-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 6rem; /* 間隔を広げる */
+        }
+
+        .g-item {
+          height: auto;
+          width: 75%; /* 幅を狭めて余白を作る */
+          box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        .g-item img {
+          height: 60vw; /* 正方形に近い比率 */
+          object-fit: cover;
+        }
+
+        /* 奇数番目：左寄せ */
+        .g-item:nth-child(odd) {
+          margin-right: auto;
+          margin-left: 0;
+        }
+
+        /* 偶数番目：右寄せ */
+        .g-item:nth-child(even) {
+          margin-left: auto;
+          margin-right: 0;
+        }
+
+        /* 3つ目（Interior）：中央配置でワイドに */
+        .g-3 {
+          width: 100%;
+          margin: 0 !important;
+          margin-top: 2rem !important;
+        }
+        .g-3 img { height: 50vh; }
+      }
